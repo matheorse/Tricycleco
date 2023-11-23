@@ -32,7 +32,7 @@ def show_accueil():
     return render_template('layout.html')
 @app.route('/collecte/show')
 def show_collecte():
-    return render_template('collecte/show_collecte.html', Collecte=Collecte)
+    return render_template('collecte/show_collecte.html', Collecte=Collectes)
 @app.route('/ville/add', methods=['GET'])
 def add_ville():
     return render_template('ville/add_ville.html')
