@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% block title %}
+            <title>Tricycleco</title>
+        {% endblock %}
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.jpg') }}" >
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='mes_styles.css') }}" >
+        {% endblock %}
+    </head>
+    <body>
+        <a id="top"></a>
+        <video id="background-video" autoplay loop muted>
+            <source src="{{ url_for('static', filename='images/fond-accueil.mp4') }}" type="video/mp4">
+        </video>
+        {% include('nav.html') %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categorie, message in messages %}
+                <div role="alert" class="alert {{ categorie }}">
+                       Information : <strong>{{ message }}</strong>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block body %}
+
+                <h1 id="titre-accueil">Tricycleco</h1>
+                <h2 class="slogan">Valorisons vos Déchets, Préservons la Planète</h2>
+                <button class="button">Découvrez nos centres de recyclage</button>
+                <a href="#page-2">
+                    <div class="bas-de-page">
+                        <div id="carré-blanc" class="carré"></div>
+                        <div class="carré"></div>
+                        <svg class="clignotant" width="120px" height="80px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0006 10.9409L9.53062 8.46979L8.46973 9.53021L12.0006 13.0626L15.5315 9.53021L14.4706 8.46979L12.0006 10.9409Z" fill="white"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0006 14.9409L9.53062 12.4698L8.46973 13.5302L12.0006 17.0626L15.5315 13.5302L14.4706 12.4698L12.0006 14.9409Z" fill="white"/>
+                        </svg>
+                    </div>
+                </a>
+
+
+            <div class="page-2">
+                <a href="#">
+                    <div class="haut-de-page">
+                        <svg class="clignotant-2" width="120px" height="80px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <g transform="rotate(180 12 12)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0006 10.9409L9.53062 8.46979L8.46973 9.53021L12.0006 13.0626L15.5315 9.53021L14.4706 8.46979L12.0006 10.9409Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0006 14.9409L9.53062 12.4698L8.46973 13.5302L12.0006 17.0626L15.5315 13.5302L14.4706 12.4698L12.0006 14.9409Z" fill="white"/>
+                                </g>
+                        </svg>
+                    </div>
+                </a>
+                <h1 id="page-2">Présentation</h1>
+                <p>
+                    Bienvenue chez Tricycleco, votre allié pour un monde plus propre et durable !
+                    Découvrez notre approche innovante du recyclage : des centres de tri pratiques, des véhicules de collecte équipés de balances pour une contribution précise, et une logistique efficace avec quatre centres de recyclage dédiés.
+                    Localisez facilement nos conteneurs dans la ville, triez vos déchets avec facilité, et participez à notre mission commune : transformer les déchets en opportunités durables.
+                    Rejoignez-nous dans cette aventure verte pour créer ensemble un avenir plus respectueux de notre planète. Explorez Tricycleco dès maintenant !
+                </p>
+                <div class="bas-de-page">
+                        <div class="carré"></div>
+                        <div id="carré-blanc2" class="carré"></div>
+                        <svg class="clignotant" width="120px" height="80px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0006 10.9409L9.53062 8.46979L8.46973 9.53021L12.0006 13.0626L15.5315 9.53021L14.4706 8.46979L12.0006 10.9409Z" fill="white"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0006 14.9409L9.53062 12.4698L8.46973 13.5302L12.0006 17.0626L15.5315 13.5302L14.4706 12.4698L12.0006 14.9409Z" fill="white"/>
+                        </svg>
+                    </div>
+            </div>
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+        {% endblock %}
+
+       <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                function scrollToElement(elementId) {
+                    var element = document.getElementById(elementId);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+
+                document.addEventListener("wheel", function(event) {
+                    if (event.deltaY > 0) {
+                        event.preventDefault();
+                        scrollToElement("page-2");
+                    } else {
+                        event.preventDefault();
+                        scrollToElement("top");
+                    }
+                });
+
+                var goToTopButton = document.getElementById("go-to-top");
+                window.addEventListener("scroll", function() {
+                    if (window.scrollY > 200) {
+                        goToTopButton.style.display = "block";
+                    } else {
+                        goToTopButton.style.display = "none";
+                    }
+                });
+
+                goToTopButton.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    scrollToElement("top");
+                });
+            });
+       </script>
+    </body>
+</html>
