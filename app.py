@@ -7,11 +7,11 @@ app.secret_key = 'une cle(token) : grain de sel(any random string)'
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
-            host="localhost",
-            user="",
-            password="",
-            database="",
-            charset="",
+            host="serveurmysql",
+            user="mrose",
+            password="mdp",
+            database="BDD_mrose",
+            charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor
         )
     return g.db
@@ -21,6 +21,8 @@ def teardown_db(exception):
     db = g.pop('db', None)
     if db is not None:
         db.close()
+
+app = Flask(__name__)
 
 @app.route('/')
 def show_accueil():
