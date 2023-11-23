@@ -1,13 +1,13 @@
 import pymysql.cursors
-#import dotenv
-#import os
+import dotenv
+import os
 from flask import Flask, request, render_template, redirect, url_for, abort, flash
 from flask import session, g
 
 app = Flask(__name__)
 app.secret_key = 'une cle(token) : grain de sel(any random string)'
 def get_db():
-    #dotenv.load_dotenv()
+    dotenv.load_dotenv()
     if 'db' not in g:
         g.db = pymysql.connect(
             host="localhost",
@@ -49,7 +49,7 @@ def add_collecte():
 @app.route('/collecte/delete')
 def delete_collecte():
     print('''suppression d'une collecte''')
-    id=request.args.get('id',0)
+    id=request.args.get('id', None)
     print(id)
     mycursor = get_db().cursor()
     tuple_param=(id)
