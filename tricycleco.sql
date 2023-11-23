@@ -52,6 +52,7 @@ CREATE TABLE Tournee(
    date_tournee DATE,
    id_centre_recyclage INT NOT NULL,
    id_camion INT NOT NULL,
+   temps TIME,
    PRIMARY KEY(id_tournee),
    FOREIGN KEY(id_centre_recyclage) REFERENCES Centre_recyclage(id_centre_recyclage),
    FOREIGN KEY(id_camion) REFERENCES Camion(id_camion)

@@ -1,0 +1,40 @@
+*{
+    list-style-type: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tableto{
+    width: 80%;
+    margin: 200px auto;
+    background-color: rgb(220, 224, 224);
+
+}
+.tableto th,td{
+    
+    padding: 10px;
+    font-style: normal;
+    font-weight: 500;
+
+}
+
+.tableto td a{
+    margin-right: 20px;
+    padding: 7px;
+    border: 1px solid ;
+    border-radius: 5px;
+}
+
+.tableto td a.edit{
+    background-color: rgb(48, 212, 48);
+    color: rgb(12, 10, 10);
+}
+.tableto td a.del{
+    background-color: red;
+    color: rgb(12, 10, 10);
+
+}
+
+
+
