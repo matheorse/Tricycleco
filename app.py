@@ -139,5 +139,87 @@ def valid_edit_collecte():
     return redirect('/collecte/show')
 
 
+@app.route('/Tournee/show')
+def show_Tournee():
+    mycursor = get_db().cursor()
+    sql = '''SELECT id_tournee, `date-tournee`, id_centre_recyclage, id_camion, temps
+             FROM Tournee'''
+    mycursor.execute(sql)
+    Tournee = mycursor.fetchall()
+
+    return render_template('Tournee/show_Tournee.html', Tournee=Tournee)
+
+@app.route('/Tournee/add', methods=['GET'])
+def add_Tournee():
+    print('''affichage du formulaire pour saisir une Tournee''')
+    return render_template('Tournee/add_Tournee.html')
+
+@app.route('/Tournee/delete')
+def delete_Tournee():
+    print('''suppression d'une Tournee''')
+    tournee_id = request.args.get('id', None)
+    print(tournee_id)
+    mycursor = get_db().cursor()
+    tuple_param = (tournee_id,)
+    sql = "DELETE FROM Tournee WHERE id_tournee=%s;"
+    mycursor.execute(sql, tuple_param)
+
+    get_db().commit()
+    print(request.args)
+    print(request.args.get('id'))
+    tournee_id = request.args.get('id', 0)
+    return redirect('/Tournee/show')
+
+@app.route('/Tournee/edit', methods=['GET'])
+def edit_Tournee():
+    print('''affichage du formulaire pour modifier une Tournee''')
+    print(request.args)
+    print(request.args.get('id'))
+    tournee_id = request.args.get('id')
+    mycursor = get_db().cursor()
+    sql = '''SELECT id_tournee, date-tournee, id_centre_recyclage, id_camion, temps
+             FROM Tournee
+             WHERE id_tournee=%s;'''
+    tuple_param = (tournee_id,)
+    mycursor.execute(sql, tuple_param)
+    Tournee = mycursor.fetchone()
+    return render_template('Tournee/edit_Tournee.html', tournee=Tournee)
+
+@app.route('/Tournee/add', methods=['POST'])
+def valid_add_Tournee():
+    print('''ajout de la tournee dans le tableau''')
+    id_tournee = request.form.get('id_tournee')
+    date_tournee = request.form.get('date_tournee')
+    id_centre_recyclage = request.form.get('id_centre_recyclage')
+    id_camion = request.form.get('id_camion')
+    temps = request.form.get('temps')
+    message = ' id_tournee :' + id_tournee + ' - date_tournee  :' + date_tournee + ' - id_centre_recyclage  :' + id_centre_recyclage + ' - id_camion : ' + id_camion + ' - temps : ' + temps
+    print(message)
+    mycursor = get_db().cursor()
+    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps)
+    sql = "INSERT INTO Tournee(id_tournee, date_tournee, id_centre_recyclage, id_camion, temps) VALUES (%s, %s, %s, %s, %s);"
+    mycursor.execute(sql, tuple_param)
+    get_db().commit()
+    return redirect('/Tournee/show')
+
+@app.route('/Tournee/edit', methods=['POST'])
+def valid_edit_Tournee():
+    print('''modification de la Tournee dans le tableau''')
+    id_tournee = request.form.get('id_tournee')
+    date_tournee = request.form.get('date_tournee')
+    id_centre_recyclage = request.form.get('id_centre_recyclage')
+    id_camion = request.form.get('id_camion')
+    temps = request.form.get('temps')
+    message = ' id_tournee :' + id_tournee + ' - date_tournee  :' + date_tournee + ' - id_centre_recyclage  :' + id_centre_recyclage + ' - id_camion : ' + id_camion + ' - temps : ' + temps
+    print(message)
+    mycursor = get_db().cursor()
+    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)
+    sql = "UPDATE Tournee SET id_tournee = %s, date_tournee = %s, id_centre_recyclage = %s, id_camion = %s, temps = %s WHERE id_tournee = %s;"
+    mycursor.execute(sql, tuple_param)
+    get_db().commit()
+    return redirect('/Tournee/show')
+
+
+
 if __name__ == '__main__':
     app.run()
