@@ -23,19 +23,36 @@
 
                     <div>
                         <label for="type">Type de déchet</label>
-                        <input type="text" id="type" name="type" value="{{ typeDechet.libelle }}" required/>
+                        <select name="type" id="type" required>
+                            {% for j in typeDechet %}
+                                <option value="{{ j.id }}"
+                                        {% if typeDechet is defined and j.id ==  typeDechet.id %}selected{% endif %}
+                                > {{ j.libelle }} </option>
+                            {% endfor %}
+                        </select>
                     </div>
 
                     <div>
                         <label for="centre">Centre de collecte</label>
-                        <input type="text" id="centre" name="centre" value="{{ centreCollect.lieu }}" required/>
+                        <select name="centre" id="centre" required>
+                            {% for i in centreCollect %}
+                                <option value="{{ i.id }}"
+                                        {% if centre is defined and i.id ==  centre %}selected{% endif %}
+                                > {{ i.lieu }} </option>
+                            {% endfor %}
+                        </select>
                     </div>
 
                     <div>
-                        <label for="tournee">Tournée</label>
-                        <input type="date" id="tournee" name="tournee" value="{{ tournee.date }}" required/>
+                        <label for="tournee">Tournee</label>
+                        <select name="tournee" id="tournee" required>
+                            {% for k in tournee %}
+                                <option value="{{ k.id }}"
+                                        {% if tournee is defined and k.id ==  tournee %}selected{% endif %}
+                                > {{ k.date }} </option>
+                            {% endfor %}
+                        </select>
                     </div>
-
 
                     <div>
                         <a href="/collecte/show">Annuler</a>

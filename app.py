@@ -81,7 +81,7 @@ def edit_collecte():
     print(request.args.get('id'))
     id = request.args.get('id')
     mycursor = get_db().cursor()
-    sql = '''SELECT id_collecte AS id, id_type_dechet AS type, quantite_dechet_collecte AS quantite, id_centre_collecte AS centre, id_tournee
+    sql = '''SELECT id_collecte AS id, id_type_dechet AS type, quantite_dechet_collecte AS quantite, id_centre_collecte AS centre, id_tournee AS tournee
              FROM Collecte
              WHERE id_collecte=%s;'''
     tuple_param = (id,)
