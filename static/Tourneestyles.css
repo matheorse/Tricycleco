@@ -1,8 +1,7 @@
 *{
     list-style-type: none;
     text-decoration: none;
-    margin: 0;
-    padding: 0;
+    
 }
 
 .tableto{
@@ -34,6 +33,41 @@
     background-color: red;
     color: rgb(12, 10, 10);
 
+}
+
+form.formu{
+    width: 900px;
+    margin-top: 130px;
+    margin-right: auto;
+    margin-left: auto;
+    
+    
+}
+.formu .formulaire{
+    border-radius: 10px;
+    background-color: rgb(243, 239, 234);
+    padding-left:290px;
+}
+
+.formu .formulaire input{
+    border-radius: 7px;
+    padding: 5px;
+}
+.formu .formulaire .sub{
+    margin-top: 5px;
+    background-color:rgb(48, 212, 48) ;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-size: 1.1rem;
+    color: rgb(12, 10, 10);
+}
+formu .formulaire .Annul{
+    margin-top: 5px;
+    background-color: red;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    font-size: 1.1rem;
+    color: rgb(12, 10, 10);
 }
 
 
