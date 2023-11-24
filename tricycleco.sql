@@ -61,7 +61,6 @@ CREATE TABLE Tournee(
 CREATE TABLE Collecte(
    id_collecte INT,
    quantite_dechet_collecte INT,
-   ordre_collecte INT,
    id_type_dechet INT NOT NULL,
    id_centre_collecte INT NOT NULL,
    id_tournee INT NOT NULL,
@@ -101,8 +100,8 @@ INSERT INTO type_dechet VALUES (2, 'Pierre');
 INSERT INTO Tournee VALUES (1, '2023-01-01', 1, 1);
 INSERT INTO Tournee VALUES (2, '2023-02-01', 2, 2);
 
-INSERT INTO Collecte VALUES (1, 100, 1, 1, 1, 1);
-INSERT INTO Collecte VALUES (2, 200, 2, 2, 2, 2);
+INSERT INTO Collecte VALUES (1, 100, 1, 1, 1);
+INSERT INTO Collecte VALUES (2, 200, 2, 2, 2);
 
 INSERT INTO Conteneur VALUES (1, 1, 1, 1);
 INSERT INTO Conteneur VALUES (2, 2, 2, 2);

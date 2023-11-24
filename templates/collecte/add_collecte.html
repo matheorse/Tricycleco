@@ -1,1 +1,48 @@
 {% extends 'layout.html' %}
+
+{% block title %}
+    <title>Ajouter une collecte</title>
+{% endblock %}
+
+{% block body %}
+    <h1>AJOUTER UNE COLLECTE</h1>
+    <hr>
+    {% if error %}
+        <p><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <div>
+        <div>
+            <form method="post" action="/collecte/add" >
+                <fieldset>
+
+                    <div>
+                        <label for="quantite">Quantité collectée</label>
+                        <input type="number" id="quantite" name="quantite"  value="" required/>
+                    </div>
+
+                    <div>
+                        <label for="type">Type de déchet</label>
+                        <input type="text" id="type" name="type-dechet" value="" required/>
+                    </div>
+
+                    <div>
+                        <label for="centre">Centre de collecte</label>
+                        <input type="text" id="centre" name="centre" value="" required/>
+                    </div>
+
+                    <div>
+                        <label for="tournee">Tournée</label>
+                        <input type="date" id="tournee" name="tournee" value="" required/>
+                    </div>
+
+                    <div>
+                        <a href="/collecte/show">Annuler</a>
+                        <button type="submit">Ajouter</button>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

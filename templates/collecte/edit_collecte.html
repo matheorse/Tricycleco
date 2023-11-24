@@ -1,2 +1,49 @@
 {% extends 'layout.html' %}
 
+{% block title %}
+    <title>modifier une collecte</title>
+{% endblock %}
+
+{% block body %}
+    <h1>MODIFIER UNE COLLECTE</h1>
+    <hr>
+    {% if error %}
+        <p><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <div>
+        <div>
+            <form method="post" action="/collecte/edit" >
+                <fieldset>
+
+                    <div>
+                        <label for="quantite">Quantité collectée</label>
+                        <input type="number" id="quantite" name="quantite" value="{{ collecte.quantite }}" required/>
+                    </div>
+
+                    <div>
+                        <label for="type">Type de déchet</label>
+                        <input type="text" id="type" name="type" value="{{ typeDechet.libelle }}" required/>
+                    </div>
+
+                    <div>
+                        <label for="centre">Centre de collecte</label>
+                        <input type="text" id="centre" name="centre" value="{{ centreCollect.lieu }}" required/>
+                    </div>
+
+                    <div>
+                        <label for="tournee">Tournée</label>
+                        <input type="date" id="tournee" name="tournee" value="{{ tournee.date }}" required/>
+                    </div>
+
+
+                    <div>
+                        <a href="/collecte/show">Annuler</a>
+                        <button type="submit" value="Ajouter" name="ajouter">Ajouter</button>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
