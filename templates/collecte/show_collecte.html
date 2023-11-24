@@ -1,1 +1,64 @@
 {% extends 'layout.html' %}
+
+{% block title %}
+    <title>afficher les collectes</title>
+{% endblock %}
+
+{% block body %}
+    <h1>LES COLLECTES</h1>
+    <hr>
+    <br><br>
+
+    <div>
+        <a href="/collecte/add">Ajouter une collecte</a>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">quantite</th>
+                    <th scope="col">type de déchet</th>
+                    <th scope="col">centre de collecte</th>
+                    <th scope="col">tournée</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if collecte | length >= 1 %}
+                {% for type in collecte %}
+                   <tr>
+                       <td>{{ type.id }}</td>
+                       <td>{{ type.quantite }}</td>
+                       <td>{% for j in typeDechet %}
+                             {% if j.id == type.type %}
+                               {{ j.libelle }} ({{j.id}})
+                             {% endif %}
+                           {% endfor %}</td>
+
+                       <td>{% for i in centreCollect %}
+                             {% if i.id == type.centre %}
+                               {{ i.lieu }} ({{i.id}})
+                             {% endif %}
+                           {% endfor %}</td>
+
+                       <td>{% for k in tournee %}
+                             {% if k.id == type.tournee %}
+                               {{ k.date }} ({{k.id}})
+                             {% endif %}
+                           {% endfor %}</td>
+
+                   <td>
+                              <a href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
+                              <a href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
+                   </td>
+                   </tr>
+                {% endfor %}
+            {% else %}
+                    <tr>
+                          <td>
+                              Aucune collecte
+                          </td>
+                   </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
