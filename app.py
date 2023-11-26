@@ -197,7 +197,7 @@ def edit_Tournee():
     print(request.args.get('id'))
     tournee_id = request.args.get('id')
     mycursor = get_db().cursor()
-    sql = '''SELECT id_tournee, date-tournee, id_centre_recyclage, id_camion, temps
+    sql = '''SELECT id_tournee, date_tournee, id_centre_recyclage, id_camion, temps
              FROM Tournee
              WHERE id_tournee=%s;'''
     tuple_param = (tournee_id,)
