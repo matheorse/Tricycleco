@@ -25,6 +25,13 @@ def teardown_db(exception):
     if db is not None:
         db.close()
 
+
+@app.teardown_appcontext
+def teardown_db(exception):
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
+
 app = Flask(__name__)
 
 @app.route('/')
