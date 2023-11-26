@@ -101,6 +101,7 @@ html{
 
 a[href]{
     color: black;
+    text-decoration: none;
 }
 
 /*     BODY     */
@@ -152,7 +153,7 @@ a[href]{
     width: fit-content;
   }
 
-button:hover {
+.button:hover {
     color: black;
     outline: 2px solid white;
     box-shadow: 1px 1px 8px 4px white;
@@ -227,4 +228,46 @@ button:hover {
 
 #page-2{
     margin-top: 10%;
+}
+
+.tableau{
+    background-color: white;
+    color: black;
+    margin-right: auto;
+    margin-left: auto;
+    width: 70%;
+}
+
+.add{
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 40px;
+    padding: 10px 30px 10px 30px;
+}
+
+.colonne{
+    text-align: center;
+}
+
+.ligne:hover{
+    background-color: lightgrey;
+}
+
+.titre{
+    text-align: center;
+}
+
+.formulaire{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    color: black;
+    width: 40%;
+    border-radius: 10px;
+    text-align: center;
 }
