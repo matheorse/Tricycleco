@@ -32,7 +32,7 @@ def teardown_db(exception):
     if db is not None:
         db.close()
 
-app = Flask(__name__)
+
 
 @app.route('/')
 def show_accueil():
