@@ -14,11 +14,12 @@
     {% if messages %}
         {% for categorie, message in messages %}
             <div role="alert" class="alert {% if 'alert-warning' in categorie %}alert-danger{% endif %}{% if 'alert-success' in categorie %}alert-success{% endif %}{% if 'alert-info' in categorie %}alert-info{% endif %}">
-                Information : <strong>{{ message }}</strong>
+                .: <strong>{{ message }}</strong>
             </div>
         {% endfor %}
     {% endif %}
 {% endwith %}
+
 <div>
     <a class="add" href="/Tournee/add">Ajouter pour le Tournee</a>
     <table class="tableto" border="2">

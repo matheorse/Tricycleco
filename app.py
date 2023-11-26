@@ -181,7 +181,7 @@ def delete_Tournee():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message = f'info: Tournée supprimée - ID : {id_tournee}'
+            message = f'info: Tournée supprimée - id_tournee = : {id_tournee}'
             flash(message, 'alert-warning')
         except ValueError:
             print("L'ID de la tournée n'est pas un entier valide.")
@@ -216,7 +216,7 @@ def valid_add_Tournee():
     temps = request.form.get('temps')
 
     message = (
-        f'info: Tournée ajoutée - ID : {id_tournee}, Date : {date_tournee}, '
+        f'info: Tournée ajoutée - id_tournee : {id_tournee}, Date : {date_tournee}, '
         f'Centre de recyclage : {id_centre_recyclage}, Camion : {id_camion}, '
         f'Temps : {temps}'
     )
@@ -242,7 +242,7 @@ def valid_edit_Tournee():
     temps = request.form.get('temps')
 
     message = (
-        f'info: Tournée modifiée - ID : {id_tournee}, Date : {date_tournee}, '
+        f'info: Tournée modifiée - id_tournee : {id_tournee}, Date : {date_tournee}, '
         f'Centre de recyclage : {id_centre_recyclage}, Camion : {id_camion}, '
         f'Temps : {temps}'
     )

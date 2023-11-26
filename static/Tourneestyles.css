@@ -87,19 +87,14 @@ div strong{
     top: 40px;
     left: 20px;
     padding: 10px;
-   background-color: rgb(134, 236, 202);
+   background-color: red;
     color: rgb(21, 5, 114);
     font-weight: bold;
     border-radius: 7px;
     font-size: 1.4rem;
 }
 
-.alert-danger{
-background-color: red;
-margin-top: 40px;
-padding: 10px;
-border-radius: 5px
-}
+
 .alert-success{
 background-color: rgb(134, 236, 202);
 color: rgb(21, 5, 114);
