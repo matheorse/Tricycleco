@@ -95,7 +95,13 @@ INSERT INTO Employe VALUES (1, 123456789, 'Lalai', 'Maria', '1 rue de Paris', 1)
 INSERT INTO Employe VALUES (2, 987654321, 'Rose', 'Jean', '2 rue de Paris', 2);
 
 INSERT INTO type_dechet VALUES (1, 'Bois');
-INSERT INTO type_dechet VALUES (2, 'Pierre');
+INSERT INTO type_dechet VALUES (2, 'Aluminium');
+INSERT INTO type_dechet VALUES (3, 'Plastique');
+INSERT INTO type_dechet VALUES (4, 'Carton');
+INSERT INTO type_dechet VALUES (5, 'Papier');
+INSERT INTO type_dechet VALUES (6, 'Verre');
+INSERT INTO type_dechet VALUES (7, 'Cuivre');
+INSERT INTO type_dechet VALUES (8, 'Textile');
 
 INSERT INTO Tournee VALUES (1, '2023-01-01', 1, 1, 35);
 INSERT INTO Tournee VALUES (2, '2023-02-01', 2, 2, 40);
@@ -103,6 +109,7 @@ INSERT INTO Tournee VALUES (2, '2023-02-01', 2, 2, 40);
 
 INSERT INTO Collecte VALUES (1, 100, 1, 1, 1);
 INSERT INTO Collecte VALUES (2, 200, 2, 2, 2);
+INSERT INTO Collecte Values (3, 300, 3, 3, 3);
 
 INSERT INTO Conteneur VALUES (1, 1, 1, 1);
 INSERT INTO Conteneur VALUES (2, 2, 2, 2);

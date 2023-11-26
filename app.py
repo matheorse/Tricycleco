@@ -31,6 +31,9 @@ app = Flask(__name__)
 def show_accueil():
     return render_template('layout.html')
 
+
+########COLLECTE#########
+
 @app.route('/collecte/show')
 def show_collecte():
     mycursor = get_db().cursor()
@@ -138,6 +141,8 @@ def valid_edit_collecte():
     get_db().commit()
     return redirect('/collecte/show')
 
+
+########TOURNEE########
 
 @app.route('/Tournee/show')
 def show_Tournee():

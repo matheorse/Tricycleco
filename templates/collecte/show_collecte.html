@@ -5,17 +5,19 @@
 {% endblock %}
 
 {% block body %}
-    <h1>LES COLLECTES</h1>
+    <h1 class="titre">LES COLLECTES</h1>
     <hr>
     <br><br>
 
     <div>
-        <a href="/collecte/add">Ajouter une collecte</a>
-        <table>
+        <a href="/collecte/add">
+            <button class="add">Ajouter une collecte</button>
+        </a>
+        <table class="tableau">
             <thead>
                 <tr>
                     <th scope="col">id</th>
-                    <th scope="col">quantite</th>
+                    <th scope="col">quantite (kg)</th>
                     <th scope="col">type de déchet</th>
                     <th scope="col">centre de collecte</th>
                     <th scope="col">tournée</th>
@@ -24,31 +26,31 @@
             <tbody>
             {% if collecte | length >= 1 %}
                 {% for type in collecte %}
-                   <tr>
-                       <td>{{ type.id }}</td>
-                       <td>{{ type.quantite }}</td>
-                       <td>{% for j in typeDechet %}
+                   <tr class="ligne">
+                       <td class="colonne">{{ type.id }}</td>
+                       <td class="colonne">{{ type.quantite }}</td>
+                       <td class="colonne">{% for j in typeDechet %}
                              {% if j.id == type.type %}
                                {{ j.libelle }} ({{j.id}})
                              {% endif %}
                            {% endfor %}</td>
 
-                       <td>{% for i in centreCollect %}
+                       <td class="colonne">{% for i in centreCollect %}
                              {% if i.id == type.centre %}
                                {{ i.lieu }} ({{i.id}})
                              {% endif %}
                            {% endfor %}</td>
 
-                       <td>{% for k in tournee %}
+                       <td class="colonne">{% for k in tournee %}
                              {% if k.id == type.tournee %}
                                {{ k.date }} ({{k.id}})
                              {% endif %}
                            {% endfor %}</td>
 
-                   <td>
-                              <a href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
-                              <a href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
-                   </td>
+                       <td class="colonne">
+                          <a href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
+                          <a href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
+                       </td>
                    </tr>
                 {% endfor %}
             {% else %}
