@@ -1,6 +1,6 @@
 
 body{
-    font-family: "Avenir-Medium";
+    font-family: "Avenir-Medium", sans-serif;
     overflow: hidden;
     background-color: black;
     color: white;
@@ -241,8 +241,8 @@ a[href]{
 .add{
     border: 1px solid black;
     border-radius: 5px;
-    background-color: white;
-    color: black;
+    background-color: green;
+    color: white;
     margin-left: auto;
     margin-right: auto;
     display: block;

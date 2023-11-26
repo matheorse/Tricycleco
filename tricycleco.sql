@@ -85,14 +85,26 @@ CREATE TABLE Conteneur(
 INSERT INTO Camion VALUES (1, 'ABC123', 101);
 INSERT INTO Camion VALUES (2, 'XYZ789', 102);
 
-INSERT INTO Centre_collecte VALUES (1, 'Centre A');
-INSERT INTO Centre_collecte VALUES (2, 'Centre B');
+INSERT INTO Centre_collecte VALUES (1, 'Paris Nord');
+INSERT INTO Centre_collecte VALUES (2, 'Lyon Ouest');
+INSERT INTO Centre_collecte VALUES (3, 'Marseille Est');
+INSERT INTO Centre_collecte VALUES (4, 'Bordeaux Sud');
+INSERT INTO Centre_collecte VALUES (5, 'Lille Centre');
+INSERT INTO Centre_collecte VALUES (6, 'Toulouse Nord');
+INSERT INTO Centre_collecte VALUES (7, 'Nice Ouest');
+INSERT INTO Centre_collecte VALUES (8, 'Strasbourg Sud');
 
 INSERT INTO Centre_recyclage VALUES (1, '14 rue de Paris');
-INSERT INTO Centre_recyclage VALUES (2, '15 rue de Paris');
+INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');
+INSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');
+INSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');
 
-INSERT INTO Employe VALUES (1, 123456789, 'Lalai', 'Maria', '1 rue de Paris', 1);
-INSERT INTO Employe VALUES (2, 987654321, 'Rose', 'Jean', '2 rue de Paris', 2);
+INSERT INTO Employe VALUES (1, 0101010101, 'Lalai', 'Maria', '1 rue des Pommiers', 1);
+INSERT INTO Employe VALUES (2, 0202020202, 'Rose', 'Jean', '12 rue du Puit', 2);
+INSERT INTO Employe VALUES (3, 0303030303, 'Albertoni', 'Thierry', '4 rue Pasteur', 3);
+INSERT INTO Employe VALUES (4, 0404040404, 'Einstein', 'Albert', '30 rue de la Révolution', 4);
+INSERT INTO Employe VALUES (5, 0505050505, 'Dine', 'Amandine', '45 rue de la Curtine', 5);
+INSERT INTO Employe VALUES (6, 0606060606, 'Carminati', 'Martine', '2 rue Marie Curie', 6);
 
 INSERT INTO type_dechet VALUES (1, 'Bois');
 INSERT INTO type_dechet VALUES (2, 'Aluminium');
