@@ -7,26 +7,52 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../../static/Tourneestyles.css">
     <title>Tricycleco</title>
+
 </head>
 <body>
-<div class="title"><a  href="/Tournee/add">Ajouter pour le Tournee</a></div>
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for categorie, message in messages %}
+            <div role="alert" class="alert {% if 'alert-warning' in categorie %}alert-danger{% endif %}{% if 'alert-success' in categorie %}alert-success{% endif %}{% if 'alert-info' in categorie %}alert-info{% endif %}">
+                Information : <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div>
+    <a class="add" href="/Tournee/add">Ajouter pour le Tournee</a>
     <table class="tableto" border="2">
         <thead>
-        <tr>
-             <th>id_tournee</th>
-             <th> date_tournee</th>
-             <th>id_centre_recyclage</th>
-             <th>id_camion</th>
-             <th>temps</th>
-            <th>Operations</th>
-        </tr>
+            <tr>
+                <th>id_tournee</th>
+                <th>date_tournee</th>
+                <th>id_centre_recyclage</th>
+                <th>id_camion</th>
+                <th>temps</th>
+                <th>Operations</th>
+            </tr>
         </thead>
-
         <tbody>
-
+            {% if Tournee | length >= 1 %}
+                {% for tournee in Tournee %}
+                    <tr>
+                        <td>{{ tournee.id_tournee }}</td>
+                        <td>{{ tournee.date_tournee }}</td>
+                        <td>{{ tournee.id_centre_recyclage }}</td>
+                        <td>{{ tournee.id_camion }}</td>
+                        <td>{{ tournee.temps }}</td>
+                        <td>
+                            <a class="edit" href="/Tournee/edit?id={{ tournee.id_tournee }}">Editer</a>&nbsp;
+                            <a class="del" href="/Tournee/delete?id={{ tournee.id_tournee }}">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucune tournée</td>
+                </tr>
+            {% endif %}
         </tbody>
-
     </table>
+</div>
 </body>
-</html>

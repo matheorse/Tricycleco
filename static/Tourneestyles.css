@@ -61,13 +61,54 @@ form.formu{
     font-size: 1.1rem;
     color: rgb(12, 10, 10);
 }
-formu .formulaire .Annul{
+.formu .formulaire .Annul{
     margin-top: 5px;
     background-color: red;
     padding-top: 7px;
     padding-bottom: 7px;
     font-size: 1.1rem;
     color: rgb(12, 10, 10);
+}
+
+a.add{
+    position: absolute;
+    top: 150px;
+    left: 30px;
+    border: 1px solid;
+    padding: 9px;
+    border-radius: 10px;
+    background-color:rgb(48, 212, 48) ;
+    color: rgb(12, 10, 10);
+}
+
+
+div strong{
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    padding: 10px;
+   background-color: rgb(134, 236, 202);
+    color: rgb(21, 5, 114);
+    font-weight: bold;
+    border-radius: 7px;
+    font-size: 1.4rem;
+}
+
+.alert-danger{
+background-color: red;
+margin-top: 40px;
+padding: 10px;
+border-radius: 5px
+}
+.alert-success{
+background-color: rgb(134, 236, 202);
+color: rgb(21, 5, 114);
+margin-top: 40px;
+padding: 10px;
+border-radius: 5px;
+font-weight: bold;
+    border-radius: 7px;
+    font-size: 1.4rem;
 }
 
 
