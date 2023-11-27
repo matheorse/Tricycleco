@@ -11,6 +11,16 @@
 
 
 }
+.Annula{
+    background-color: red;
+    padding: 10px;
+    border-radius: 10px;
+    color: rgb(12, 10, 10);
+    margin-left: 18px;
+    margin-bottom: 5px;
+    align-items: center;
+
+}
 .tableto td:hover{
 background-color: rgb(196, 199, 201);
 }
