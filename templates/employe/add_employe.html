@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+        {% block title %}
+            <title>ajouter un employe</title>
+
+        {% endblock %}
+
+        {% block body %}
+      <h2>ajouter un employe</h2>
+      {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+      {% endif %}
+          <form method="post" action="/employe/add" >
+                <fieldset>
+                    <legend> Créer un employe</legend>
+                    <label for="numero_tel_employe">numero telephone</label><br>
+                    <input id="numero_tel_employe" type="number" name="numero_tel_employe" size="18" value="" placeholder="Saisir le numero de telephone de l'employe"><br>
+
+                    <label for="nom_Employe">nom</label><br>
+                    <input id="nom_Employe" type="text" name="nom_employe" size="18" value="" placeholder="Saisir le nom du joueur"><br>
+
+                    <label for="prenom_employe">prénom</label><br>
+                    <input id="prenom_employe" type="text" name="prenom_employe" size="18" value="" placeholder="Saisir le prenom du joueur"><br>
+
+                    <label for="salaire_employe">salaire</label><br>
+                    <input id="salaire_employe" type="number" name="salaire_employe" size="18" value="" placeholder="Saisir le salaire de l'employe"><br>
+
+                    <label for="adresse_employe">adresse</label><br>
+                    <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" placeholder="saisir l'adresse de l'employe"><br>
+                    <select name="id_camion" required>
+                        <option value="">Sélectionner l'id du camion</option>
+                        {% for employe in employes %}
+                             <option value="{{ camion.id }}"> 1 </option>
+                             <option value="{{ camion.id }}"> 2 </option>
+                             <option value="{{ camion.id }}"> 3</option>
+                        {% endfor %}
+                    </select><br>
+                    <br>
+                     <div>
+                        <a href="/employe/show">
+                            <button class="annuler">Annuler</button>
+                        </a>
+                        <button class="valider" type="submit">Ajouter</button>
+                    </div>
+                </fieldset>
+          </form>
+        {% endblock %}

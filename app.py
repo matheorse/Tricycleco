@@ -267,6 +267,95 @@ def valid_edit_Tournee():
 
     return redirect('/Tournee/show')
 
+@app.route('/employe/show')
+def show_employe():
+    mycursor = get_db().cursor()
+    sql = '''SELECT id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion'
+    FROM employe'''
+    mycursor.execute(sql)
+    employe= mycursor.fetchall()
+    return render_template('employes/show_employe.html', employes=employe)
+
+@app.route('/employe/add', methods=['GET'])
+def add_employe():
+    print('''affichage du formulaire pour ajouter un employe''')
+    return render_template('employes/add_employe.html')
+
+
+@app.route('/employe/add', methods=['POST'])
+def valid_add_employe():
+    numero_telephone_employe=request.form.get('numero_telephone_employe','')
+    nom_employe = request.form.get('nom_employe', '')
+    prenom_employe = request.form.get('prenom_employe', '')
+    salaire_employe= request.form.get('salaire_employe', '')
+    adresse_employe = request.form.get('adresse_employe', '')
+    id_camion = request.form.get('id_camion', '')
+    message = u'employe ajouté , nom: '+nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - adresse_employe: '+ adresse_employe + ' - id_camion: ' + id_camion
+    print(message)
+    flash(message, 'alert-success')
+    mycursor = get_db().cursor()
+    tuple_param = (numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
+    sql = "INSERT INTO employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s);"
+    mycursor.execute(sql, tuple_param)
+    get_db().commit()
+    return redirect('/employe/show')
+
+
+@app.route('/employe/delete', methods=['GET'])
+def delete_employe():
+    print(''' suppression d'un employe''')
+    id_employe = request.args.get('id_employe', None)
+    print(id_employe)
+    mycursor=get_db().cursor()
+    tuple_param = (id_employe,)
+    sql="DELETE FROM employe WHERE id_employe=%s;"
+    mycursor.execute(sql,tuple_param)
+    get_db().commit()
+    message  = f'info: suppression d\'un employe avec - id_employe =  {id_employe}'
+    print(message)
+    flash(message, 'alert-warning')
+    return redirect('/employe/show')
+
+
+
+@app.route('/employe/edit', methods=['GET'])
+def edit_employe():
+    id_employe = request.args.get('id_employe', '')
+    id_employe = int(id_employe)
+    id_employe = id_employe[id-1]
+    print('''affichage du formulaire pour modifier un employe''')
+    print(request.args)
+    print(request.args.get('id'))
+    tournee_id = request.args.get('id')
+    mycursor = get_db().cursor()
+    sql = '''SELECT id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion'
+                FROM employe
+                WHERE id_employe=%s;'''
+    tuple_param = (tournee_id,)
+    mycursor.execute(sql, tuple_param)
+    employe= mycursor.fetchone()
+    return render_template('employes/edit_employe.html', employe=employe)
+
+@app.route('/employe/edit', methods=['POST'])
+def valid_edit_employe():
+    id_employe = request.args.get('id_employe', '')
+    numero_telephone_employe = request.args.get('numero_telephone_employe', '')
+    nom_employe = request.form.get('nom_employe', '')
+    prenom_employe = request.form.get('prenom_employe', '')
+    salaire_employe= request.form.get('salaire_employe', '')
+    adresse_employe = request.form.get('adresse_employe', '')
+    id_camion = request.form.get('id_camion', '')
+    message = u'employe ajouté , numero_telephone: ' + numero_telephone_employe + 'nom: ' + nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - salaire_employe: ' + salaire_employe + ' - id_camion: ' + id_camion
+    print(message)
+    flash(message, 'alert-success')
+    mycursor = get_db().cursor()
+    tuple_param = (id_employe, numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
+    sql = "UPDATE employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe= %s, prenom_employe = %s, salaire_employe = %s ,adresse_employe=%s,id_camion=%s WHERE id_employe = %s;"
+    mycursor.execute(sql, tuple_param)
+    get_db().commit()
+    return redirect('/employe/show')
+
+
 
 
 if __name__ == '__main__':
