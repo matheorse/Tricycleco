@@ -48,8 +48,8 @@
                            {% endfor %}</td>
 
                        <td class="colonne">
-                          <a class="éditer" href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
-                          <a class="supprimer" href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
+                          <a id="btn1" class="éditer" href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
+                          <a id="btn2" class="supprimer" href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
                        </td>
                    </tr>
                 {% endfor %}

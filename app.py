@@ -99,18 +99,16 @@ def edit_collecte():
     mycursor.execute(sql, tuple_param)
     Collecte = mycursor.fetchone()
     sql = '''SELECT id_centre_collecte AS id, lieu_collecte AS lieu
-             FROM Centre_collecte
-             WHERE id_centre_collecte=%s;'''
-    mycursor.execute(sql, tuple_param)
-    Centre_collecte = mycursor.fetchone()
+             FROM Centre_collecte'''
+    mycursor.execute(sql)
+    Centre_collecte = mycursor.fetchall()
     sql = '''SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
              FROM type_dechet'''
     mycursor.execute(sql)
     type_dechet = mycursor.fetchall()
     sql = '''SELECT date_tournee AS date , id_tournee as id
-             FROM Tournee
-             WHERE id_tournee=%s;'''
-    mycursor.execute(sql, tuple_param)
+             FROM Tournee'''
+    mycursor.execute(sql)
     Tournee = mycursor.fetchall()
     return render_template('collecte/edit_collecte.html', collecte=Collecte, centreCollect=Centre_collecte, typeDechet=type_dechet, tournee=Tournee)
 
