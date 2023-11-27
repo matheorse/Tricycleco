@@ -104,6 +104,51 @@ a[href]{
     text-decoration: none;
 }
 
+.menu-burger{
+    display: none;
+}
+
+@media  screen and (max-width:600px) {
+    .menu-burger{
+        display: block;
+        margin-left: 15px;
+    }
+
+    .navbar.dark .nav_ul_link{
+        background-color: #000 !important;
+    }
+
+    .navbar .nav_ul_link{
+        flex-direction: column ;
+        position: absolute;
+        background-color: rgb(229, 229, 229) ;
+        margin-top: 52px;
+        padding-bottom: 10000px;
+        width: 100%;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+        margin-left: -100% ;
+        transition: 0.40s;
+    }
+
+    .navbar{
+        justify-content: space-between;
+    }
+
+    .nav_ul_link li {
+        margin-bottom: 25px;
+        font-size: 1.3em;
+    }
+    .nav-search input{
+        border-radius: 8px;
+    }
+    .navbar .nav-div{
+        align-items:normal;
+    }
+
+}
+
 /*     BODY     */
 
 #background-video {
@@ -270,4 +315,49 @@ a[href]{
     width: 40%;
     border-radius: 10px;
     text-align: center;
+}
+
+.valider{
+    border-radius: 5px;
+    border: black;
+    background-color: limegreen;
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+
+}
+
+.annuler{
+    border-radius: 5px;
+    border: black;
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.éditer{
+    border-radius: 5px;
+    border: black;
+    background-color: limegreen;
+    color: white;
+    padding: 5px;
+}
+
+.supprimer{
+    border-radius: 5px;
+    border: black;
+    background-color: red;
+    color: white;
+    padding: 5px;
+}
+
+.colonne{
+    background-color: rgb(240,240,240);
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.barre{
+    width: 80px;
 }

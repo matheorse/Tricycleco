@@ -56,6 +56,7 @@ def show_collecte():
         FROM type_dechet'''
     mycursor.execute(sql)
     type_dechet = mycursor.fetchall()
+
     sql = ''' SELECT date_tournee AS date , id_tournee as id
             FROM Tournee'''
     mycursor.execute(sql)
@@ -103,10 +104,9 @@ def edit_collecte():
     mycursor.execute(sql, tuple_param)
     Centre_collecte = mycursor.fetchone()
     sql = '''SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
-             FROM type_dechet
-             WHERE id_type_dechet=%s;'''
-    mycursor.execute(sql, tuple_param)
-    type_dechet = mycursor.fetchone()
+             FROM type_dechet'''
+    mycursor.execute(sql)
+    type_dechet = mycursor.fetchall()
     sql = '''SELECT date_tournee AS date , id_tournee as id
              FROM Tournee
              WHERE id_tournee=%s;'''

@@ -81,9 +81,13 @@ CREATE TABLE Conteneur(
    FOREIGN KEY(id_centre_recyclage) REFERENCES Centre_recyclage(id_centre_recyclage)
 );
 
--- Insertion de données de test
+-- Insertion de données
 INSERT INTO Camion VALUES (1, 'ABC123', 101);
 INSERT INTO Camion VALUES (2, 'XYZ789', 102);
+INSERT INTO Camion VALUES (3, 'DEF456', 103);
+INSERT INTO Camion VALUES (4, 'GHI157', 104);
+INSERT INTO Camion VALUES (5, 'JKL945', 105);
+INSERT INTO Camion VALUES (6, 'MNO849', 106);
 
 INSERT INTO Centre_collecte VALUES (1, 'Paris Nord');
 INSERT INTO Centre_collecte VALUES (2, 'Lyon Ouest');
@@ -143,3 +147,7 @@ GROUP BY type_dechet.libelle_type_dechet;
 SELECT Employe.nom_employe, Employe.prenom_employe, Tournee.date_tournee, Tournee.id_tournee
 FROM Employe
 JOIN Tournee ON Employe.id_camion = Tournee.id_camion;
+
+
+SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
+             FROM type_dechet;

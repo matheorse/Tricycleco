@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1 class="titre">LES COLLECTES</h1>
-    <hr>
+    <hr class="barre">
     <br><br>
 
     <div>
@@ -48,8 +48,8 @@
                            {% endfor %}</td>
 
                        <td class="colonne">
-                          <a href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
-                          <a href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
+                          <a class="éditer" href="/collecte/edit?id={{ type.id }}&amp;param2={{type.quantite}}">Editer</a>&nbsp;
+                          <a class="supprimer" href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">Supprimer</a>
                        </td>
                    </tr>
                 {% endfor %}
