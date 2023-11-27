@@ -166,7 +166,16 @@ def show_Tournee():
 @app.route('/Tournee/add', methods=['GET'])
 def add_Tournee():
     print('''affichage du formulaire pour saisir une Tournee''')
-    return render_template('Tournee/add_Tournee.html')
+    mycursor = get_db().cursor()
+    sql = '''Select * From Camion;'''
+    mycursor.execute(sql)
+    camions=mycursor.fetchall()
+    sql2 = '''Select * From Centre_recyclage;'''
+    mycursor.execute(sql2)
+    recyclages = mycursor.fetchall()
+    get_db().commit()
+
+    return render_template('Tournee/add_Tournee.html',camions=camions, recyclages=recyclages)
 
 
 @app.route('/Tournee/delete')
@@ -211,26 +220,26 @@ def edit_Tournee():
 @app.route('/Tournee/add', methods=['POST'])
 def valid_add_Tournee():
     print('''Ajout de la tournée dans la table''')
-    id_tournee = request.form.get('id_tournee')
     date_tournee = request.form.get('date_tournee')
     id_centre_recyclage = request.form.get('id_centre_recyclage')
     id_camion = request.form.get('id_camion')
     temps = request.form.get('temps')
 
     message = (
-        f'info: Tournée ajoutée - id_tournee : {id_tournee}, Date : {date_tournee}, '
+        f'info: Tournée ajoutée -  Date : {date_tournee}, '
         f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
         f'Temps : {temps}'
     )
 
-    flash(message, 'alert-success')
+
 
     mycursor = get_db().cursor()
-    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps)
-    sql = "INSERT INTO Tournee(id_tournee, date_tournee, id_centre_recyclage, id_camion, temps) VALUES (%s, %s, %s, %s, %s);"
+    tuple_param = ( date_tournee, id_centre_recyclage, id_camion, temps)
+    sql = "INSERT INTO Tournee( date_tournee, id_centre_recyclage, id_camion, temps) VALUES ( %s, %s, %s, %s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
 
+    flash(message, 'alert-success')
     return redirect('/Tournee/show')
 
 

@@ -48,7 +48,7 @@ CREATE TABLE type_dechet(
 );
 
 CREATE TABLE Tournee(
-   id_tournee INT,
+   id_tournee INT AUTO_INCREMENT,
    date_tournee DATE,
    id_centre_recyclage INT NOT NULL,
    id_camion INT NOT NULL,
@@ -119,14 +119,14 @@ INSERT INTO type_dechet VALUES (6, 'Verre');
 INSERT INTO type_dechet VALUES (7, 'Cuivre');
 INSERT INTO type_dechet VALUES (8, 'Textile');
 
-INSERT INTO Tournee VALUES (1, '2023-01-01', 1, 1, 35);
-INSERT INTO Tournee VALUES (2, '2023-02-01', 2, 2, 40);
-INSERT INTO Tournee VALUES (3, '2023-03-01', 1, 1, 30);
-INSERT INTO Tournee VALUES (4, '2023-04-01', 2, 2, 45);
-INSERT INTO Tournee VALUES (5, '2023-05-01', 1, 1, 35);
-INSERT INTO Tournee VALUES (6, '2023-06-01', 2, 2, 40);
-INSERT INTO Tournee VALUES (7, '2023-07-01', 1, 1, 30);
-INSERT INTO Tournee VALUES (8, '2023-08-01', 2, 2, 50);
+INSERT INTO Tournee VALUES (1, '2023-02-01', 2, 2, 40);
+INSERT INTO Tournee VALUES (2,'2023-03-01', 1, 1, 30);
+INSERT INTO Tournee VALUES (3,'2023-04-01', 2, 2, 45);
+INSERT INTO Tournee VALUES (4,'2023-01-01', 1, 1, 35);
+INSERT INTO Tournee VALUES (5,'2023-05-01', 1, 1, 35);
+INSERT INTO Tournee VALUES (6,'2023-06-01', 2, 2, 40);
+INSERT INTO Tournee VALUES (7,'2023-07-01', 1, 1, 30);
+INSERT INTO Tournee VALUES (8,'2023-08-01', 2, 2, 50);
 
 
 

@@ -1,14 +1,11 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% extends 'layout.html' %}
+
+{% block title %}
     <link rel="stylesheet" href="../../static/Tourneestyles.css">
     <title>Tricycleco</title>
-</head>
-<body>
+{% endblock %}
+
+{% block body %}
    
     <form class="formu"  action="/Tournee/edit" method="post">
         <fieldset class="formulaire">
@@ -20,20 +17,22 @@
 
 
 
-            <label for=>id_centre_recyclage  :</label><br>
-            <select id="id_centre_recyclage " name="id_centre_recyclage " style="width: 340px; height: 40px;" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="2">4</option>
-                <option value="2">5</option>
+            <label for=>lieu_recyclage   :</label><br>
+            <select id="id_centre_recyclage " name="id_centre_recyclage " style="width: 340px; height: 40px;" >
+             <option value="">sélectionne un lieu de recyclage</option>
+    {% for recyclage in recyclages %}
+        <option value=" {{recyclage.id_centre_recyclage}}"> {{recyclage.lieu_recyclage}}</option>
+    {% endfor %}
+</select><br>
             </select><br>
 
             <label for="id_camion ">id_camion  :</label><br>
-            <select id="id_camion " name="id_camion " style="width: 340px; height: 40px;" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
+            <select id="id_camion " name="id_camion " style="width: 340px; height: 40px;" >
+                <option value="">sélectionne un immatriculation camion</option>
+    {% for camion in camions %}
+        <option value=" {{camion.id_camion}}"> {{camion.immatriculation_camion}}</option>
+    {% endfor %}
+
             </select><br>
 
             <label for="temps">Temps :</label><br>
@@ -44,8 +43,6 @@
         </fieldset>
     </form>
 
-    
+ {% endblock %}
 
     
-</body>
-</html>
