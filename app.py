@@ -217,7 +217,7 @@ def valid_add_Tournee():
 
     message = (
         f'info: Tournée ajoutée - id_tournee : {id_tournee}, Date : {date_tournee}, '
-        f'Centre de recyclage : {id_centre_recyclage}, Camion : {id_camion}, '
+        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
         f'Temps : {temps}'
     )
 
@@ -243,7 +243,7 @@ def valid_edit_Tournee():
 
     message = (
         f'info: Tournée modifiée - id_tournee : {id_tournee}, Date : {date_tournee}, '
-        f'Centre de recyclage : {id_centre_recyclage}, Camion : {id_camion}, '
+        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
         f'Temps : {temps}'
     )
     flash(message, 'alert-success')
