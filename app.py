@@ -154,12 +154,16 @@ def valid_edit_collecte():
 @app.route('/Tournee/show')
 def show_Tournee():
     mycursor = get_db().cursor()
-    sql = '''SELECT id_tournee, `date_tournee`, id_centre_recyclage, id_camion, temps
-             FROM Tournee'''
+    sql = '''
+        SELECT t.id_tournee, t.date_tournee, t.id_centre_recyclage, c.lieu_recyclage, t.id_camion, t.temps
+        FROM Tournee t
+        INNER JOIN Centre_recyclage c ON t.id_centre_recyclage = c.id_centre_recyclage
+    '''
     mycursor.execute(sql)
     Tournee = mycursor.fetchall()
 
     return render_template('Tournee/show_Tournee.html', Tournee=Tournee)
+
 
 @app.route('/Tournee/add', methods=['GET'])
 def add_Tournee():

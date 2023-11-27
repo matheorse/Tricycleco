@@ -27,7 +27,7 @@
             <tr>
                 <th>id_tournee</th>
                 <th>date_tournee</th>
-                <th>id_centre_recyclage</th>
+                <th>lieu_recyclage</th>
                 <th>id_camion</th>
                 <th>temps(minutes)</th>
                 <th>Operations</th>
@@ -39,7 +39,7 @@
                     <tr>
                         <td>{{ tournee.id_tournee }}</td>
                         <td>{{ tournee.date_tournee }}</td>
-                        <td>{{ tournee.id_centre_recyclage }}</td>
+                        <td> {{ tournee.lieu_recyclage }} ({{ tournee.id_centre_recyclage }}) </td>
                         <td>{{ tournee.id_camion }}</td>
                         <td>{{ tournee.temps }}</td>
                         <td>
