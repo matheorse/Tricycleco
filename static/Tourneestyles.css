@@ -7,9 +7,14 @@
 .tableto{
     width: 80%;
     margin: 200px auto;
-    background-color: rgb(220, 224, 224);
+    background-color: white;
+
 
 }
+.tableto td:hover{
+background-color: rgb(196, 199, 201);
+}
+
 .tableto th,td{
     
     padding: 10px;
@@ -84,16 +89,21 @@ a.add{
 
 div strong{
     position: absolute;
-    top: 40px;
+    top: 35px;
     left: 20px;
     padding: 10px;
-   background-color: rgb(134, 236, 202);
-    color: rgb(21, 5, 114);
+
+
     font-weight: bold;
     border-radius: 7px;
     font-size: 1.4rem;
 }
-
+.alert-danger{
+background-color: red;
+margin-top: 40px;
+padding: 10px;
+border-radius: 5px
+}
 
 .alert-success{
 background-color: rgb(134, 236, 202);

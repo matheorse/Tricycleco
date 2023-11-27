@@ -181,7 +181,7 @@ def delete_Tournee():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message = f'info: Tournée supprimée - id_tournee = : {id_tournee}'
+            message = f'info: suppression d\'une tournee avec - id_tournee =  {id_tournee}'
             flash(message, 'alert-warning')
         except ValueError:
             print("L'ID de la tournée n'est pas un entier valide.")
