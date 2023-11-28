@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 
         {% block title %}
-            <title>modifier un employe</title>
+         <link rel="stylesheet" href="../../static/Tourneestyles.css">
+         <title>modifier un employe</title>
         {% endblock %}
 
 {% block body %}
@@ -14,8 +15,8 @@
                 <legend> Modifier un employe</legend>
                 <input type="hidden" name="id" size="18" value="{{ employe.id_employe}}" id="id">
 
-                <label for="numero_tel_employe">numero telephone</label><br>
-                <input id="numero_tel_employe" type="number" name="numero_tel_employe" size="18" value="" placeholder="Saisir le numero de telephone de l'employe"><br>
+                <label for="numero_telephone_employe">numero telephone</label><br>
+                <input id="numero_telephone_employe" type="text" name="numero_telephone_employe" size="18" value="" placeholder=""><br>
 
                 <label for="nom_Employe">nom</label><br>
                 <input id="nom_Employe" type="text" name="nom_employe" size="18" value="" placeholder="Saisir le nom du joueur"><br>
@@ -24,10 +25,10 @@
                 <input id="prenom_employe" type="text" name="prenom_employe" size="18" value="" placeholder="Saisir le prenom du joueur"><br>
 
                 <label for="salaire_employe">salaire</label><br>
-                <input id="salaire_employe" type="number" name="salaire_employe" size="18" value="" placeholder="Saisir le salaire de l'employe"><br>
+                <input id="salaire_employe" type="number" name="salaire_employe" size="18" value="" ><br>
 
                 <label for="adresse_employe">adresse</label><br>
-                <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" placeholder="saisir l'adresse de l'employe"><br>
+                <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" ><br>
 
                 <select name="id_camion" required>
                     <option value="">Sélectionner l'id du camion</option>

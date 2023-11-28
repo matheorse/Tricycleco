@@ -1,0 +1,167 @@
+table ,tr {
+    table-layout: fixed;
+    width: 80%;
+    height: 40px;
+    border-collapse: collapse;
+    border: 1px solid #251B37;;
+    background-color: cadetblue;;
+}
+
+h2 {
+ font-size: 1rem;
+ background-color: cadetblue;
+ display: inline-block;
+ margin-top: 70px;
+ margin-left: 30px;
+ border: 1px solid black;
+ padding: 10px;
+ border-radius: 8px;
+ color: black;
+}
+
+
+
+
+
+
+form{
+ width: 80%;
+ margin: 80px auto auto 50px;
+
+}
+form fieldset{
+ border: 2px solid black;
+ padding: 10px;
+}
+form fieldset input{
+ padding: 6px;
+ border-radius: 5px;
+ border: 1px solid black;
+}
+
+.flashes {
+    padding: 5px;
+    margin-top: 50px;
+}
+
+.alert-warning {
+    background-color: #d50b00;
+    margin-top: 40px;
+}
+.alert-success {
+    background-color: darkturquoise;
+   margin-top: 40px;
+}
+select{
+    width: 190px;
+}
+
+.button {
+    padding: 1em 2em;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: black;
+    transition: all 500ms;
+    font-size: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    outline: 2px solid white;
+    opacity: 0.6;
+    width: fit-content;
+  }
+
+.button:hover {
+    color: black;
+    outline: 2px solid white;
+    box-shadow: 1px 1px 8px 4px white;
+    opacity: 1;
+  }
+
+
+
+
+
+@keyframes clignoter {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+
+
+
+
+
+.add{
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 40px;
+    padding: 10px 30px 10px 30px;
+}
+
+.colonne{
+    text-align: center;
+}
+
+.ligne:hover{
+    background-color: lightgrey;
+}
+
+.titre{
+    text-align: center;
+}
+
+.formulaire{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    color: black;
+    width: 40%;
+    border-radius: 10px;
+    text-align: center;
+}
+.valider{
+    border-radius: 5px;
+    border: black;
+    background-color: limegreen;
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+
+}
+
+.annuler{
+    border-radius: 5px;
+    border: black;
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.editer{
+    border-radius: 5px;
+    border: black;
+    background-color: limegreen;
+    color: white;
+    padding: 5px;
+}
+
+.supprimer{
+    border-radius: 5px;
+    border: black;
+    background-color: red;
+    color: white;
+    padding: 5px;
+}
+
