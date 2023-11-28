@@ -256,7 +256,7 @@ def valid_add_Tournee():
     temps = request.form.get('temps')
 
     message = (
-        f'info: Tournée ajoutée -  date_tournee : {date_tournee}, '
+        f'info: Tournée ajoutée -  date: {date_tournee}, '
         f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
         f'Temps : {temps}'
     )
@@ -283,7 +283,7 @@ def valid_edit_Tournee():
     temps = request.form.get('temps')
 
     message = (
-        f'info: Tournée modifiée - id_tournee : {id_tournee}, date_tournee : {date_tournee}, '
+        f'info: Tournée modifiée - id_tournee : {id_tournee}, date : {date_tournee}, '
         f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
         f'Temps : {temps}'
     )
