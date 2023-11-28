@@ -130,9 +130,14 @@ INSERT INTO Tournee VALUES (8,'2023-08-01', 2, 2, 50);
 
 
 
-INSERT INTO Collecte VALUES (1, 100, 1, 1, 1);
-INSERT INTO Collecte VALUES (2, 200, 2, 2, 2);
-INSERT INTO Collecte Values (3, 300, 3, 3, 3);
+INSERT INTO Collecte VALUES (1, 273, 1, 1, 1);
+INSERT INTO Collecte VALUES (2, 089, 2, 2, 2);
+INSERT INTO Collecte Values (3, 358, 3, 3, 3);
+INSERT INTO Collecte Values (4, 424, 4, 4, 4);
+INSERT INTO Collecte Values (5, 289, 5, 5, 5);
+INSERT INTO Collecte Values (6, 681, 6, 6, 6);
+INSERT INTO Collecte Values (7, 602, 7, 7, 7);
+INSERT INTO Collecte Values (8, 456, 8, 8, 8);
 
 INSERT INTO Conteneur VALUES (1, 1, 1, 1);
 INSERT INTO Conteneur VALUES (2, 2, 2, 2);

@@ -135,12 +135,12 @@ def valid_edit_collecte():
     id = request.form.get('id')
     quantite = request.form.get('quantite')
     type = request.form.get('type')
-    centre = request.form.get('centre_collecte')
+    centre = request.form.get('centre')
     tournee = request.form.get('tournee')
-    message = 'quantite :' + quantite + ' - type :' + type + ' - centre de collecte :' + centre + ' - tournee : ' + tournee + ' pour la collecte d identifiant :' + id
+    message = 'quantite :' + quantite + ' - type : ' + type + ' - centre de collecte : ' + centre + ' - tournee : ' + tournee
     print(message)
     mycursor = get_db().cursor()
-    tuple_param=(quantite,type,id)
+    tuple_param=(quantite,type,centre,tournee,id)
     sql="UPDATE Collecte SET quantite_dechet_collecte = %s, id_type_dechet= %s, id_centre_collecte= %s, id_tournee= %s WHERE id_collecte=%s;"
     mycursor.execute(sql,tuple_param)
     get_db().commit()
