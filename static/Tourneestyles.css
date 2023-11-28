@@ -5,6 +5,9 @@
 }
 
 .tableto{
+    position: absolute;
+    top: 100px;
+    left: 100px;
     width: 80%;
     margin: 200px auto;
     background-color: rgb(231, 225, 225);
@@ -116,12 +119,7 @@ div strong{
     border-radius: 7px;
     font-size: 1.4rem;
 }
-.alert-danger{
-#background-color: red;
-#margin-top: 40px;
-#padding: 10px;
-#border-radius: 5px
-}
+
 
 .alert-success{
 

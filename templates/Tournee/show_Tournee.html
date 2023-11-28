@@ -28,7 +28,7 @@
                 <th>id_tournee</th>
                 <th>date_tournee</th>
                 <th>lieu_recyclage</th>
-                <th>id_camion</th>
+                <th>immatriculation_camion</th>
                 <th>temps(minutes)</th>
                 <th>Operations</th>
             </tr>
@@ -40,7 +40,7 @@
                         <td>{{ tournee.id_tournee }}</td>
                         <td>{{ tournee.date_tournee }}</td>
                         <td> {{ tournee.lieu_recyclage }}   ({{ tournee.id_centre_recyclage }}) </td>
-                        <td>{{ tournee.id_camion }}</td>
+                        <td>  {{ tournee.immatriculation_camion }} ({{ tournee.id_camion }})</td>
                         <td>{{ tournee.temps }}</td>
                         <td>
                             <a class="edit" href="/Tournee/edit?id={{ tournee.id_tournee }}">Editer</a>&nbsp;
