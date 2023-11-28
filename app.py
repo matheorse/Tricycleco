@@ -270,16 +270,16 @@ def valid_edit_Tournee():
 @app.route('/employe/show')
 def show_employe():
     mycursor = get_db().cursor()
-    sql = '''SELECT id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion'
-    FROM employe'''
+    sql = '''SELECT id_employe, numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe,id_camion
+    FROM Employe'''
     mycursor.execute(sql)
     employe= mycursor.fetchall()
-    return render_template('employes/show_employe.html', employes=employe)
+    return render_template('employe/show_employe.html', employe=employe)
 
 @app.route('/employe/add', methods=['GET'])
 def add_employe():
     print('''affichage du formulaire pour ajouter un employe''')
-    return render_template('employes/add_employe.html')
+    return render_template('employe/add_employe.html')
 
 
 @app.route('/employe/add', methods=['POST'])
@@ -295,7 +295,7 @@ def valid_add_employe():
     flash(message, 'alert-success')
     mycursor = get_db().cursor()
     tuple_param = (numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
-    sql = "INSERT INTO employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s);"
+    sql = "INSERT INTO Employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
     return redirect('/employe/show')
@@ -308,7 +308,7 @@ def delete_employe():
     print(id_employe)
     mycursor=get_db().cursor()
     tuple_param = (id_employe,)
-    sql="DELETE FROM employe WHERE id_employe=%s;"
+    sql="DELETE FROM Employe WHERE id_employe=%s;"
     mycursor.execute(sql,tuple_param)
     get_db().commit()
     message  = f'info: suppression d\'un employe avec - id_employe =  {id_employe}'
@@ -329,12 +329,12 @@ def edit_employe():
     tournee_id = request.args.get('id')
     mycursor = get_db().cursor()
     sql = '''SELECT id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion'
-                FROM employe
+                FROM Employe
                 WHERE id_employe=%s;'''
     tuple_param = (tournee_id,)
     mycursor.execute(sql, tuple_param)
     employe= mycursor.fetchone()
-    return render_template('employes/edit_employe.html', employe=employe)
+    return render_template('employe/edit_employe.html', employe=employe)
 
 @app.route('/employe/edit', methods=['POST'])
 def valid_edit_employe():
@@ -350,7 +350,7 @@ def valid_edit_employe():
     flash(message, 'alert-success')
     mycursor = get_db().cursor()
     tuple_param = (id_employe, numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
-    sql = "UPDATE employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe= %s, prenom_employe = %s, salaire_employe = %s ,adresse_employe=%s,id_camion=%s WHERE id_employe = %s;"
+    sql = "UPDATE Employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe= %s, prenom_employe = %s, salaire_employe = %s ,adresse_employe=%s,id_camion=%s WHERE id_employe = %s;"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
     return redirect('/employe/show')

@@ -32,9 +32,10 @@ CREATE TABLE Centre_recyclage(
 
 CREATE TABLE Employe(
    id_employe INT,
-   numero_tel_employe INT,
+   numero_telephone_employe INT,
    nom_employe VARCHAR(50),
    prenom_employe VARCHAR(50),
+   salaire_employe INT,
    adresse_employe VARCHAR(50),
    id_camion INT,
    PRIMARY KEY(id_employe),
@@ -103,12 +104,13 @@ INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');
 INSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');
 INSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');
 
-INSERT INTO Employe VALUES (1, 0101010101, 'Lalai', 'Maria', '1 rue des Pommiers', 1);
-INSERT INTO Employe VALUES (2, 0202020202, 'Rose', 'Jean', '12 rue du Puit', 2);
-INSERT INTO Employe VALUES (3, 0303030303, 'Albertoni', 'Thierry', '4 rue Pasteur', 3);
-INSERT INTO Employe VALUES (4, 0404040404, 'Einstein', 'Albert', '30 rue de la Révolution', 4);
-INSERT INTO Employe VALUES (5, 0505050505, 'Dine', 'Amandine', '45 rue de la Curtine', 5);
-INSERT INTO Employe VALUES (6, 0606060606, 'Carminati', 'Martine', '2 rue Marie Curie', 6);
+INSERT INTO Employe VALUES (1, 0101010101, 'Lalai', 'Maria', 1, '1 rue des Pommiers', 1);
+INSERT INTO Employe VALUES (2, 0202020202, 'Rose', 'Jean', 2, '12 rue du Puit', 2);
+INSERT INTO Employe VALUES (3, 0303030303, 'Albertoni', 'Thierry', 3, '4 rue Pasteur', 3);
+INSERT INTO Employe VALUES (4, 0404040404, 'Einstein', 'Albert', 4, '30 rue de la Révolution', 4);
+INSERT INTO Employe VALUES (5, 0505050505, 'Dine', 'Amandine', 5, '45 rue de la Curtine', 5);
+INSERT INTO Employe VALUES (6, 0606060606, 'Carminati', 'Martine', 6, '2 rue Marie Curie', 6);
+
 
 INSERT INTO type_dechet VALUES (1, 'Bois');
 INSERT INTO type_dechet VALUES (2, 'Aluminium');
