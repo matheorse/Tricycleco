@@ -59,7 +59,7 @@ CREATE TABLE Tournee(
 );
 
 CREATE TABLE Collecte(
-   id_collecte INT,
+   id_collecte INT AUTO_INCREMENT,
    quantite_dechet_collecte INT,
    id_type_dechet INT NOT NULL,
    id_centre_collecte INT NOT NULL,

@@ -24,10 +24,9 @@
                     <div>
                         <label for="type">Type de déchet</label>
                         <select name="type" id="type" required>
+                            <option value="" selected disabled>Choisissez le type de déchet</option>
                             {% for j in typeDechet %}
-                                <option value="{{ j.id }}"
-                                        {% if typeDechet is defined and j.id ==  typeDechet.id %}selected{% endif %}
-                                ></option>
+                                <option value="{{ j.id }}">{{ j.libelle }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -35,10 +34,9 @@
                     <div>
                         <label for="centre">Centre de collecte</label>
                         <select name="centre" id="centre" required>
+                            <option value="" selected disabled>Choisissez le centre de collecte</option>
                             {% for i in centreCollect %}
-                                <option value="{{ i.id }}"
-                                        {% if centre is defined and i.id ==  centre %}selected{% endif %}
-                                ></option>
+                                <option value="{{ i.id }}">{{ i.lieu }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -46,18 +44,15 @@
                     <div>
                         <label for="tournee">Tournee</label>
                         <select name="tournee" id="tournee" required>
+                            <option value="" selected disabled>Choisissez la tournée</option>
                             {% for k in tournee %}
-                                <option value="{{ k.id }}"
-                                        {% if tournee is defined and k.id ==  tournee %}selected{% endif %}
-                                ></option>
+                                <option value="{{ k.id }}">{{ k.date }}</option>
                             {% endfor %}
                         </select>
                     </div>
 
                     <div>
-                        <a href="/collecte/show">
-                            <button class="annuler">Annuler</button>
-                        </a>
+                        <a href="/collecte/show">Annuler</a>
                         <button class="valider" type="submit">Ajouter</button>
                     </div>
 

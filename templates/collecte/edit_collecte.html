@@ -16,6 +16,8 @@
             <form method="post" action="/collecte/edit" >
                 <fieldset class="formulaire">
 
+                    <input type="number" id="id" name="id" value="{{collecte.id}}" hidden>
+
                     <div>
                         <label for="quantite">Quantité collectée (kg)</label>
                         <input type="number" id="quantite" name="quantite" value="{{ collecte.quantite }}" required/>
@@ -26,7 +28,7 @@
                         <select name="type" id="type" required>
                             {% for j in typeDechet %}
                                 <option value="{{ j.id }}"
-                                        {% if typeDechet is defined and j.id ==  typeDechet.id %}selected{% endif %}
+                                        {% if typeDechet is defined and j.id ==  collecte.type %}selected{% endif %}
                                 > {{ j.libelle }} </option>
                             {% endfor %}
                         </select>
@@ -37,8 +39,8 @@
                         <select name="centre" id="centre" required>
                             {% for i in centreCollect %}
                                 <option value="{{ i.id }}"
-                                        {% if centre is defined and i.id ==  centre %}selected{% endif %}
-                                > {{ i.lieu }} </option>
+                                        {% if centreCollect is defined and i.id ==  collecte.centre %}selected{% endif %}
+                                >{{ i.lieu }} </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -48,7 +50,7 @@
                         <select name="tournee" id="tournee" required>
                             {% for k in tournee %}
                                 <option value="{{ k.id }}"
-                                        {% if tournee is defined and k.id ==  tournee %}selected{% endif %}
+                                        {% if tournee is defined and k.id ==  collecte.tournee %}selected{% endif %}
                                 > {{ k.date }} </option>
                             {% endfor %}
                         </select>

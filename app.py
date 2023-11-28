@@ -67,7 +67,20 @@ def show_collecte():
 @app.route('/collecte/add', methods=['GET'])
 def add_collecte():
     print('''affichage du formulaire pour saisir une collecte''')
-    return render_template('collecte/add_collecte.html')
+    mycursor = get_db().cursor()
+    sql = ''' SELECT lieu_collecte AS lieu , id_centre_collecte as id
+        FROM Centre_collecte'''
+    mycursor.execute(sql)
+    Centre_collecte = mycursor.fetchall()
+    sql = ''' SELECT libelle_type_dechet AS libelle , id_type_dechet as id
+        FROM type_dechet'''
+    mycursor.execute(sql)
+    type_dechet = mycursor.fetchall()
+    sql = ''' SELECT date_tournee AS date , id_tournee as id
+        FROM Tournee'''
+    mycursor.execute(sql)
+    Tournee = mycursor.fetchall()
+    return render_template('collecte/add_collecte.html', centreCollect=Centre_collecte, typeDechet=type_dechet, tournee=Tournee)
 
 @app.route('/collecte/delete')
 def delete_collecte():
@@ -97,11 +110,14 @@ def edit_collecte():
              WHERE id_collecte=%s;'''
     tuple_param = (id,)
     mycursor.execute(sql, tuple_param)
+
     Collecte = mycursor.fetchone()
+    print(Collecte)
     sql = '''SELECT id_centre_collecte AS id, lieu_collecte AS lieu
              FROM Centre_collecte'''
     mycursor.execute(sql)
     Centre_collecte = mycursor.fetchall()
+    print(Centre_collecte)
     sql = '''SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
              FROM type_dechet'''
     mycursor.execute(sql)
@@ -118,14 +134,14 @@ def valid_add_collecte():
     print('''ajout de la collecte dans le tableau''')
     quantite = request.form.get('quantite')
     type = request.form.get('type')
-    centre = request.form.get('centre_collecte')
+    centre = request.form.get('centre')
     tournee = request.form.get('tournee')
     message = 'quantite :' + quantite + ' - type :' + type + ' - centre de collecte :' + centre + ' - tournee : ' + tournee
     print(message)
     mycursor = get_db().cursor()
-    tuple_param=(quantite,type)
-    sql="INSERT INTO Collecte(id_collecte, quantite_dechet_collecte, id_type_dechet, id_centre_collecte, id_tournee) VALUES (NULL, %s, %s);"
-    mycursor.execute(sql,tuple_param)
+    tuple_param=(quantite,type, centre, tournee)
+    sql="INSERT INTO Collecte( quantite_dechet_collecte, id_type_dechet, id_centre_collecte, id_tournee) VALUES ( %s, %s, %s, %s);"
+    mycursor.execute(sql, tuple_param)
     get_db().commit()
     return redirect('/collecte/show')
 
@@ -137,7 +153,7 @@ def valid_edit_collecte():
     type = request.form.get('type')
     centre = request.form.get('centre')
     tournee = request.form.get('tournee')
-    message = 'quantite :' + quantite + ' - type : ' + type + ' - centre de collecte : ' + centre + ' - tournee : ' + tournee
+    message = 'quantite :' + quantite + ' - type : ' + type + ' - centre de collecte : ' + centre + ' - tournee : ' + tournee + id
     print(message)
     mycursor = get_db().cursor()
     tuple_param=(quantite,type,centre,tournee,id)
