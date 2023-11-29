@@ -12,26 +12,26 @@ DROP TABLE IF EXISTS Centre_collecte;
 
 -- Création des tables
 CREATE TABLE Camion(
-   id_camion INT,
+   id_camion INT AUTO_INCREMENT,
    immatriculation_camion VARCHAR(50),
    numero_camion INT,
    PRIMARY KEY(id_camion)
 );
 
 CREATE TABLE Centre_collecte(
-   id_centre_collecte INT,
+   id_centre_collecte INT AUTO_INCREMENT,
    lieu_collecte VARCHAR(50),
    PRIMARY KEY(id_centre_collecte)
 );
 
 CREATE TABLE Centre_recyclage(
-   id_centre_recyclage INT,
+   id_centre_recyclage INT AUTO_INCREMENT,
    lieu_recyclage VARCHAR(50),
    PRIMARY KEY(id_centre_recyclage)
 );
 
 CREATE TABLE Employe(
-   id_employe INT,
+   id_employe INT AUTO_INCREMENT,
    numero_telephone_employe INT,
    nom_employe VARCHAR(50),
    prenom_employe VARCHAR(50),
@@ -43,7 +43,7 @@ CREATE TABLE Employe(
 );
 
 CREATE TABLE type_dechet(
-   id_type_dechet INT,
+   id_type_dechet INT AUTO_INCREMENT,
    libelle_type_dechet VARCHAR(50),
    PRIMARY KEY(id_type_dechet)
 );
@@ -72,7 +72,7 @@ CREATE TABLE Collecte(
 );
 
 CREATE TABLE Conteneur(
-   id_conteneur INT,
+   id_conteneur INT AUTO_INCREMENT,
    id_centre_collecte INT NOT NULL,
    id_type_dechet INT NOT NULL,
    id_centre_recyclage INT NOT NULL,
@@ -104,12 +104,19 @@ INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');
 INSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');
 INSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');
 
-INSERT INTO Employe VALUES (1, 0101010101, 'Lalai', 'Maria', 1, '1 rue des Pommiers', 1);
-INSERT INTO Employe VALUES (2, 0202020202, 'Rose', 'Jean', 2, '12 rue du Puit', 2);
-INSERT INTO Employe VALUES (3, 0303030303, 'Albertoni', 'Thierry', 3, '4 rue Pasteur', 3);
-INSERT INTO Employe VALUES (4, 0404040404, 'Einstein', 'Albert', 4, '30 rue de la Révolution', 4);
-INSERT INTO Employe VALUES (5, 0505050505, 'Dine', 'Amandine', 5, '45 rue de la Curtine', 5);
-INSERT INTO Employe VALUES (6, 0606060606, 'Carminati', 'Martine', 6, '2 rue Marie Curie', 6);
+
+INSERT INTO Employe VALUES (1, 123456789, 'Doe', 'John', 50000, '123 Main St', 1);
+INSERT INTO Employe VALUES (2, 987654321, 'Smith', 'Jane', 55000, '456 Oak St', 2);
+INSERT INTO Employe VALUES (3, 555555555, 'Johnson', 'Bob', 48000, '789 Pine St', 3);
+INSERT INTO Employe VALUES (4, 111222333, 'Williams', 'Emily', 60000, '101 Cedar St', 1);
+INSERT INTO Employe VALUES (5, 999888777, 'Davis', 'Mike', 52000, '202 Elm St', 2);
+INSERT INTO Employe VALUES (6, 444333222, 'Brown', 'Amy', 47000, '303 Maple St', 3);
+INSERT INTO Employe VALUES (7, 666666666, 'Miller', 'David', 58000, '404 Birch St', 1);
+INSERT INTO Employe VALUES (8, 777777777, 'Wilson', 'Jessica', 51000, '505 Spruce St', 2);
+INSERT INTO Employe VALUES (9, 222222222, 'Moore', 'Kevin', 49000, '606 Pine St', 3);
+INSERT INTO Employe VALUES (10, 888888888, 'Taylor', 'Sophie', 57000, '707 Cedar St', 1);
+INSERT INTO Employe VALUES (11, 333333333, 'Anderson', 'Ryan', 53000, '808 Oak St', 2);
+INSERT INTO Employe VALUES (12, 444444444, 'Martin', 'Lily', 46000, '909 Elm St', 3);
 
 
 INSERT INTO type_dechet VALUES (1, 'Bois');
