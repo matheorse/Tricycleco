@@ -399,12 +399,12 @@ def edit_employe():
     print('''affichage du formulaire pour modifier un employe''')
     print(request.args)
     print(request.args.get('id'))
-    employe_id = request.args.get('id')
+    id_employe= request.args.get('id')
     mycursor = get_db().cursor()
     sql = '''SELECT id_employe , `numero_telephone_employe`, `nom_employe`, `prenom_employe`, `salaire_employe`, `adresse_employe`,`id_camion`
                 FROM Employe
                 WHERE id_employe=%s;'''
-    tuple_param = (tournee_id,)
+    tuple_param = (id_employe,)
     mycursor.execute(sql, tuple_param)
     employe= mycursor.fetchone()
 
