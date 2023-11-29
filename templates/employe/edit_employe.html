@@ -29,8 +29,8 @@
 
                 <label for="adresse_employe">adresse</label><br>
                 <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" ><br>
-
-                <select name="id_camion" required>
+                <label for="id_camion"></label>
+                <select id="id_camion" required>
                     <option value="">Sélectionner l'id du camion</option>
                     {% for employe in employes %}
                          <option value="{{ camion.id }}"> 1 </option>

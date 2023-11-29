@@ -344,13 +344,19 @@ def show_employe():
     sql = '''SELECT id_employe, numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe,id_camion
     FROM Employe'''
     mycursor.execute(sql)
-    employe= mycursor.fetchall()
-    return render_template('employe/show_employe.html', employe=employe)
+    employes= mycursor.fetchall()
+    return render_template('employe/show_employe.html', employes=employes)
 
 @app.route('/employe/add', methods=['GET'])
 def add_employe():
     print('''affichage du formulaire pour ajouter un employe''')
-    return render_template('employe/add_employe.html')
+    mycursor = get_db().cursor()
+    sql = '''Select * From Camion;'''
+    mycursor.execute(sql)
+    camions = mycursor.fetchall()
+    get_db().commit()
+
+    return render_template('employe/add_employe.html',camions=camions)
 
 
 @app.route('/employe/add', methods=['POST'])
@@ -391,13 +397,10 @@ def delete_employe():
 
 @app.route('/employe/edit', methods=['GET'])
 def edit_employe():
-    id_employe = request.args.get('id_employe', '')
-    id_employe = int(id_employe)
-    id_employe = id_employe[id-1]
     print('''affichage du formulaire pour modifier un employe''')
     print(request.args)
     print(request.args.get('id'))
-    tournee_id = request.args.get('id')
+    employe_id = request.args.get('id')
     mycursor = get_db().cursor()
     sql = '''SELECT id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion'
                 FROM Employe
@@ -405,7 +408,12 @@ def edit_employe():
     tuple_param = (tournee_id,)
     mycursor.execute(sql, tuple_param)
     employe= mycursor.fetchone()
-    return render_template('employe/edit_employe.html', employe=employe)
+
+    sql_camions = '''Select * From Camion;'''
+    mycursor.execute(sql_camions)
+    camions = mycursor.fetchall()
+
+    return render_template('employe/edit_employe.html', employe=employe,camions=camions)
 
 @app.route('/employe/edit', methods=['POST'])
 def valid_edit_employe():

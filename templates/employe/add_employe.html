@@ -13,7 +13,7 @@
                 <fieldset>
                     <legend> Créer un employe</legend>
                     <label for="numero_tel_employe">numero telephone</label><br>
-                    <input id="numero_tel_employe" type="number" name="numero_tel_employe" size="18" value="" placeholder="Saisir le numero de telephone de l'employe"><br>
+                    <input id="numero_tel_employe" type="text" name="numero_tel_employe" size="18" value="" placeholder="Saisir le numero de telephone de l'employe"><br>
 
                     <label for="nom_Employe">nom</label><br>
                     <input id="nom_Employe" type="text" name="nom_employe" size="18" value="" placeholder="Saisir le nom du joueur"><br>
@@ -26,7 +26,8 @@
 
                     <label for="adresse_employe">adresse</label><br>
                     <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" placeholder="saisir l'adresse de l'employe"><br>
-                    <select name="id_camion" required>
+                    <label for="id_camion"></label>br
+                    <select id="id_camion" required>
                         <option value="">Sélectionner l'id du camion</option>
                         {% for employe in employes %}
                              <option value="{{ camion.id }}"> 1 </option>
