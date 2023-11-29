@@ -372,7 +372,7 @@ def valid_add_employe():
     flash(message, 'alert-success')
     mycursor = get_db().cursor()
     tuple_param = (numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
-    sql = "INSERT INTO Employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s,%s,%s,%s);"
+    sql = "INSERT INTO Employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s,%s,%s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
     return redirect('/employe/show')
