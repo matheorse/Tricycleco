@@ -460,7 +460,7 @@ def valid_add_conteneur():
     id_centre_recyclage = request.form.get('id_centre_recyclage')
 
     message = (
-        f'info: Conteneur ajouté -  id_centre_collecte : {id_centre_collecte}, '
+        f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
         f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
     )
 
