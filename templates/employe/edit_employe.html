@@ -32,11 +32,11 @@
                 <label for="id_camion"></label>
                 <select id="id_camion" required>
                     <option value="">Sélectionner l'id du camion</option>
-                    {% for employe in employes %}
-                         <option value="{{ camion.id }}"> 1 </option>
-                         <option value="{{ camion.id }}"> 2 </option>
-                         <option value="{{ camion.id }}"> 3</option>
-                    {% endfor %}
+                    {% for camion in camions %}
+                    <option value="{{camion.id_camion}}" {% if camion.id_camion == employe.id_camion %}selected{% endif %}>
+                        {{camion.id_camion}}
+                    </option>
+                   {% endfor %}
                 </select><br>
                 <br>
                 <div>
