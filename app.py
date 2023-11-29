@@ -418,23 +418,25 @@ def edit_employe():
 
     return render_template('employe/edit_employe.html', employe=employe,camions=camions)
 
+
 @app.route('/employe/edit', methods=['POST'])
 def valid_edit_employe():
     id_employe = request.args.get('id_employe', '')
     numero_telephone_employe = request.args.get('numero_telephone_employe', '')
     nom_employe = request.form.get('nom_employe', '')
     prenom_employe = request.form.get('prenom_employe', '')
-    salaire_employe= request.form.get('salaire_employe', '')
+    salaire_employe = request.form.get('salaire_employe', '')
     adresse_employe = request.form.get('adresse_employe', '')
     id_camion = request.form.get('id_camion', '')
-    message = u'employe ajouté , numero_telephone: ' + numero_telephone_employe + 'nom: ' + nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - salaire_employe: ' + salaire_employe + ' - id_camion: ' + id_camion
-    print(message)
-    flash(message, 'alert-success')
+
     mycursor = get_db().cursor()
-    tuple_param = (id_employe, numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
-    sql = "UPDATE Employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe= %s, prenom_employe = %s, salaire_employe = %s ,adresse_employe=%s,id_camion=%s WHERE id_employe = %s;"
+    tuple_param = ( id_employe, numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe, id_camion)
+
+    sql = "UPDATE Employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe = %s, prenom_employe = %s, salaire_employe = %s, adresse_employe = %s, id_camion = %s WHERE id_employe = %s;"
+
     mycursor.execute(sql, tuple_param)
     get_db().commit()
+
     return redirect('/employe/show')
 
 
