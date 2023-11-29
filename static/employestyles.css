@@ -1,10 +1,28 @@
-table ,tr {
-    table-layout: fixed;
+table {
+    position: absolute;
+    top: 100px;
+    left: 100px;
     width: 80%;
-    height: 40px;
-    border-collapse: collapse;
-    border: 1px solid #251B37;;
-    background-color: cadetblue;;
+    margin: 200px auto;
+    background-color: rgb(231, 225, 225);
+     background-color: white;
+     border-radius: 4px;
+    color: black;
+
+}
+.table,th,td{
+
+    padding: 10px;
+    font-style: normal;
+    font-weight: 500;
+     color: black;
+
+}
+.table td a{
+    margin-right: 21px;
+    padding: 7px;
+    border: 1px solid ;
+    border-radius: 5px;
 }
 
 h2 {
@@ -20,24 +38,26 @@ h2 {
 }
 
 
+*{
+    list-style-type: none;
+    text-decoration: none;
 
+}
 
 
 
 form{
- width: 80%;
- margin: 80px auto auto 50px;
+   width: 900px;
+    margin-top: 130px;
+    margin-right: 80px;
+    margin-left: auto;
 
 }
 form fieldset{
  border: 2px solid black;
  padding: 10px;
 }
-form fieldset input{
- padding: 6px;
- border-radius: 5px;
- border: 1px solid black;
-}
+
 
 .flashes {
     padding: 5px;
@@ -55,7 +75,10 @@ form fieldset input{
 select{
     width: 190px;
 }
-
+.formulaire input{
+    border-radius: 7px;
+    padding: 5px;
+}
 .button {
     padding: 1em 2em;
     border: none;
@@ -98,15 +121,14 @@ select{
 
 
 .add{
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: green;
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-bottom: 40px;
-    padding: 10px 30px 10px 30px;
+   position: absolute;
+    top: 150px;
+    left: 30px;
+    border: 1px solid;
+    padding: 9px;
+    border-radius: 10px;
+    background-color:rgb(48, 212, 48) ;
+    color: rgb(12, 10, 10);
 }
 
 .colonne{
@@ -122,13 +144,13 @@ select{
 }
 
 .formulaire{
-    margin-left: auto;
-    margin-right: auto;
-    background-color: white;
-    color: black;
-    width: 40%;
-    border-radius: 10px;
-    text-align: center;
+   border-radius: 10px;
+    background-color: rgb(243, 239, 234);
+   font-size: 1.2rem;
+  font-weight: 300;
+
+  position: absolute;
+  left: 550px;
 }
 .valider{
     border-radius: 5px;

@@ -17,7 +17,7 @@
     {% endif %}
 {% endwith %}
 
-        <a class="btn btn-outline-primary" href="/employe/add">ajouter un employe</a>
+        <a class="add" href="/employe/add">ajouter un employe</a>
         <br>
         <br>
 
@@ -37,7 +37,7 @@
             </thead>
             <tbody>
                 {% if Employe | length >= 1 %}
-                    {% for Employe in Employe %}
+                    {% for employe in employe %}
                         <tr>
                               <td>{{ Employe.id_employe }}</td>
                               <td>{{ Employe.numero_telephone_employe }}</td>
@@ -62,4 +62,4 @@
                 {% endif %}
             </tbody>
         </table>
-        {% endblock %}
+{% endblock %}
