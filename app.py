@@ -341,7 +341,7 @@ def valid_edit_Tournee():
 @app.route('/employe/show')
 def show_employe():
     mycursor = get_db().cursor()
-    sql = '''SELECT id_employe, numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe,id_camion
+    sql = '''SELECT id_employe AS id , numero_telephone_employe AS numero_de_telephone, nom_employe AS nom, prenom_employe AS prenom, salaire_employe AS salaire, adresse_employe AS adresse ,id_camion AS id_camion
     FROM Employe'''
     mycursor.execute(sql)
     employes= mycursor.fetchall()
