@@ -5,7 +5,7 @@
             <title>Afficher les employes</title>
         {% endblock %}
 
-        {% block body %}
+   {% block body %}
         <h1>LES EMPLOYES</h1>
        {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -14,8 +14,8 @@
                 . <strong>{{ message }}</strong>
             </div>
         {% endfor %}
-    {% endif %}
-{% endwith %}
+     {% endif %}
+    {% endwith %}
 
         <a class="add" href="/employe/add">ajouter un employe</a>
         <br>
