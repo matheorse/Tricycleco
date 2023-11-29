@@ -381,16 +381,20 @@ def valid_add_employe():
 @app.route('/employe/delete', methods=['GET'])
 def delete_employe():
     print(''' suppression d'un employe''')
-    id_employe = request.args.get('id_employe', None)
-    print(id_employe)
-    mycursor=get_db().cursor()
-    tuple_param = (id_employe,)
-    sql="DELETE FROM Employe WHERE id_employe=%s;"
-    mycursor.execute(sql,tuple_param)
-    get_db().commit()
-    message  = f'info: suppression d\'un employe avec - id_employe =  {id_employe}'
-    print(message)
-    flash(message, 'alert-warning')
+    id_employe = request.args.get('id')
+    if id_employe:
+        try:
+            id_tournee = int(id_employe)
+            mycursor = get_db().cursor()
+            tuple_param = (id_tournee,)
+            sql = "DELETE FROM Employe WHERE id_employe=%s;"
+            mycursor.execute(sql, tuple_param)
+            get_db().commit()
+
+            message  = f'info: suppression d\'un employe avec - id_employe =  {id_employe}'
+            flash(message, 'alert-warning')
+        except ValueError:
+         print("L'ID de l'employe n'est pas un entier valide.")
     return redirect('/employe/show')
 
 
