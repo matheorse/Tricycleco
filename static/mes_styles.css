@@ -15,8 +15,14 @@ html{
     scroll-behavior: smooth;
 }
 
+a[href]{
+    text-decoration: none;
+}
+
+
+/*    NAVBAR     */
+
 .navbar {
-    background-color: none;
     overflow: hidden;
 }
 
