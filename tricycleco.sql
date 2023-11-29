@@ -12,26 +12,26 @@ DROP TABLE IF EXISTS Centre_collecte;
 
 -- Création des tables
 CREATE TABLE Camion(
-   id_camion INT,
+   id_camion INT AUTO_INCREMENT,
    immatriculation_camion VARCHAR(50),
    numero_camion INT,
    PRIMARY KEY(id_camion)
 );
 
 CREATE TABLE Centre_collecte(
-   id_centre_collecte INT,
+   id_centre_collecte INT AUTO_INCREMENT,
    lieu_collecte VARCHAR(50),
    PRIMARY KEY(id_centre_collecte)
 );
 
 CREATE TABLE Centre_recyclage(
-   id_centre_recyclage INT,
+   id_centre_recyclage INT AUTO_INCREMENT,
    lieu_recyclage VARCHAR(50),
    PRIMARY KEY(id_centre_recyclage)
 );
 
 CREATE TABLE Employe(
-   id_employe INT,
+   id_employe INT AUTO_INCREMENT,
    numero_telephone_employe INT,
    nom_employe VARCHAR(50),
    prenom_employe VARCHAR(50),
@@ -43,7 +43,7 @@ CREATE TABLE Employe(
 );
 
 CREATE TABLE type_dechet(
-   id_type_dechet INT,
+   id_type_dechet INT AUTO_INCREMENT,
    libelle_type_dechet VARCHAR(50),
    PRIMARY KEY(id_type_dechet)
 );
@@ -72,7 +72,7 @@ CREATE TABLE Collecte(
 );
 
 CREATE TABLE Conteneur(
-   id_conteneur INT,
+   id_conteneur INT AUTO_INCREMENT,
    id_centre_collecte INT NOT NULL,
    id_type_dechet INT NOT NULL,
    id_centre_recyclage INT NOT NULL,

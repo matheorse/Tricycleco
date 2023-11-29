@@ -85,17 +85,22 @@ def add_collecte():
 @app.route('/collecte/delete')
 def delete_collecte():
     print('''suppression d'une collecte''')
-    id=request.args.get('id', None)
-    print(id)
-    mycursor = get_db().cursor()
-    tuple_param=(id)
-    sql="DELETE FROM collecte WHERE id_collecte=%s;"
-    mycursor.execute(sql,tuple_param)
+    id_collecte = request.args.get('id')
 
-    get_db().commit()
-    print(request.args)
-    print(request.args.get('id'))
-    id=request.args.get('id',0)
+    if id_collecte:
+        try:
+            id_collecte = int(id_collecte)
+            mycursor = get_db().cursor()
+            tuple_param = (id_collecte,)
+            sql = "DELETE FROM Collecte WHERE id_collecte=%s;"
+            mycursor.execute(sql, tuple_param)
+            get_db().commit()
+
+            message = f'info: suppression d\'une collecte avec - id_collecte =  {id_collecte}'
+            flash(message, 'alert-warning')
+        except ValueError:
+            print("L'ID de la collecte n'est pas un entier valide.")
+
     return redirect('/collecte/show')
 
 @app.route('/collecte/edit', methods=['GET'])
@@ -136,8 +141,9 @@ def valid_add_collecte():
     type = request.form.get('type')
     centre = request.form.get('centre')
     tournee = request.form.get('tournee')
-    message = 'quantite :' + quantite + ' - type :' + type + ' - centre de collecte :' + centre + ' - tournee : ' + tournee
+    message = u'quantite :' + quantite + ' - type :' + type + ' - centre de collecte :' + centre + ' - tournee : ' + tournee
     print(message)
+    flash(message, 'alert-success')
     mycursor = get_db().cursor()
     tuple_param=(quantite,type, centre, tournee)
     sql="INSERT INTO Collecte( quantite_dechet_collecte, id_type_dechet, id_centre_collecte, id_tournee) VALUES ( %s, %s, %s, %s);"
@@ -150,17 +156,33 @@ def valid_edit_collecte():
     print('''modification de la collecte dans le tableau''')
     id = request.form.get('id')
     quantite = request.form.get('quantite')
-    type = request.form.get('type')
-    centre = request.form.get('centre')
-    tournee = request.form.get('tournee')
-    message = 'quantite :' + quantite + ' - type : ' + type + ' - centre de collecte : ' + centre + ' - tournee : ' + tournee + id
-    print(message)
+    type_id = request.form.get('type')
+    centre_id = request.form.get('centre')
+    tournee_id = request.form.get('tournee')
+
     mycursor = get_db().cursor()
-    tuple_param=(quantite,type,centre,tournee,id)
-    sql="UPDATE Collecte SET quantite_dechet_collecte = %s, id_type_dechet= %s, id_centre_collecte= %s, id_tournee= %s WHERE id_collecte=%s;"
-    mycursor.execute(sql,tuple_param)
+
+    centre_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', centre_id)
+    type_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', type_id)
+    tournee_date = get_name_by_id(mycursor, 'Tournee', 'date_tournee', tournee_id)
+    tournee_date_str = str(tournee_date)
+
+    message = u'quantite :' + quantite + ' - type : ' + type_name + ' - centre de collecte : ' + centre_name + ' - tournee : ' + tournee_date + ' - id : ' +str(id)
+    print(message)
+    flash(message, 'alert-success')
+
+    tuple_param = (quantite, type_id, centre_id, tournee_id, id)
+    sql = "UPDATE Collecte SET quantite_dechet_collecte = %s, id_type_dechet= %s, id_centre_collecte= %s, id_tournee= %s WHERE id_collecte=%s;"
+    mycursor.execute(sql, tuple_param)
     get_db().commit()
+
     return redirect('/collecte/show')
+
+def get_name_by_id(mycursor, table, field, id):
+    sql = f"SELECT {field} FROM {table} WHERE id_{table}=%s;"
+    mycursor.execute(sql, (id,))
+    result = mycursor.fetchone()
+    return result[field] if result else ''
 
 
 ########TOURNEE########
