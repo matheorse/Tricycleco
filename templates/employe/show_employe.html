@@ -36,8 +36,8 @@
                 </tr>
             </thead>
             <tbody>
-                {% if Employe | length >= 1 %}
-                    {% for Employe in Employe %}
+                {% if employe | length >= 1 %}
+                    {% for employe in employe %}
                         <tr>
                               <td>{{ Employe.id_employe }}</td>
                               <td>{{ Employe.numero_telephone_employe }}</td>
