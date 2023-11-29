@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="PY-232.10072.31">
-    <data-source name="BDD_mrose@localhost" uuid="6335a9fc-e2f7-488e-a163-8d28ba36b2fd">
+    <data-source name="BDD_mrose@localhost" uuid="428fffdc-9720-4de5-8bfe-8b0b496cc107">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
       <schema-mapping />
     </data-source>
