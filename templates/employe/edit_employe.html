@@ -29,7 +29,7 @@
                 <label for="adresse_employe">adresse</label><br>
                 <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" ><br>
                 <label for="id_camion"></label>
-                <select id="id_camion" required>
+                <select id="id_camion" name="id_camion" style="width: 170px; height: 40px;" required>
                     <option value="">Sélectionner l'id du camion</option>
                     {% for camion in camions %}
                     <option value="{{camion.id_camion}}" {% if camion.id_camion == employe.id_camion %}selected{% endif %}>
