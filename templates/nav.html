@@ -1,22 +1,38 @@
 <nav class="navbar dark">
-    <div class="nav">
-        <svg class="menu-burger" xmlns="http://www.w3.org/2000/svg" width="30" height="50" viewBox="0 0 30 30" fill="currentColor"><path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z"></path></svg>
-        <ul class="nav_ul_link ">
-            <li id="page-actuelle">
-                <a href="/">Tricycleco</a>
-            </li>
-            <li id="autre-page1">
-                <a href="/employe/show">Employés(Awa)</a>
-            </li>
-            <li id="autre-page2">
-                <a href="/conteneur/show">Conteneurs(Arthur)</a>
-            </li>
-            <li id="autre-page3">
-                <a href="/Tournee/show">Tournées(Ibrahima)</a>
-            </li>
-            <li id="autre-page4">
-                <a href="/collecte/show">Collectes(Matheo)</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+      <div class="nav">
+          <ul class="nav_ul_link">
+              <li id="page-actuelle">
+                  <a class="active"  href="/">Tricycleco</a>
+              </li>
+              <li class="dropdown">
+                  <a href="#" class="dropbtn">Employés (Awa)</a>
+                  <div class="dropdown-content">
+                      <a href="/employe/show">Afficher les employés (CRUD) </a><hr>
+                      <a href="/employe/etat">Etat (mets ce que tu veux)</a>
+                  </div>
+              </li>
+              <li class="dropdown">
+                  <a href="#" class="dropbtn">Conteneurs (Arthur)</a>
+                  <div class="dropdown-content">
+                      <a href="/conteneur/show">Afficher les Conteneurs (CRUD)  </a><hr>
+                      <a href="/conteneur/etat">Etat (mets ce que tu veux)</a>
+                  </div>
+              </li>
+              <li class="dropdown">
+                  <a href="#" class="dropbtn">Tournées (Ibrahima)</a>
+                  <div class="dropdown-content">
+                      <a href="/Tournee/show">Afficher les Tournées(CRUD) </a><hr>
+                      <a href="/Tournee/etat">Etat (mets ce que tu veux)</a>
+                  </div>
+              </li>
+              <li class="dropdown">
+                  <a href="#" class="dropbtn">Collectes (Matheo)</a>
+                  <div class="dropdown-content">
+                      <a href="/collecte/show">Afficher les Collectes (CRUD) </a><hr>
+                      <a href="/collecte/etat">Etat (mets ce que tu veux)</a>
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </nav>
+
