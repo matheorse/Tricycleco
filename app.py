@@ -138,18 +138,33 @@ def edit_collecte():
 def valid_add_collecte():
     print('''ajout de la collecte dans le tableau''')
     quantite = request.form.get('quantite')
-    type = request.form.get('type')
-    centre = request.form.get('centre')
-    tournee = request.form.get('tournee')
-    message = u'quantite :' + quantite + ' - type :' + type + ' - centre de collecte :' + centre + ' - tournee : ' + tournee
+    type_id = request.form.get('type')
+    centre_id = request.form.get('centre')
+    tournee_id = request.form.get('tournee')
+
+    mycursor = get_db().cursor()
+
+    centre_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', centre_id)
+    type_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', type_id)
+    tournee_date = get_name_by_id(mycursor, 'Tournee', 'date_tournee', tournee_id)
+    tournee_date_str = str(tournee_date)
+
+    message = u'quantite :' + quantite + ' - type : ' + type_name + ' - centre de collecte : ' + centre_name + ' - tournee : ' + tournee_date_str
     print(message)
     flash(message, 'alert-success')
-    mycursor = get_db().cursor()
-    tuple_param=(quantite,type, centre, tournee)
-    sql="INSERT INTO Collecte( quantite_dechet_collecte, id_type_dechet, id_centre_collecte, id_tournee) VALUES ( %s, %s, %s, %s);"
+
+    tuple_param = (quantite, type_id, centre_id, tournee_id)
+    sql = "INSERT INTO Collecte( quantite_dechet_collecte, id_type_dechet, id_centre_collecte, id_tournee) VALUES ( %s, %s, %s, %s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
+
     return redirect('/collecte/show')
+
+def get_name_by_id(mycursor, table, field, id):
+    sql = f"SELECT {field} FROM {table} WHERE id_{table}=%s;"
+    mycursor.execute(sql, (id,))
+    result = mycursor.fetchone()
+    return result[field] if result else ''
 
 @app.route('/collecte/edit', methods=['POST'])
 def valid_edit_collecte():
@@ -167,7 +182,7 @@ def valid_edit_collecte():
     tournee_date = get_name_by_id(mycursor, 'Tournee', 'date_tournee', tournee_id)
     tournee_date_str = str(tournee_date)
 
-    message = u'quantite :' + quantite + ' - type : ' + type_name + ' - centre de collecte : ' + centre_name + ' - tournee : ' + tournee_date + ' - id : ' +str(id)
+    message = u'quantite :' + quantite + ' - type : ' + type_name + ' - centre de collecte : ' + centre_name + ' - tournee : ' + tournee_date_str + ' - id : ' +str(id)
     print(message)
     flash(message, 'alert-success')
 
