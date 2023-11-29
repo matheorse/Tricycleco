@@ -131,7 +131,6 @@ INSERT INTO Tournee VALUES (7,'2023-07-01', 1, 1, 30);
 INSERT INTO Tournee VALUES (8,'2023-08-01', 2, 2, 50);
 
 
-
 INSERT INTO Collecte VALUES (1, 273, 1, 1, 1);
 INSERT INTO Collecte VALUES (2, 089, 2, 2, 2);
 INSERT INTO Collecte Values (3, 358, 3, 3, 3);
