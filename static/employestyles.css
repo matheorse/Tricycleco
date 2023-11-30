@@ -1,8 +1,25 @@
+body{
+    font-family: "Avenir-Medium", sans-serif;
+    overflow: hidden;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+}
+
+body.scrollable {
+    overflow: auto;
+}
+
+html{
+    scroll-behavior: smooth;
+}
 .table {
-    top: 100px;
+    top: 20px;
     left: 100px;
     width: 80%;
-    margin: 200px auto;
+    margin: auto;
+    margin-top: 40px;
+
     background-color: rgb(231, 225, 225);
      border-radius: 4px;
     color: black;
@@ -148,7 +165,7 @@ select{
   position: absolute;
   left: 550px;
 }
-.valider{
+button .valider{
     border-radius: 5px;
     border: black;
     background-color: limegreen;
