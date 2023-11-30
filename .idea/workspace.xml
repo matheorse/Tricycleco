@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="Arthur - Conteneur">
-      <change beforePath="$PROJECT_DIR$/.idea/Tricycleco.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Tricycleco.iml" afterDir="false" />
+    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/mes_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/mes_styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/collecte/add_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/add_collecte.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/collecte/edit_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/edit_collecte.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/collecte/etat_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/etat_collecte.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/collecte/show_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/show_collecte.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +52,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Arthur/Etude/Etude_sup/IUT/Cours/S1/SAE/SAE S1.04/Tricycleco/templates/conteneur&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/matheo/Desktop/IUT/PycharmProjects/C2_ROSE&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -126,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701260018954</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Arthur - Conteneur">
+      <option name="closed" value="true" />
+      <created>1701338238167</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701338238167</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

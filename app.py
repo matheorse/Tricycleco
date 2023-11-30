@@ -96,7 +96,7 @@ def delete_collecte():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message = f'info: suppression d\'une collecte avec - id_collecte =  {id_collecte}'
+            message = f'suppression d\'une collecte avec - id_collecte =  {id_collecte}'
             flash(message, 'alert-warning')
         except ValueError:
             print("L'ID de la collecte n'est pas un entier valide.")
@@ -199,36 +199,68 @@ def get_name_by_id(mycursor, table, field, id):
     result = mycursor.fetchone()
     return result[field] if result else ''
 
-@app.route('/collecte/etat', methods=['GET'])
+@app.route('/collecte/etat', methods=['GET', 'POST'])
 def etat_collecte():
     mycursor = get_db().cursor()
 
-    sql= """ SELECT type_dechet.libelle_type_dechet as type,
-     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
-     FROM Collecte
-     JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
-     GROUP BY type_dechet.libelle_type_dechet
-     ORDER BY quantite_total_type DESC;
-     """
+    if request.method == 'POST':
+        min_quantite = request.form.get('min_quantite')
+        max_quantite = request.form.get('max_quantite')
+        id_type_dechet = request.form.get('id_type_dechet')
+        id_centre_collecte = request.form.get('id_centre_collecte')
 
-    mycursor.execute(sql)
-    quantite_total_type = mycursor.fetchall()
+        # Requête SQL pour les types de déchets
+        sql_types_dechets = f"""SELECT type_dechet.libelle_type_dechet as type,
+                                     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
+                                 FROM Collecte
+                                 JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
+                                 WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
+                                     AND (type_dechet.id_type_dechet = {id_type_dechet} OR {id_type_dechet} IS NULL)
+                                 GROUP BY type_dechet.libelle_type_dechet
+                                 ORDER BY quantite_total_type DESC;
+                             """
 
-    mycursor = get_db().cursor()
+        # Requête SQL pour les centres de collecte
+        sql_centres_collecte = f"""SELECT Centre_collecte.lieu_collecte as lieu,
+                                       SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
+                                   FROM Collecte
+                                   JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
+                                   WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
+                                       AND (Centre_collecte.id_centre_collecte = {id_centre_collecte} OR {id_centre_collecte} IS NULL)
+                                   GROUP BY Centre_collecte.lieu_collecte
+                                   ORDER BY quantite_total_centre DESC;
+                               """
 
-    sql = """ SELECT Centre_collecte.lieu_collecte as lieu,
-         SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
-         FROM Collecte
-         JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
-         GROUP BY Centre_collecte.lieu_collecte
-         ORDER BY quantite_total_centre DESC;
-         """
+        mycursor.execute(sql_types_dechets)
+        quantite_total_type = mycursor.fetchall()
 
-    mycursor.execute(sql)
-    quantite_total_centre = mycursor.fetchall()
+        mycursor.execute(sql_centres_collecte)
+        quantite_total_centre = mycursor.fetchall()
+    else:
+        # Requête SQL sans filtre
+        sql_types_dechets = """SELECT type_dechet.libelle_type_dechet as type,
+                                     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
+                                 FROM Collecte
+                                 JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
+                                 GROUP BY type_dechet.libelle_type_dechet
+                                 ORDER BY quantite_total_type DESC;
+                             """
+
+        sql_centres_collecte = """SELECT Centre_collecte.lieu_collecte as lieu,
+                                       SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
+                                   FROM Collecte
+                                   JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
+                                   GROUP BY Centre_collecte.lieu_collecte
+                                   ORDER BY quantite_total_centre DESC;
+                               """
+
+        mycursor.execute(sql_types_dechets)
+        quantite_total_type = mycursor.fetchall()
+
+        mycursor.execute(sql_centres_collecte)
+        quantite_total_centre = mycursor.fetchall()
 
     return render_template('/collecte/etat_collecte.html', quantiteTotType=quantite_total_type, quantiteTotCentre=quantite_total_centre)
-
 ########TOURNEE########
 
 @app.route('/Tournee/show')
