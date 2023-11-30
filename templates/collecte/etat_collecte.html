@@ -1,63 +1,45 @@
-{% extends 'layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>État de la collecte</title>
+</head>
+<body>
+    <h1>État de la collecte</h1>
 
-{% block title %}
-    <title>etat des collectes</title>
-{% endblock %}
-
-{% block body %}
-<body class="scrollable">
-<div class="etat">
-    <div class="image">
-    <img src="" alt="">
-    </div>
-    <div class="table">
-    <table class="tabetat" border="1">
-    <tbody>
-    <tr>
-    <td>id_tournee</td>
-    <td></td>
-    </tr>
-    <tr>
-    <td>date_tournee</td>
-    <td></td>
-    </tr>
-    <tr>
-    <td>lieu_recyclage</td>
-    <td></td>
-    </tr>
-    <tr>
-    <td>id_camion</td>
-    <td></td>
-    </tr>
-    <tr>
-    <td>temps(minutes)</td>
-    <td></td>
-    </tr>
-    </tbody>
+    <table>
+        <thead>
+            <tr>
+                <th>Type de déchet</th>
+                <th>Quantité totale collectée</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in quantiteTotType %}
+                <tr>
+                    <td>{{ a.type }}</td>
+                    <td>{{ a.quantite_total_type }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
-    </div>
-    <div class="tour">
-    <div><span><u>Tournee N°1</u></span></div>
-    <div>
-    <ul>
-    <li>Date du tournee : 2023-02-01</li>
-    <li>Duree : 40 minutes</li>
-    <li> Employé : Jessica </li>
-    </ul>
-    </div>
-    <div><span><u>Tournee N°2</u></span></div>
-    <div>
-    <ul>
-    <li>Date de tournee : 2023-03-01</li>
-    <li>Duree : 45 minutes</li>
-    <li> Employé :  Jane</li>
-    </ul>
-    </div>
-    </div>
-    <div class="autre">
-
-    </div>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Centre de collecte</th>
+                <th>Quantité totale collectée</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in quantiteTotCentre %}
+                <tr>
+                    <td>{{ b.lieu }}</td>
+                    <td>{{ b.quantite_total_centre }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 </body>
-{% endblock %}
+</html>

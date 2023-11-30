@@ -199,6 +199,35 @@ def get_name_by_id(mycursor, table, field, id):
     result = mycursor.fetchone()
     return result[field] if result else ''
 
+@app.route('/collecte/etat', methods=['GET'])
+def etat_collecte():
+    mycursor = get_db().cursor()
+
+    sql= """ SELECT type_dechet.libelle_type_dechet as type,
+     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
+     FROM Collecte
+     JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
+     GROUP BY type_dechet.libelle_type_dechet
+     ORDER BY quantite_total_type DESC;
+     """
+
+    mycursor.execute(sql)
+    quantite_total_type = mycursor.fetchall()
+
+    mycursor = get_db().cursor()
+
+    sql = """ SELECT Centre_collecte.lieu_collecte as lieu,
+         SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
+         FROM Collecte
+         JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
+         GROUP BY Centre_collecte.lieu_collecte
+         ORDER BY quantite_total_centre DESC;
+         """
+
+    mycursor.execute(sql)
+    quantite_total_centre = mycursor.fetchall()
+
+    return render_template('/collecte/etat_collecte.html', quantiteTotType=quantite_total_type, quantiteTotCentre=quantite_total_centre)
 
 ########TOURNEE########
 
