@@ -11,7 +11,7 @@
           <form method="post" action="/employe/add" >
                 <fieldset class="formulaire">
                     <label for="numero_tel_employe">numero telephone</label><br>
-                    <input id="numero_tel_employe" type="text" name="numero_tel_employe" size="18" value="" required><br>
+                    <input id="numero_tel_employe" type="number" name="numero_tel_employe" size="18" value="" required><br>
 
                     <label for="nom_Employe">nom</label><br>
                     <input id="nom_Employe" type="text" name="nom_employe" size="18" value="" required><br>
@@ -20,22 +20,20 @@
                     <input id="prenom_employe" type="text" name="prenom_employe" size="18" value="" required><br>
 
                     <label for="salaire_employe">salaire</label><br>
-                    <input id="salaire_employe" type="text" name="salaire_employe" size="18" value="" required><br>
+                    <input id="salaire_employe" type="number" name="salaire_employe" size="18" value="" required><br>
 
                     <label for="adresse_employe">adresse</label><br>
                     <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" required><br>
                      <label for="id_camion">id_camion :</label><br>
                     <select id="id_camion" name="id_camion" style="width: 170px; height: 40px;" required>
-                    <option value="">sélectionne l'id du camion</option>
+                    <option value="">sélectionne l'immatriculation du camion</option>
                       {% for camion in camions %}
-                   <option value=" {{camion.id_camion}}"> {{camion.id_camion}}</option>
+                   <option value=" {{camion.id_camion}}"> {{camion.immatriculation_camion}}</option>
                      {% endfor %}
                     </select>
                     <br>
                      <div>
-                        <a href="/employe/show">
-                            <button class="annuler">Annuler</button>
-                        </a>
+                        <a class="annuler" href="/employe/show">Annuler</a>
                         <button class="valider" type="submit">Ajouter</button>
                     </div>
                 </fieldset>

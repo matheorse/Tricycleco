@@ -370,10 +370,11 @@ def valid_edit_Tournee():
 @app.route('/employe/show')
 def show_employe():
     mycursor = get_db().cursor()
-    sql = '''SELECT id_employe AS id , numero_telephone_employe AS numero_de_telephone, nom_employe AS nom, prenom_employe AS prenom, salaire_employe AS salaire, adresse_employe AS adresse ,id_camion AS id_camion
+    sql = '''SELECT id_employe  , numero_telephone_employe, nom_employe , prenom_employe, salaire_employe , adresse_employe ,id_camion 
     FROM Employe'''
     mycursor.execute(sql)
     employes= mycursor.fetchall()
+    print(employes)
     return render_template('employe/show_employe.html', employes=employes)
 
 @app.route('/employe/add', methods=['GET'])
@@ -390,20 +391,20 @@ def add_employe():
 
 @app.route('/employe/add', methods=['POST'])
 def valid_add_employe():
-    numero_telephone_employe=request.form.get('numero_telephone_employe','')
+    numero_telephone_employe=request.form.get('numero_tel_employe','')
     nom_employe = request.form.get('nom_employe', '')
     prenom_employe = request.form.get('prenom_employe', '')
     salaire_employe= request.form.get('salaire_employe', '')
     adresse_employe = request.form.get('adresse_employe', '')
     id_camion = request.form.get('id_camion', '')
-    message = u'employe ajouté , nom: '+nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - adresse_employe: '+ adresse_employe + ' - id_camion: ' + id_camion
-    print(message)
-    flash(message, 'alert-success')
+    message = u'employe ajouté , nom: '+nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - adresse_employe: '+ adresse_employe + ' - id_camion: ' + id_camion + ' - numero telephone: ' + numero_telephone_employe
     mycursor = get_db().cursor()
-    tuple_param = (numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')
-    sql = "INSERT INTO Employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s,%s,%s);"
+    tuple_param = (numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe,id_camion)
+    print(numero_telephone_employe)
+    sql = "INSERT INTO Employe ( numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe,id_camion) VALUES ( %s, %s, %s, %s,%s,%s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
+    flash(message, 'alert-success')
     return redirect('/employe/show')
 
 
@@ -434,7 +435,7 @@ def edit_employe():
     print(request.args.get('id'))
     id_employe= request.args.get('id')
     mycursor = get_db().cursor()
-    sql = '''SELECT id_employe , `numero_telephone_employe`, `nom_employe`, `prenom_employe`, `salaire_employe`, `adresse_employe`,`id_camion`
+    sql = '''SELECT id_employe , numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe, id_camion
                 FROM Employe
                 WHERE id_employe=%s;'''
     tuple_param = (id_employe,)
@@ -445,6 +446,7 @@ def edit_employe():
     mycursor.execute(sql_camions)
     camions = mycursor.fetchall()
 
+    get_db().commit()
     return render_template('employe/edit_employe.html', employe=employe,camions=camions)
 
 

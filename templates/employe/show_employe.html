@@ -37,7 +37,7 @@
             </thead>
             <tbody>
                         <tr>
-                            {% if Employe | length >= 1 %}
+                            {% if employes | length >= 1 %}
                             {% for Employe in employes %}
                               <td>{{ Employe.id_employe }}</td>
                               <td>{{ Employe.numero_telephone_employe }}</td>
@@ -48,7 +48,7 @@
                               <td>{{ Employe.id_camion }}</td>
 
                               <td>
-                                  <a id="btn1" class="editer" href="/employe/edit?id={{ Employe.id_employe }}param2={{Employe.nom_employe}}">editer</a>
+                                  <a id="btn1" class="editer" href="/employe/edit?id={{ Employe.id_employe }}">editer</a>
                                   <a id="btn2" class="supprimer" href="/employe/delete?id={{ Employe.id_employe }}" >supprimer</a>
                               </td>
                        </tr>
