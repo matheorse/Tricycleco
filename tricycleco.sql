@@ -35,7 +35,7 @@ CREATE TABLE Employe(
    numero_telephone_employe INT,
    nom_employe VARCHAR(50),
    prenom_employe VARCHAR(50),
-   salaire_employe INT,
+   salaire_employe VARCHAR(50),
    adresse_employe VARCHAR(50),
    id_camion INT,
    PRIMARY KEY(id_employe),

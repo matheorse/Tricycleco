@@ -413,9 +413,9 @@ def delete_employe():
     id_employe = request.args.get('id')
     if id_employe:
         try:
-            id_tournee = int(id_employe)
+            id_employe= int(id_employe)
             mycursor = get_db().cursor()
-            tuple_param = (id_tournee,)
+            tuple_param = (id_employe)
             sql = "DELETE FROM Employe WHERE id_employe=%s;"
             mycursor.execute(sql, tuple_param)
             get_db().commit()
