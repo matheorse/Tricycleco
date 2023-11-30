@@ -504,6 +504,32 @@ def valid_edit_employe():
 
     return redirect('/employe/show')
 
+@app.route('/employe/etat', methods=['GET'])
+def etat_employe():
+    mycursor = get_db().cursor()
+
+    sql = '''
+        SELECT c.id_camion, COUNT(e.id_employe) AS nombre_employe
+        FROM Camion c
+        LEFT JOIN Employe e ON c.id_camion = e.id_camion
+        GROUP BY c.id_camion;
+    '''
+    mycursor.execute(sql)
+    nombre_employe = mycursor.fetchall()
+    mycursor = get_db().cursor()
+
+
+
+    sql_salaire = "SELECT AVG(salaire_employe) AS salaire_moyen FROM Employe"
+    mycursor.execute(sql_salaire)
+    salaire_moyen = mycursor.fetchall()
+    mycursor = get_db().cursor()
+
+
+    return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, salaire_moyen=salaire_moyen)
+
+
+
 
 # - - - - - - - C O N T E N E U R - - - - - - -
 @app.route('/conteneur/show')

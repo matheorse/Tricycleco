@@ -1,0 +1,97 @@
+{% extends 'layout.html' %}
+
+<head>
+
+{% block title %}
+    <title>Interface etat</title>
+{% endblock %}
+{% block stylesheets %}
+
+
+{% endblock %}
+
+</head>
+
+{% block body %}
+
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <h2>Etats</h2>
+
+    <form method="get" action="/filtre">
+        <p><strong>Le nombre de clients ayant pour un id_camion donne : </strong>{{ nombre_employe.nombre_nom }} </p>
+        <p><strong>Le salaire moyen des employes : </strong>{{ salaire_moyen.salaire }}€ </p>
+
+       <h3>Employés ayant le même id_camion</h3>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>id</th>
+            <th>numero de telephone</th>
+            <th>nom</th>
+            <th>prenom</th>
+            <th>Salaire</th>
+            <th>Adresse</th>
+            <th>id_camion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if nombre_employe | length >= 1 %}
+            {% for Employe in nombre_employe %}
+                <tr>
+                    <td>{{ Employe.id_employe }}</td>
+                    <td>{{ Employe.numero_telephone_employe }}</td>
+                    <td>{{ Employe.nom_employe }}</td>
+                    <td>{{ Employe.prenom_employe }}</td>
+                    <td>{{ Employe.salaire_employe }}</td>
+                    <td>{{ Employe.adresse_employe }}</td>
+                    <td>{{ Employe.id_camion }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>
+                    pas d'état
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+        <h3>Salaire moyen</h3>
+        <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>salaire</th>
+                <th>salaire_moyen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in salaire_moyen %}
+               <tr>
+                     <td>{{ ligne.salaire_employe }}</td>
+                      <td>{{ ligne.salaire_moyen }}</td>
+               </tr>
+            {% endfor %}
+
+        </tbody>
+        </table>
+    </form>
+{% endblock %}
+ <form action="/employe/etat" method="GET">
+                             <h3>Id Camion</h3>
+                            <input type="checkbox" value="1" name="filter_items">1<br>
+
+                            <input type="checkbox" value="2" name="filter_items">2<br>
+
+                            <input type="checkbox" value="3" name="filter_items">3<br>
+
+
+                             <br>
+                             <div>
+                                <a class="annuler" href="/employe/show">Annuler</a>
+                                <button class="valider" type="submit">Filtrer</button>
+                            </div>
+ </form>
