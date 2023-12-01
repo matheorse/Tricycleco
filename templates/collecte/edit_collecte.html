@@ -19,13 +19,13 @@
                     <input type="number" id="id" name="id" value="{{collecte.id}}" hidden>
 
                     <div class="label">
-                        <label for="quantite">Quantité collectée (kg)</label>
+                        <label class="sous-titre" for="quantite">Quantité collectée (kg)</label>
                         <input type="number" id="quantite" name="quantite" value="{{ collecte.quantite }}" required/>
                     </div>
 
                     <div class="label">
-                        <label for="type">Type de déchet</label>
-                        <select name="type" id="type" required>
+                        <label class="sous-titre" for="type">Type de déchet</label>
+                        <select class="input" name="type" id="type" required>
                             {% for j in typeDechet %}
                                 <option value="{{ j.id }}"
                                         {% if typeDechet is defined and j.id ==  collecte.type %}selected{% endif %}
@@ -35,8 +35,8 @@
                     </div>
 
                     <div class="label">
-                        <label for="centre">Centre de collecte</label>
-                        <select name="centre" id="centre" required>
+                        <label class="sous-titre" for="centre">Centre de collecte</label>
+                        <select class="input" name="centre" id="centre" required>
                             {% for i in centreCollect %}
                                 <option value="{{ i.id }}"
                                         {% if centreCollect is defined and i.id ==  collecte.centre %}selected{% endif %}
@@ -46,8 +46,8 @@
                     </div>
 
                     <div class="label">
-                        <label for="tournee">Tournee</label>
-                        <select name="tournee" id="tournee" required>
+                        <label class="sous-titre" for="tournee">Tournee</label>
+                        <select class="input" name="tournee" id="tournee" required>
                             {% for k in tournee %}
                                 <option value="{{ k.id }}"
                                         {% if tournee is defined and k.id ==  collecte.tournee %}selected{% endif %}

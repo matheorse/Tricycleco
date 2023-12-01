@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="">
+    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="matheo changement">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/mes_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/mes_styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/collecte/add_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/add_collecte.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/collecte/edit_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/edit_collecte.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/collecte/etat_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/etat_collecte.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/collecte/show_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/show_collecte.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tricycleco.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tricycleco.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,21 +44,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/matheo/Desktop/IUT/PycharmProjects/C2_ROSE&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/matheo/Downloads/4_AKBURAK_LORTON_SCORDIA",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Arthur\Etude\Etude_sup\IUT\Cours\S1\SAE\SAE S1.04\Tricycleco\templates\conteneur" />
@@ -103,6 +102,7 @@
       <option name="presentableId" value="Default" />
       <updated>1701251271095</updated>
       <workItem from="1701251272230" duration="6246000" />
+      <workItem from="1701374893200" duration="7915000" />
     </task>
     <task id="LOCAL-00001" summary="Arthur">
       <option name="closed" value="true" />
@@ -136,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701338238167</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Arthur - Conteneur">
+      <option name="closed" value="true" />
+      <created>1701374932697</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701374932697</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +156,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Arthur - Conteneur" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701332125183" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701436763385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

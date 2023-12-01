@@ -17,13 +17,13 @@
                 <fieldset class="formulaire">
 
                     <div class="label">
-                        <label for="quantite">Quantité collectée (kg)</label>
+                        <label class="sous-titre" for="quantite">Quantité collectée (kg)</label>
                         <input type="number" id="quantite" name="quantite"  value="" required/>
                     </div>
 
                     <div class="label">
-                        <label class="label" for="type">Type de déchet</label>
-                        <select name="type" id="type" required>
+                        <label class="sous-titre" for="type">Type de déchet</label>
+                        <select class="input" name="type" id="type" required>
                             <option value="" selected disabled>Choisissez le type de déchet</option>
                             {% for j in typeDechet %}
                                 <option value="{{ j.id }}">{{ j.libelle }}</option>
@@ -32,9 +32,9 @@
                     </div>
 
                     <div class="label">
-                        <label for="centre">Centre de collecte</label>
-                        <select name="centre" id="centre" required>
-                            <option value="" selected disabled>Choisissez le centre de collecte</option>
+                        <label class="sous-titre" for="centre">Centre de collecte</label>
+                        <select class="input" name="centre" id="centre" required>
+                            <option  value="" selected disabled>Choisissez le centre de collecte</option>
                             {% for i in centreCollect %}
                                 <option value="{{ i.id }}">{{ i.lieu }}</option>
                             {% endfor %}
@@ -42,8 +42,8 @@
                     </div>
 
                     <div class="label">
-                        <label for="tournee">Tournee</label>
-                        <select name="tournee" id="tournee" required>
+                        <label class="sous-titre" for="tournee">Tournee</label>
+                        <select class="input" name="tournee" id="tournee" required>
                             <option value="" selected disabled>Choisissez la tournée</option>
                             {% for k in tournee %}
                                 <option value="{{ k.id }}">{{ k.date }}</option>

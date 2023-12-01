@@ -208,28 +208,29 @@ def etat_collecte():
         max_quantite = request.form.get('max_quantite')
         id_type_dechet = request.form.get('id_type_dechet')
         id_centre_collecte = request.form.get('id_centre_collecte')
+        min_quantite = min_quantite or 0
 
         # Requête SQL pour les types de déchets
         sql_types_dechets = f"""SELECT type_dechet.libelle_type_dechet as type,
-                                     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
-                                 FROM Collecte
-                                 JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
-                                 WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
-                                     AND (type_dechet.id_type_dechet = {id_type_dechet} OR {id_type_dechet} IS NULL)
-                                 GROUP BY type_dechet.libelle_type_dechet
-                                 ORDER BY quantite_total_type DESC;
-                             """
+                                         SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
+                                     FROM Collecte
+                                     JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
+                                     WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
+                                         AND (type_dechet.id_type_dechet = {id_type_dechet} OR {id_type_dechet} IS NULL OR type_dechet.id_type_dechet IS NULL)
+                                     GROUP BY type_dechet.libelle_type_dechet
+                                     ORDER BY quantite_total_type DESC;
+                                 """
 
         # Requête SQL pour les centres de collecte
         sql_centres_collecte = f"""SELECT Centre_collecte.lieu_collecte as lieu,
-                                       SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
-                                   FROM Collecte
-                                   JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
-                                   WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
-                                       AND (Centre_collecte.id_centre_collecte = {id_centre_collecte} OR {id_centre_collecte} IS NULL)
-                                   GROUP BY Centre_collecte.lieu_collecte
-                                   ORDER BY quantite_total_centre DESC;
-                               """
+                                           SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
+                                       FROM Collecte
+                                       JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
+                                       WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
+                                           AND (Centre_collecte.id_centre_collecte = {id_centre_collecte} OR {id_centre_collecte} IS NULL OR Centre_collecte.id_centre_collecte IS NULL)
+                                       GROUP BY Centre_collecte.lieu_collecte
+                                       ORDER BY quantite_total_centre DESC;
+                                   """
 
         mycursor.execute(sql_types_dechets)
         quantite_total_type = mycursor.fetchall()
@@ -261,6 +262,25 @@ def etat_collecte():
         quantite_total_centre = mycursor.fetchall()
 
     return render_template('/collecte/etat_collecte.html', quantiteTotType=quantite_total_type, quantiteTotCentre=quantite_total_centre)
+
+
+@app.route('/reset')
+def reset():
+    cursor = get_db().cursor()
+    script = open("tricycleco.sql", "r")
+    requete = script.read().split(';')
+    script.close()
+
+    for query in requete:
+        query = query.strip()  # Supprime les espaces et les sauts de ligne au début et à la fin
+        if query:
+            cursor.execute(query)
+            get_db().commit()
+
+    flash('Le SQL a été bien réinitialisé', 'alert-success')
+    return redirect('/')
+
+
 ########TOURNEE########
 
 @app.route('/Tournee/show')
