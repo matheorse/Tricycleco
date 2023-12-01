@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS Centre_collecte;
 
 -- Création des tables
 CREATE TABLE Camion(
-   id_camion INT AUTO_INCREMENT,
+   id_camion INT ,
    immatriculation_camion VARCHAR(50),
    numero_camion INT,
    PRIMARY KEY(id_camion)
