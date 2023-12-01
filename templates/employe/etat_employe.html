@@ -18,15 +18,19 @@
             <h1>Etats</h1>
 
             <form method="get" action="/employe/etat">
-                <p><strong>Le nombre de clients ayant pour un id_camion donne : </strong>{{ nombre_employe.id_camion }} </p>
-                <p><strong>Le salaire moyen des employes : </strong>{{ salaire_moyen.salaire_employe }}€ </p>
-                  <h2>Id Camion</h2><br>
-                                    <input type="checkbox" value="1" name="filter_items">1<br>
+            <!-- ... (votre code existant) ... -->
+            <h2>Id Camion</h2><br>
+            <label for="idCamion1">
+                <input type="checkbox" value="1" name="filter_items" id="idCamion1">1
+            </label><br>
 
-                                    <input type="checkbox" value="2" name="filter_items">2<br>
+            <label for="idCamion2">
+                <input type="checkbox" value="2" name="filter_items" id="idCamion2">2
+            </label><br>
 
-                                    <input type="checkbox" value="3" name="filter_items">3<br>
-
+            <label for="idCamion3">
+                <input type="checkbox" value="3" name="filter_items" id="idCamion3">3
+            </label><br>
 
                                      <br>
                                      <div>
@@ -48,8 +52,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% if nombre_employe | length >= 1 %}
-                    {% for Employe in nombre_employe %}
+                    {% for Employe in employes %}
                         <tr>
                             <td>{{ Employe.id_employe }}</td>
                             <td>{{ Employe.numero_telephone_employe }}</td>
@@ -60,13 +63,8 @@
                             <td>{{ Employe.id_camion }}</td>
                         </tr>
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td>
-                            pas d'état
-                        </td>
-                    </tr>
-                {% endif %}
+
+
             </tbody>
         </table>
 
