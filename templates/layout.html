@@ -30,7 +30,9 @@
 
                 <h1 id="titre-accueil">Tricycleco</h1>
                 <h2 class="slogan">Valorisons vos Déchets, Préservons la Planète</h2>
-                <button class="button">Découvrez nos centres de recyclage</button>
+                <a href="/employe/show">
+                    <button class="button">Découvrez nos employés</button>
+                </a>
                 <a href="#page-2">
                     <div class="bas-de-page">
                         <div id="carré-blanc" class="carré"></div>
@@ -70,6 +72,8 @@
                         </svg>
                     </div>
             </div>
+
+            <div><a href="/reset">RESET</a></div>
         {% endblock %}
         {% block javascripts %}
             <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>

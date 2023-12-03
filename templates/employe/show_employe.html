@@ -6,7 +6,9 @@
         {% endblock %}
 
    {% block body %}
-        <h1>LES EMPLOYES</h1>
+<body class="scrollable">
+
+
        {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for categorie, message in messages %}
@@ -62,4 +64,5 @@
                 {% endif %}
             </tbody>
         </table>
+</body>
 {% endblock %}

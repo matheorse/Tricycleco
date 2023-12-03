@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1 class="titre">MODIFIER UNE COLLECTE</h1>
-    <hr>
+    <hr class="barre">
     {% if error %}
         <p><strong>Error:</strong> {{ error }}
     {% endif %}
@@ -18,14 +18,14 @@
 
                     <input type="number" id="id" name="id" value="{{collecte.id}}" hidden>
 
-                    <div>
-                        <label for="quantite">Quantité collectée (kg)</label>
+                    <div class="label">
+                        <label class="sous-titre" for="quantite">Quantité collectée (kg)</label>
                         <input type="number" id="quantite" name="quantite" value="{{ collecte.quantite }}" required/>
                     </div>
 
-                    <div>
-                        <label for="type">Type de déchet</label>
-                        <select name="type" id="type" required>
+                    <div class="label">
+                        <label class="sous-titre" for="type">Type de déchet</label>
+                        <select class="input" name="type" id="type" required>
                             {% for j in typeDechet %}
                                 <option value="{{ j.id }}"
                                         {% if typeDechet is defined and j.id ==  collecte.type %}selected{% endif %}
@@ -34,9 +34,9 @@
                         </select>
                     </div>
 
-                    <div>
-                        <label for="centre">Centre de collecte</label>
-                        <select name="centre" id="centre" required>
+                    <div class="label">
+                        <label class="sous-titre" for="centre">Centre de collecte</label>
+                        <select class="input" name="centre" id="centre" required>
                             {% for i in centreCollect %}
                                 <option value="{{ i.id }}"
                                         {% if centreCollect is defined and i.id ==  collecte.centre %}selected{% endif %}
@@ -45,9 +45,9 @@
                         </select>
                     </div>
 
-                    <div>
-                        <label for="tournee">Tournee</label>
-                        <select name="tournee" id="tournee" required>
+                    <div class="label">
+                        <label class="sous-titre" for="tournee">Tournee</label>
+                        <select class="input" name="tournee" id="tournee" required>
                             {% for k in tournee %}
                                 <option value="{{ k.id }}"
                                         {% if tournee is defined and k.id ==  collecte.tournee %}selected{% endif %}
@@ -56,7 +56,7 @@
                         </select>
                     </div>
 
-                    <div>
+                    <div class="label">
                         <a class="annuler" href="/collecte/show">Annuler</a>
                         <button class="valider" type="submit" value="Éditer" name="Éditer">Éditer</button>
                     </div>
