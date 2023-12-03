@@ -150,9 +150,9 @@ INSERT INTO Collecte Values (8, 456, 8, 8, 8);
 
 INSERT INTO Conteneur VALUES (1, 2, 3, 4);
 INSERT INTO Conteneur VALUES (2, 3, 4, 3);
-INSERT INTO Conteneur VALUES (3, 4, 5, 1);
+INSERT INTO Conteneur VALUES (3, 8, 5, 1);
 INSERT INTO Conteneur VALUES (4, 5, 1, 2);
-INSERT INTO Conteneur VALUES (5, 1, 2, 3);
+INSERT INTO Conteneur VALUES (5, 7, 2, 3);
 
 SELECT type_dechet.libelle_type_dechet, SUM(Collecte.quantite_dechet_collecte) AS total_quantite
 FROM type_dechet
