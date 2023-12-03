@@ -159,10 +159,11 @@ JOIN Tournee ON Employe.id_camion = Tournee.id_camion;
 
 SELECT Conteneur.id_conteneur AS id, Centre_collecte.lieu_collecte AS collecte, td.libelle_type_dechet AS type, Centre_recyclage.lieu_recyclage AS recyclage
 FROM Conteneur
-         INNER JOIN Centre_recyclage ON Conteneur.id_centre_recyclage = Centre_recyclage.id_centre_recyclage
-         INNER JOIN type_dechet td ON Conteneur.id_type_dechet = td.id_type_dechet  -- Utilisation de l'alias 'td'
-         INNER JOIN Centre_collecte ON Conteneur.id_centre_collecte = Centre_collecte.id_centre_collecte
+INNER JOIN Centre_recyclage ON Conteneur.id_centre_recyclage = Centre_recyclage.id_centre_recyclage
+INNER JOIN type_dechet td ON Conteneur.id_type_dechet = td.id_type_dechet
+INNER JOIN Centre_collecte ON Conteneur.id_centre_collecte = Centre_collecte.id_centre_collecte
 ORDER BY Conteneur.id_conteneur;
+
 SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
              FROM type_dechet;
 

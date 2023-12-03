@@ -1,43 +1,51 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-<link rel="stylesheet" href="../../static/Tourneestyles.css">
-<title>Tricycleco</title>
+    <title>Tricycleco - Ajout Conteneur</title>
 {% endblock %}
 
 {% block body %}
+    <h1 class="titre">AJOUTER UN CONTENEUR</h1>
+    <hr class="barre">
+    {% if error %}
+        <p><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
 
-<form class="form"  action="/conteneur/add" method="post">
-    <fieldset class="formulaire">
+    <form class="formulaire" action="/conteneur/add" method="post">
+        <div class="label">
+            <label class="sous-titre" for="id_centre_collecte">Centre de collecte</label>
+            <select class="input" id="id_centre_collecte" name="id_centre_collecte" style="width: 340px; height: 40px;" required>
+                <option value="" selected disabled>Sélectionnez un centre de collecte</option>
+                {% for centre_collecte in centres_collecte %}
+                <option value="{{ centre_collecte.id_centre_collecte }}">{{ centre_collecte.lieu_collecte }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <label for="id_centre_collecte">Centre de collecte :</label><br>
-        <select id="id_centre_collecte" name="id_centre_collecte" style="width: 340px; height: 40px;" required>
-            <option value=""> Sélectionnez un centre de collecte</option>
-            {% for collecte in collectes %}
-            <option value=" {{collecte.id_centre_collecte}}"> {{collecte.lieu_collecte}}</option>
-            {% endfor %}
-        </select><br><br>
 
-        <label for="id_type_dechet">Type de déchet :</label><br>
-        <select id="id_type_dechet" name="id_type_dechet" style="width: 340px; height: 40px;" required>
-            <option value="">Sélectionnez un type de déchet</option>
-            {% for type_dechet in types_dechets %}
-            <option value=" {{type_dechet.id_type_dechet}}"> {{type_dechet.libelle_type_dechet}}</option>
-            {% endfor %}
-        </select><br><br>
+        <div class="label">
+            <label class="sous-titre" for="id_type_dechet">Type de déchet</label>
+            <select class="input" id="id_type_dechet" name="id_type_dechet" style="width: 340px; height: 40px;" required>
+                <option value="" selected disabled>Sélectionnez un type de déchet</option>
+                {% for type_dechet in types_dechets %}
+                    <option value="{{ type_dechet.id_type_dechet }}">{{ type_dechet.libelle_type_dechet }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <label for="id_centre_recyclage">Centre de recyclage :</label><br>
-        <select id="id_centre_recyclage" name="id_centre_recyclage" style="width: 340px; height: 40px;" required>
-            <option value="">Sélectionnez un centre de recyclage</option>
-            {% for recyclage in recyclages %}
-            <option value=" {{recyclage.id_centre_recyclage}}"> {{recyclage.lieu_recyclage}}</option>
-            {% endfor %}
-        </select><br><br>
+        <div class="label">
+            <label class="sous-titre" for="id_centre_recyclage">Centre de recyclage</label>
+            <select class="input" id="id_centre_recyclage" name="id_centre_recyclage" style="width: 340px; height: 40px;" required>
+                <option value="" selected disabled>Sélectionnez un centre de recyclage</option>
+                {% for recyclage in recyclages %}
+                    <option value="{{ recyclage.id_centre_recyclage }}">{{ recyclage.lieu_recyclage }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <input class="sub" type="submit" value="Créer" style="width: 100px; height: 40px;">
-        <a class="Annula"    href="/conteneur/show">Annuler</a>
-
-    </fieldset>
-</form>
-
+        <div class="label">
+            <a class="annuler" href="/conteneur/show">Annuler</a>
+            <input class="valider" type="submit" value="Créer" style="width: 100px; height: 40px;">
+        </div>
+    </form>
 {% endblock %}
