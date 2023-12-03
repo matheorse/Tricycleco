@@ -5,8 +5,10 @@
             <title>Afficher les employes</title>
         {% endblock %}
 
-        {% block body %}
-        <h1>LES EMPLOYES</h1>
+   {% block body %}
+<body class="scrollable">
+
+
        {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for categorie, message in messages %}
@@ -14,10 +16,10 @@
                 . <strong>{{ message }}</strong>
             </div>
         {% endfor %}
-    {% endif %}
-{% endwith %}
+     {% endif %}
+    {% endwith %}
 
-        <a class="btn btn-outline-primary" href="/employe/add">ajouter un employe</a>
+        <a class="add" href="/employe/add">ajouter un employe</a>
         <br>
         <br>
 
@@ -36,9 +38,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% if Employe | length >= 1 %}
-                    {% for Employe in Employe %}
                         <tr>
+                            {% if employes | length >= 1 %}
+                            {% for Employe in employes %}
                               <td>{{ Employe.id_employe }}</td>
                               <td>{{ Employe.numero_telephone_employe }}</td>
                               <td>{{ Employe.nom_employe }}</td>
@@ -48,7 +50,7 @@
                               <td>{{ Employe.id_camion }}</td>
 
                               <td>
-                                  <a id="btn1" class="editer" href="/employe/edit?id={{ Employe.id_employe }}param2={{Employe.nom_employe}}">editer</a>
+                                  <a id="btn1" class="editer" href="/employe/edit?id={{ Employe.id_employe }}">editer</a>
                                   <a id="btn2" class="supprimer" href="/employe/delete?id={{ Employe.id_employe }}" >supprimer</a>
                               </td>
                        </tr>
@@ -62,4 +64,5 @@
                 {% endif %}
             </tbody>
         </table>
-        {% endblock %}
+</body>
+{% endblock %}

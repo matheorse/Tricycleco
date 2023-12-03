@@ -5,38 +5,34 @@
          <title>modifier un employe</title>
         {% endblock %}
 
-{% block body %}
-          <h2>modifier un employe</h2>
+    {% block body %}
           {% if error %}
             <p class=error><strong>Error:</strong> {{ error }}
           {% endif %}
           <form method="post" action="/employe/edit">
-            <fieldset>
-                <legend> Modifier un employe</legend>
+            <fieldset class="formule">
+
                 <input type="hidden" name="id" size="18" value="{{ employe.id_employe}}" id="id">
 
                 <label for="numero_telephone_employe">numero telephone</label><br>
-                <input id="numero_telephone_employe" type="text" name="numero_telephone_employe" size="18" value="" placeholder=""><br>
+                <input id="numero_telephone_employe" type="text" name="numero_telephone_employe" size="18" value="{{employe.numero_telephone_employe}}" placeholder=""><br>
 
-                <label for="nom_Employe">nom</label><br>
-                <input id="nom_Employe" type="text" name="nom_employe" size="18" value="" placeholder="Saisir le nom du joueur"><br>
+                <label for="nom_employe">nom</label><br>
+                <input id="nom_employe" type="text" name="nom_employe" size="18" value="{{employe.nom_employe}}" placeholder="Saisir le nom du joueur"><br>
 
                 <label for="prenom_employe">prénom</label><br>
-                <input id="prenom_employe" type="text" name="prenom_employe" size="18" value="" placeholder="Saisir le prenom du joueur"><br>
+                <input id="prenom_employe" type="text" name="prenom_employe" size="18" value="{{employe.prenom_employe}}" placeholder="Saisir le prenom du joueur"><br>
 
                 <label for="salaire_employe">salaire</label><br>
-                <input id="salaire_employe" type="number" name="salaire_employe" size="18" value="" ><br>
+                <input id="salaire_employe" type="text" name="salaire_employe" size="18" value="{{employe.salaire_employe}}" ><br>
 
                 <label for="adresse_employe">adresse</label><br>
-                <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="" ><br>
-                <label for="id_camion"></label>
-                <select id="id_camion" required>
-                    <option value="">Sélectionner l'id du camion</option>
-                    {% for employe in employes %}
-                         <option value="{{ camion.id }}"> 1 </option>
-                         <option value="{{ camion.id }}"> 2 </option>
-                         <option value="{{ camion.id }}"> 3</option>
-                    {% endfor %}
+                <input id="adresse_employe" type="text" name="adresse_employe" size="18" value="{{employe.adresse_employe}}" ><br>
+                <label for="id_camion">id_camion:</label><br>
+                <select id="id_camion" name="id_camion" style="width: 170px; height: 40px;" required>
+                    {% for camion in camions %}
+                    <option value="{{camion.id_camion}}" >{{camion.immatriculation_camion}}</option>
+                   {% endfor %}
                 </select><br>
                 <br>
                 <div>

@@ -15,8 +15,14 @@ html{
     scroll-behavior: smooth;
 }
 
+a[href]{
+    text-decoration: none;
+}
+
+
+/*    NAVBAR     */
+
 .navbar {
-    background-color: none;
     overflow: hidden;
 }
 
@@ -212,12 +218,25 @@ html{
     margin-right: auto;
     margin-left: auto;
     width: 70%;
+    border-radius: 8px;
+}
+
+th{
+    padding: 8px;
+}
+
+#tableau-1{
+    margin-top: 80px;
+}
+
+#tableau-2{
+    margin-top: 80px;
 }
 
 .add{
     border: 1px solid black;
     border-radius: 5px;
-    background-color: green;
+    background-color: deepskyblue;
     color: white;
     margin-left: auto;
     margin-right: auto;
@@ -242,31 +261,77 @@ html{
 .formulaire{
     margin-left: auto;
     margin-right: auto;
-    background-color: white;
-    color: black;
-    width: 40%;
+    margin-top: 40px;
+    background-color: darkgray;
+    color: white;
+    width: 20%;
+    height: 500px;
     border-radius: 10px;
-    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.input{
+    display: block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+#quantite{
+    display: block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 93%;
+}
+
+.label{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: large;
+}
+
+.sous-titre{
+    margin-bottom: 10px !important;
 }
 
 .valider{
     border-radius: 5px;
     border: black;
-    background-color: limegreen;
+    background-color: deepskyblue;
     color: white;
     margin-top: 20px;
-    padding: 5px;
+    padding: 8px;
+    margin-left: 10px;
+    font-size: medium;
 
 }
 
 .annuler{
     border-radius: 5px;
-    border: black;
     background-color: red;
     color: white;
     margin-top: 20px;
-    padding: 5px;
+    padding: 8px;
     text-decoration: none;
+    font-size: medium;
+}
+
+tbody tr:nth-child(even){
+    background-color: white !important; ;
+}
+tbody tr:nth-child(odd){
+    background-color: #f5f5f5 !important; ;
 }
 
 .éditer{
@@ -288,7 +353,6 @@ html{
 }
 
 .colonne{
-    background-color: rgb(240,240,240);
     padding-bottom: 15px;
     padding-top: 15px;
 }
@@ -304,3 +368,47 @@ html{
 #btn2{
     color: white;
 }
+
+
+
+
+
+.tabetat{
+    width: 80%;
+    margin: 20px auto;
+    height: 80%;
+    }
+    .tabetat td{
+    font-size: 1.2rem;
+    font-weight: 300;
+    padding: 5px;
+    width: 20%;
+    }
+    div.etat{
+    margin-top: 110px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    }
+
+    .image{
+    border: 1px solid black;
+    border-radius: 5px;
+    }
+    .tour{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 1.2rem;
+    }
+
+
+    .table{
+    border: 1px solid black;
+    border-radius: 5px;
+    }
+    .autre{
+    border: 1px solid black;
+    border-radius: 5px;
+    }

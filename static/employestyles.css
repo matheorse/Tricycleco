@@ -1,43 +1,100 @@
-table ,tr {
-    table-layout: fixed;
+body{
+    font-family: "Avenir-Medium", sans-serif;
+    overflow: hidden;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+}
+
+body.scrollable {
+    overflow: auto;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+.table {
+    top: 20px;
+    left: 100px;
     width: 80%;
-    height: 40px;
-    border-collapse: collapse;
-    border: 1px solid #251B37;;
-    background-color: cadetblue;;
+    margin: auto;
+    margin-top: 100px;
+
+    background-color: rgb(231, 225, 225);
+     border-radius: 4px;
+    color: black;
+
+}
+.tabl{
+    top: 10px;
+    left: 80px;
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+
+    background-color: rgb(231, 225, 225);
+     border-radius: 4px;
+    color: black;
+
+
+}
+
+.table,th,td{
+
+    padding: 10px;
+    font-style: normal;
+    font-weight: 500;
+     color: black;
+
+}
+.table td a{
+    margin-right: 21px;
+    padding: 7px;
+    border: 1px solid ;
+    border-radius: 5px;
 }
 
 h2 {
  font-size: 1rem;
  background-color: cadetblue;
  display: inline-block;
- margin-top: 70px;
+ margin-top: 50px;
  margin-left: 30px;
  border: 1px solid black;
  padding: 10px;
  border-radius: 8px;
  color: black;
 }
+h1{
+    font-size: 1rem;
+ background-color: cadetblue;
+ display: inline-block;
+ margin-top: 50px;
+ margin-left: 30px;
+ border: 1px solid black;
+ padding: 10px;
+ border-radius: 8px;
+ color: black;
+
+}
 
 
+*{
+    list-style-type: none;
+    text-decoration: none;
 
+}
 
 
 
 form{
- width: 80%;
- margin: 80px auto auto 50px;
+   width: 700px;
+    margin-right: 70px;
+    margin-left: auto;
 
 }
-form fieldset{
- border: 2px solid black;
- padding: 10px;
-}
-form fieldset input{
- padding: 6px;
- border-radius: 5px;
- border: 1px solid black;
-}
+
+
 
 .flashes {
     padding: 5px;
@@ -53,9 +110,12 @@ form fieldset input{
    margin-top: 40px;
 }
 select{
-    width: 190px;
+    width: 50px;
 }
-
+.formule input{
+    border-radius: 7px;
+    padding: 10px;
+}
 .button {
     padding: 1em 2em;
     border: none;
@@ -98,15 +158,14 @@ select{
 
 
 .add{
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: green;
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-bottom: 40px;
-    padding: 10px 30px 10px 30px;
+   position: absolute;
+    top: 150px;
+    left: 30px;
+    border: 1px solid;
+    padding: 9px;
+    border-radius: 10px;
+    background-color:rgb(48, 212, 48) ;
+    color: rgb(12, 10, 10);
 }
 
 .colonne{
@@ -121,22 +180,24 @@ select{
     text-align: center;
 }
 
-.formulaire{
+.formule{
     margin-left: auto;
     margin-right: auto;
+    margin-top: 70px;
     background-color: white;
     color: black;
-    width: 40%;
+    width: 50%;
+    height: auto;
     border-radius: 10px;
     text-align: center;
 }
-.valider{
+button .valider{
     border-radius: 5px;
     border: black;
     background-color: limegreen;
     color: white;
     margin-top: 20px;
-    padding: 5px;
+    padding: 9px;
 
 }
 
@@ -154,6 +215,7 @@ select{
     border: black;
     background-color: limegreen;
     color: white;
+    margin-top: 20px;
     padding: 5px;
 }
 
@@ -165,3 +227,23 @@ select{
     padding: 5px;
 }
 
+
+
+.Filtrer{
+    border-radius: 5px;
+    border: black;
+    background-color: limegreen;
+    color: white;
+    margin-top: 20px;
+    padding: 9px;
+
+}
+.annule{
+     border-radius: 5px;
+    border: black;
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+
+}
