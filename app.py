@@ -338,6 +338,29 @@ def valid_add_Tournee():
     flash(message, 'alert-success')
     return redirect('/Tournee/show')
 
+@app.route('/Tournee/etat', methods=['GET', 'POST'])
+def etat_Tournee():
+    if request.method == 'POST':
+     selected_locations = request.form.getlist('rue')
+
+    # Utilise les lieux sélectionnés pour filtrer les données
+    mycursor = get_db().cursor()
+    sql = '''
+    SELECT t.id_tournee, t.date_tournee, t.id_centre_recyclage, c.lieu_recyclage, t.id_camion, t.temps, camion.immatriculation_camion
+    FROM Tournee t
+    INNER JOIN Centre_recyclage c ON t.id_centre_recyclage = c.id_centre_recyclage
+    INNER JOIN Camion camion ON t.id_camion = camion.id_camion
+    WHERE c.lieu_recyclage IN (%s)
+    '''
+    placeholders = ','.join(['%s'] * len(selected_locations))
+    sql = sql % placeholders
+
+    mycursor.execute(sql, selected_locations)
+    filtered_tournees = mycursor.fetchall()
+
+    return render_template('Tournee/Tournee_etat.html', filtered_data=filtered_tournees)
+
+    return render_template('Tournee/Tournee_etat.html')
 
 @app.route('/Tournee/edit', methods=['POST'])
 def valid_edit_Tournee():
