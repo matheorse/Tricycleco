@@ -3,6 +3,9 @@
     text-decoration: none;
     
 }
+a.add{
+background-color: deepskyblue;
+}
 
 .tableto{
     position: absolute;
@@ -43,7 +46,7 @@ background-color: rgb(196, 199, 201);
 .tableto td a{
     margin-right: 21px;
     padding: 7px;
-    border: 1px solid ;
+
     border-radius: 5px;
 }
 
@@ -103,7 +106,7 @@ a.add{
     border: 1px solid;
     padding: 9px;
     border-radius: 10px;
-    background-color:rgb(48, 212, 48) ;
+    
     color: rgb(12, 10, 10);
 }
 

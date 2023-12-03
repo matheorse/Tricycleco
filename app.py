@@ -330,12 +330,23 @@ def delete_Tournee():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message = f'info: suppression d\'une tournee avec - id_tournee =  {id_tournee}'
-            flash(message, 'alert-warning')
+            if mycursor.rowcount > 0:  # Vérification si la suppression a affecté des lignes
+                message = f'Info: suppression d\'une tournée avec - id_tournee = {id_tournee}'
+                flash(message, 'alert-warning')
+            else:
+                message = f'Erreur: La tournée avec - id_tournee = {id_tournee} n\'a pas été trouvée ou ne peut pas être supprimée.'
+                flash(message, 'alert-danger')
+
         except ValueError:
             print("L'ID de la tournée n'est pas un entier valide.")
+            flash("L'ID de la tournée n'est pas un entier valide.", 'alert-danger')
+
+        except pymysql.err.IntegrityError as e:
+            print("Erreur d'intégrité de la base de données:", str(e))
+            flash("Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
 
     return redirect('/Tournee/show')
+
 
 
 @app.route('/Tournee/edit', methods=['GET'])
