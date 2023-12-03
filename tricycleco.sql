@@ -99,8 +99,8 @@ INSERT INTO Centre_collecte VALUES (8, 'Strasbourg Sud');
 
 INSERT INTO Centre_recyclage VALUES (1, '14 rue de Paris');
 INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');
-INSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');
-INSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');
+INSERT INTO Centre_recyclage VALUES (3, '7 rue Marconi');
+INSERT INTO Centre_recyclage VALUES (4, '28 rue Branly');
 
 
 INSERT INTO Employe VALUES (1, 123456789, 'Doe', 'John', 50000, '123 Main St', 1);
@@ -148,11 +148,11 @@ INSERT INTO Collecte Values (6, 681, 6, 6, 6);
 INSERT INTO Collecte Values (7, 602, 7, 7, 7);
 INSERT INTO Collecte Values (8, 456, 8, 8, 8);
 
-INSERT INTO Conteneur VALUES (1, 2, 4, 3);
-INSERT INTO Conteneur VALUES (2, 4, 3, 5);
-INSERT INTO Conteneur VALUES (3, 5, 2, 3);
-INSERT INTO Conteneur VALUES (4, 1, 4, 5);
-INSERT INTO Conteneur VALUES (5, 3, 5, 1);
+INSERT INTO Conteneur VALUES (1, 2, 3, 4);
+INSERT INTO Conteneur VALUES (2, 3, 4, 3);
+INSERT INTO Conteneur VALUES (3, 4, 5, 1);
+INSERT INTO Conteneur VALUES (4, 5, 1, 2);
+INSERT INTO Conteneur VALUES (5, 1, 2, 3);
 
 SELECT type_dechet.libelle_type_dechet, SUM(Collecte.quantite_dechet_collecte) AS total_quantite
 FROM type_dechet
