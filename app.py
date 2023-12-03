@@ -543,7 +543,7 @@ def show_conteneur():
             c.id_conteneur AS id,
             cc.lieu_collecte AS collecte,
             cc.id_centre_collecte AS idc,
-            td.libelle_type_dechet AS type,
+            td.libelle_type_dechet AS type_item_dechet,
             td.id_type_dechet AS idtd,
             cr.id_centre_recyclage AS idr,
             cr.lieu_recyclage AS recyclage
@@ -660,8 +660,17 @@ def edit_conteneur():
 
     get_db().commit()
 
-    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, recyclages=recyclages, types=types, centres=centres)
+    # Assurez-vous que la variable centre est toujours définie, même si elle est vide
+    centre = {}  # Vous pouvez initialiser à une valeur par défaut si nécessaire
 
+    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, recyclages=recyclages, types=types, centres=centres, centre=centre)
+
+
+def get_name_by_id(mycursor, table, field, id):
+    sql = f"SELECT {field} FROM {table} WHERE id_{table}=%s;"
+    mycursor.execute(sql, (id,))
+    result = mycursor.fetchone()
+    return result[field] if result else ''
 
 @app.route('/conteneur/edit', methods=['POST'])
 def valid_edit_conteneur():
@@ -679,7 +688,7 @@ def valid_edit_conteneur():
     tournee_date_str = str(tournee_date)
 
     message = (
-        f'info: Conteneur modifié - id_conteneur : {id_conteneur}'
+        f'info: Conteneur modifié - id_conteneur : {id_conteneur}, '
         f'type : {type_name}, centre de collecte : {centre_name}, tournee : {tournee_date_str}'
     )
     print(message)
@@ -691,6 +700,7 @@ def valid_edit_conteneur():
     get_db().commit()
 
     return redirect('/conteneur/show')
+
 
 
 if __name__ == '__main__':
