@@ -4,8 +4,6 @@ import os
 from flask import Flask, request, render_template, redirect, url_for, abort, flash
 from flask import session, g
 
-
-
 app = Flask(__name__)
 app.secret_key = 'une cle(token) : grain de sel(any random string)'
 def get_db():
@@ -98,7 +96,7 @@ def delete_collecte():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message = f'info: suppression d\'une collecte avec - id_collecte =  {id_collecte}'
+            message = f'suppression d\'une collecte avec - id_collecte =  {id_collecte}'
             flash(message, 'alert-warning')
         except ValueError:
             print("L'ID de la collecte n'est pas un entier valide.")
@@ -201,35 +199,87 @@ def get_name_by_id(mycursor, table, field, id):
     result = mycursor.fetchone()
     return result[field] if result else ''
 
-@app.route('/collecte/etat', methods=['GET'])
+@app.route('/collecte/etat', methods=['GET', 'POST'])
 def etat_collecte():
     mycursor = get_db().cursor()
 
-    sql= """ SELECT type_dechet.libelle_type_dechet as type,
-     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
-     FROM Collecte
-     JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
-     GROUP BY type_dechet.libelle_type_dechet
-     ORDER BY quantite_total_type DESC;
-     """
+    if request.method == 'POST':
+        min_quantite = request.form.get('min_quantite')
+        max_quantite = request.form.get('max_quantite')
+        id_type_dechet = request.form.get('id_type_dechet')
+        id_centre_collecte = request.form.get('id_centre_collecte')
+        min_quantite = min_quantite or 0
 
-    mycursor.execute(sql)
-    quantite_total_type = mycursor.fetchall()
+        # Requête SQL pour les types de déchets
+        sql_types_dechets = f"""SELECT type_dechet.libelle_type_dechet as type,
+                                         SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
+                                     FROM Collecte
+                                     JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
+                                     WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
+                                         AND (type_dechet.id_type_dechet = {id_type_dechet} OR {id_type_dechet} IS NULL OR type_dechet.id_type_dechet IS NULL)
+                                     GROUP BY type_dechet.libelle_type_dechet
+                                     ORDER BY quantite_total_type DESC;
+                                 """
 
-    mycursor = get_db().cursor()
+        # Requête SQL pour les centres de collecte
+        sql_centres_collecte = f"""SELECT Centre_collecte.lieu_collecte as lieu,
+                                           SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
+                                       FROM Collecte
+                                       JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
+                                       WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
+                                           AND (Centre_collecte.id_centre_collecte = {id_centre_collecte} OR {id_centre_collecte} IS NULL OR Centre_collecte.id_centre_collecte IS NULL)
+                                       GROUP BY Centre_collecte.lieu_collecte
+                                       ORDER BY quantite_total_centre DESC;
+                                   """
 
-    sql = """ SELECT Centre_collecte.lieu_collecte as lieu,
-         SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
-         FROM Collecte
-         JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
-         GROUP BY Centre_collecte.lieu_collecte
-         ORDER BY quantite_total_centre DESC;
-         """
+        mycursor.execute(sql_types_dechets)
+        quantite_total_type = mycursor.fetchall()
 
-    mycursor.execute(sql)
-    quantite_total_centre = mycursor.fetchall()
+        mycursor.execute(sql_centres_collecte)
+        quantite_total_centre = mycursor.fetchall()
+    else:
+        # Requête SQL sans filtre
+        sql_types_dechets = """SELECT type_dechet.libelle_type_dechet as type,
+                                     SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
+                                 FROM Collecte
+                                 JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
+                                 GROUP BY type_dechet.libelle_type_dechet
+                                 ORDER BY quantite_total_type DESC;
+                             """
+
+        sql_centres_collecte = """SELECT Centre_collecte.lieu_collecte as lieu,
+                                       SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
+                                   FROM Collecte
+                                   JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
+                                   GROUP BY Centre_collecte.lieu_collecte
+                                   ORDER BY quantite_total_centre DESC;
+                               """
+
+        mycursor.execute(sql_types_dechets)
+        quantite_total_type = mycursor.fetchall()
+
+        mycursor.execute(sql_centres_collecte)
+        quantite_total_centre = mycursor.fetchall()
 
     return render_template('/collecte/etat_collecte.html', quantiteTotType=quantite_total_type, quantiteTotCentre=quantite_total_centre)
+
+
+@app.route('/reset')
+def reset():
+    cursor = get_db().cursor()
+    script = open("tricycleco.sql", "r")
+    requete = script.read().split(';')
+    script.close()
+
+    for query in requete:
+        query = query.strip()  # Supprime les espaces et les sauts de ligne au début et à la fin
+        if query:
+            cursor.execute(query)
+            get_db().commit()
+
+    flash('Le SQL a été bien réinitialisé', 'alert-success')
+    return redirect('/')
+
 
 ########TOURNEE########
 
@@ -341,10 +391,6 @@ def valid_add_Tournee():
     return redirect('/Tournee/show')
 
 
-
-
-
-
 @app.route('/Tournee/edit', methods=['POST'])
 def valid_edit_Tournee():
     print('''Modification de la Tournée dans le tableau''')
@@ -372,38 +418,6 @@ def valid_edit_Tournee():
     get_db().commit()
 
     return redirect('/Tournee/show')
-
-@app.route('/Tournee/etat', methods=['GET', 'POST'])
-def etat_Tournee():
-    selected_locations = []
-
-    if request.method == 'POST':
-        selected_locations = request.form.getlist('rue')
-
-        if not selected_locations:
-            return "Aucune rue sélectionnée."
-
-    db = get_db()
-
-    # Construction de la requête SQL seulement si selected_locations n'est pas vide
-    if selected_locations:
-        placeholders = ','.join(['%s'] * len(selected_locations))
-        sql = '''
-            SELECT t.id_tournee, t.date_tournee, t.id_centre_recyclage, c.lieu_recyclage, 
-                   t.id_camion, t.temps, camion.immatriculation_camion
-            FROM Tournee t
-            INNER JOIN Centre_recyclage c ON t.id_centre_recyclage = c.id_centre_recyclage
-            INNER JOIN Camion camion ON t.id_camion = camion.id_camion
-            WHERE c.lieu_recyclage IN ({})
-        '''.format(placeholders)
-
-        mycursor = db.cursor()
-        mycursor.execute(sql, selected_locations)
-        filtered_tournees = mycursor.fetchall()
-
-        return render_template('Tournee/Tournee_etat.html', filtered_data=filtered_tournees)
-
-    return render_template('Tournee/Tournee_etat.html')
 
 @app.route('/employe/show')
 def show_employe():
@@ -490,8 +504,8 @@ def edit_employe():
 
 @app.route('/employe/edit', methods=['POST'])
 def valid_edit_employe():
-    id_employe = request.args.get('id_employe', '')
-    numero_telephone_employe = request.args.get('numero_telephone_employe', '')
+    id_employe = request.form.get('id')
+    numero_telephone_employe = request.form.get('numero_telephone_employe', '')
     nom_employe = request.form.get('nom_employe', '')
     prenom_employe = request.form.get('prenom_employe', '')
     salaire_employe = request.form.get('salaire_employe', '')
@@ -499,14 +513,42 @@ def valid_edit_employe():
     id_camion = request.form.get('id_camion', '')
 
     mycursor = get_db().cursor()
-    tuple_param = ( id_employe, numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe, id_camion)
+    tuple_param = (  numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe, id_camion,id_employe)
 
-    sql = "UPDATE Employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe = %s, prenom_employe = %s, salaire_employe = %s, adresse_employe = %s, id_camion = %s WHERE id_employe = %s;"
+    sql = "UPDATE Employe SET  numero_telephone_employe = %s, nom_employe = %s, prenom_employe = %s, salaire_employe = %s, adresse_employe = %s, id_camion = %s WHERE id_employe = %s;"
 
+    message = u'employe modifie , nom: '+nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - adresse_employe: '+ adresse_employe + ' - id_camion: ' + id_camion + ' - numero telephone: ' + numero_telephone_employe
+    flash(message,'success')
     mycursor.execute(sql, tuple_param)
     get_db().commit()
 
     return redirect('/employe/show')
+
+@app.route('/employe/etat', methods=['GET'])
+def etat_employe():
+    mycursor = get_db().cursor()
+
+    sql = '''
+        SELECT c.id_camion, COUNT(e.id_employe) AS nombre_employe
+        FROM Camion c
+        LEFT JOIN Employe e ON c.id_camion = e.id_camion
+        GROUP BY c.id_camion;
+    '''
+    mycursor.execute(sql)
+    nombre_employe = mycursor.fetchall()
+    mycursor = get_db().cursor()
+
+
+
+    sql_salaire = "SELECT AVG(salaire_employe) AS salaire_moyen FROM Employe"
+    mycursor.execute(sql_salaire)
+    salaire_moyen = mycursor.fetchall()
+    mycursor = get_db().cursor()
+
+
+    return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, salaire_moyen=salaire_moyen)
+
+
 
 
 # - - - - - - - C O N T E N E U R - - - - - - -

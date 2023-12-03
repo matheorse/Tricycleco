@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>supprimer les collectes</title>
+{% endblock %}
+
+{% block body %}
+
+            <a class="annuler" href="/collecte/show">Annuler</a>
+            <a id="btn2" href="/collecte/delete?id={{ type.id }}&amp;libelle={{ type.quantite }}">
+                <button class="supprimer">Supprimer</button>
+            </a>
+{% endblock %}
