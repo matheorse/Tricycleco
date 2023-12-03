@@ -1,0 +1,501 @@
+Index: app.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pymysql.cursors\r\n\r\nimport os\r\nfrom flask import Flask, request, render_template, redirect, url_for, abort, flash\r\nfrom flask import session, g\r\n\r\napp = Flask(__name__)\r\napp.secret_key = 'une cle(token) : grain de sel(any random string)'\r\ndef get_db():\r\n\r\n    if 'db' not in g:\r\n        g.db = pymysql.connect(\r\n            host=\"localhost\",\r\n            user='mrose',\r\n            password='mdp',\r\n            database='BDD_mrose',\r\n            charset=\"utf8mb4\",\r\n            cursorclass=pymysql.cursors.DictCursor\r\n        )\r\n    return g.db\r\n\r\n@app.teardown_appcontext\r\ndef teardown_db(exception):\r\n    db = g.pop('db', None)\r\n    if db is not None:\r\n        db.close()\r\n\r\n\r\n@app.teardown_appcontext\r\ndef teardown_db(exception):\r\n    db = g.pop('db', None)\r\n    if db is not None:\r\n        db.close()\r\n\r\n\r\n\r\n@app.route('/')\r\ndef show_accueil():\r\n    return render_template('layout.html')\r\n\r\n\r\n########COLLECTE#########\r\n\r\n@app.route('/collecte/show')\r\ndef show_collecte():\r\n    mycursor = get_db().cursor()\r\n    sql=''' SELECT id_collecte AS id, id_type_dechet AS type, quantite_dechet_collecte AS quantite, id_centre_collecte AS centre, id_tournee AS tournee\r\n    FROM Collecte'''\r\n    mycursor.execute(sql)\r\n    Collecte = mycursor.fetchall()\r\n    sql=''' SELECT lieu_collecte AS lieu , id_centre_collecte as id\r\n    FROM Centre_collecte'''\r\n    mycursor.execute(sql)\r\n    Centre_collecte = mycursor.fetchall()\r\n    sql = ''' SELECT libelle_type_dechet AS libelle , id_type_dechet as id\r\n        FROM type_dechet'''\r\n    mycursor.execute(sql)\r\n    type_dechet = mycursor.fetchall()\r\n\r\n    sql = ''' SELECT date_tournee AS date , id_tournee as id\r\n            FROM Tournee'''\r\n    mycursor.execute(sql)\r\n    Tournee = mycursor.fetchall()\r\n    return render_template('collecte/show_collecte.html', collecte=Collecte , centreCollect=Centre_collecte, typeDechet=type_dechet, tournee= Tournee)\r\n\r\n\r\n@app.route('/collecte/add', methods=['GET'])\r\ndef add_collecte():\r\n    print('''affichage du formulaire pour saisir une collecte''')\r\n    mycursor = get_db().cursor()\r\n    sql = ''' SELECT lieu_collecte AS lieu , id_centre_collecte as id\r\n        FROM Centre_collecte'''\r\n    mycursor.execute(sql)\r\n    Centre_collecte = mycursor.fetchall()\r\n    sql = ''' SELECT libelle_type_dechet AS libelle , id_type_dechet as id\r\n        FROM type_dechet'''\r\n    mycursor.execute(sql)\r\n    type_dechet = mycursor.fetchall()\r\n    sql = ''' SELECT date_tournee AS date , id_tournee as id\r\n        FROM Tournee'''\r\n    mycursor.execute(sql)\r\n    Tournee = mycursor.fetchall()\r\n    return render_template('collecte/add_collecte.html', centreCollect=Centre_collecte, typeDechet=type_dechet, tournee=Tournee)\r\n\r\n@app.route('/collecte/delete')\r\ndef delete_collecte():\r\n    print('''suppression d'une collecte''')\r\n    id_collecte = request.args.get('id')\r\n\r\n    if id_collecte:\r\n        try:\r\n            id_collecte = int(id_collecte)\r\n            mycursor = get_db().cursor()\r\n            tuple_param = (id_collecte,)\r\n            sql = \"DELETE FROM Collecte WHERE id_collecte=%s;\"\r\n            mycursor.execute(sql, tuple_param)\r\n            get_db().commit()\r\n\r\n            message = f'info: suppression d\\'une collecte avec - id_collecte =  {id_collecte}'\r\n            flash(message, 'alert-warning')\r\n        except ValueError:\r\n            print(\"L'ID de la collecte n'est pas un entier valide.\")\r\n\r\n    return redirect('/collecte/show')\r\n\r\n@app.route('/collecte/edit', methods=['GET'])\r\ndef edit_collecte():\r\n    print('''affichage du formulaire pour modifier une collecte''')\r\n    print(request.args)\r\n    print(request.args.get('id'))\r\n    id = request.args.get('id')\r\n    mycursor = get_db().cursor()\r\n    sql = '''SELECT id_collecte AS id, id_type_dechet AS type, quantite_dechet_collecte AS quantite, id_centre_collecte AS centre, id_tournee AS tournee\r\n             FROM Collecte\r\n             WHERE id_collecte=%s;'''\r\n    tuple_param = (id,)\r\n    mycursor.execute(sql, tuple_param)\r\n\r\n    Collecte = mycursor.fetchone()\r\n    print(Collecte)\r\n    sql = '''SELECT id_centre_collecte AS id, lieu_collecte AS lieu\r\n             FROM Centre_collecte'''\r\n    mycursor.execute(sql)\r\n    Centre_collecte = mycursor.fetchall()\r\n    print(Centre_collecte)\r\n    sql = '''SELECT id_type_dechet AS id, libelle_type_dechet AS libelle\r\n             FROM type_dechet'''\r\n    mycursor.execute(sql)\r\n    type_dechet = mycursor.fetchall()\r\n    sql = '''SELECT date_tournee AS date , id_tournee as id\r\n             FROM Tournee'''\r\n    mycursor.execute(sql)\r\n    Tournee = mycursor.fetchall()\r\n    return render_template('collecte/edit_collecte.html', collecte=Collecte, centreCollect=Centre_collecte, typeDechet=type_dechet, tournee=Tournee)\r\n\r\n\r\n@app.route('/collecte/add', methods=['POST'])\r\ndef valid_add_collecte():\r\n    print('''ajout de la collecte dans le tableau''')\r\n    quantite = request.form.get('quantite')\r\n    type_id = request.form.get('type')\r\n    centre_id = request.form.get('centre')\r\n    tournee_id = request.form.get('tournee')\r\n\r\n    mycursor = get_db().cursor()\r\n\r\n    centre_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', centre_id)\r\n    type_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', type_id)\r\n    tournee_date = get_name_by_id(mycursor, 'Tournee', 'date_tournee', tournee_id)\r\n    tournee_date_str = str(tournee_date)\r\n\r\n    message = u'quantite :' + quantite + ' - type : ' + type_name + ' - centre de collecte : ' + centre_name + ' - tournee : ' + tournee_date_str\r\n    print(message)\r\n    flash(message, 'alert-success')\r\n\r\n    tuple_param = (quantite, type_id, centre_id, tournee_id)\r\n    sql = \"INSERT INTO Collecte( quantite_dechet_collecte, id_type_dechet, id_centre_collecte, id_tournee) VALUES ( %s, %s, %s, %s);\"\r\n    mycursor.execute(sql, tuple_param)\r\n    get_db().commit()\r\n\r\n    return redirect('/collecte/show')\r\n\r\ndef get_name_by_id(mycursor, table, field, id):\r\n    sql = f\"SELECT {field} FROM {table} WHERE id_{table}=%s;\"\r\n    mycursor.execute(sql, (id,))\r\n    result = mycursor.fetchone()\r\n    return result[field] if result else ''\r\n\r\n@app.route('/collecte/edit', methods=['POST'])\r\ndef valid_edit_collecte():\r\n    print('''modification de la collecte dans le tableau''')\r\n    id = request.form.get('id')\r\n    quantite = request.form.get('quantite')\r\n    type_id = request.form.get('type')\r\n    centre_id = request.form.get('centre')\r\n    tournee_id = request.form.get('tournee')\r\n\r\n    mycursor = get_db().cursor()\r\n\r\n    centre_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', centre_id)\r\n    type_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', type_id)\r\n    tournee_date = get_name_by_id(mycursor, 'Tournee', 'date_tournee', tournee_id)\r\n    tournee_date_str = str(tournee_date)\r\n\r\n    message = u'quantite :' + quantite + ' - type : ' + type_name + ' - centre de collecte : ' + centre_name + ' - tournee : ' + tournee_date_str + ' - id : ' +str(id)\r\n    print(message)\r\n    flash(message, 'alert-success')\r\n\r\n    tuple_param = (quantite, type_id, centre_id, tournee_id, id)\r\n    sql = \"UPDATE Collecte SET quantite_dechet_collecte = %s, id_type_dechet= %s, id_centre_collecte= %s, id_tournee= %s WHERE id_collecte=%s;\"\r\n    mycursor.execute(sql, tuple_param)\r\n    get_db().commit()\r\n\r\n    return redirect('/collecte/show')\r\n\r\ndef get_name_by_id(mycursor, table, field, id):\r\n    sql = f\"SELECT {field} FROM {table} WHERE id_{table}=%s;\"\r\n    mycursor.execute(sql, (id,))\r\n    result = mycursor.fetchone()\r\n    return result[field] if result else ''\r\n\r\n\r\n########TOURNEE########\r\n\r\n@app.route('/Tournee/show')\r\ndef show_Tournee():\r\n    mycursor = get_db().cursor()\r\n    sql = '''\r\n        SELECT t.id_tournee, t.date_tournee, t.id_centre_recyclage, c.lieu_recyclage, t.id_camion, t.temps, camion.immatriculation_camion\r\n        FROM Tournee t\r\n        INNER JOIN Centre_recyclage c ON t.id_centre_recyclage = c.id_centre_recyclage\r\n        INNER JOIN Camion camion ON t.id_camion = camion.id_camion\r\n        ORDER BY t.id_tournee;\r\n    '''\r\n    mycursor.execute(sql)\r\n    Tournee = mycursor.fetchall()\r\n\r\n    return render_template('Tournee/show_Tournee.html', Tournee=Tournee)\r\n\r\n\r\n\r\n\r\n@app.route('/Tournee/add', methods=['GET'])\r\ndef add_Tournee():\r\n    print('''affichage du formulaire pour saisir une Tournee''')\r\n    mycursor = get_db().cursor()\r\n    sql = '''Select * From Camion;'''\r\n    mycursor.execute(sql)\r\n    camions=mycursor.fetchall()\r\n    sql2 = '''Select * From Centre_recyclage;'''\r\n    mycursor.execute(sql2)\r\n    recyclages = mycursor.fetchall()\r\n    get_db().commit()\r\n\r\n    return render_template('Tournee/add_Tournee.html',camions=camions, recyclages=recyclages)\r\n\r\n\r\n@app.route('/Tournee/delete')\r\ndef delete_Tournee():\r\n    print('''Suppression d'une Tournée''')\r\n    id_tournee = request.args.get('id')\r\n\r\n    if id_tournee:\r\n        try:\r\n            id_tournee = int(id_tournee)\r\n            mycursor = get_db().cursor()\r\n            tuple_param = (id_tournee,)\r\n            sql = \"DELETE FROM Tournee WHERE id_tournee=%s;\"\r\n            mycursor.execute(sql, tuple_param)\r\n            get_db().commit()\r\n\r\n            message = f'info: suppression d\\'une tournee avec - id_tournee =  {id_tournee}'\r\n            flash(message, 'alert-warning')\r\n        except ValueError:\r\n            print(\"L'ID de la tournée n'est pas un entier valide.\")\r\n\r\n    return redirect('/Tournee/show')\r\n\r\n\r\n@app.route('/Tournee/edit', methods=['GET'])\r\ndef edit_Tournee():\r\n    print('''affichage du formulaire pour modifier une Tournee''')\r\n    print(request.args)\r\n    print(request.args.get('id'))\r\n    tournee_id = request.args.get('id')\r\n    mycursor = get_db().cursor()\r\n    sql = '''SELECT id_tournee, date_tournee, id_centre_recyclage, id_camion, temps\r\n             FROM Tournee\r\n             WHERE id_tournee=%s;'''\r\n    tuple_param = (tournee_id,)\r\n    mycursor.execute(sql, tuple_param)\r\n    Tournee = mycursor.fetchone()\r\n\r\n    sql_camions = '''Select * From Camion;'''\r\n    mycursor.execute(sql_camions)\r\n    camions = mycursor.fetchall()\r\n\r\n    sql_recyclages = '''Select * From Centre_recyclage;'''\r\n    mycursor.execute(sql_recyclages)\r\n    recyclages = mycursor.fetchall()\r\n\r\n    get_db().commit()\r\n\r\n    return render_template('Tournee/edit_Tournee.html', tournee=Tournee, camions=camions, recyclages=recyclages)\r\n\r\n\r\n@app.route('/Tournee/add', methods=['POST'])\r\ndef valid_add_Tournee():\r\n    print('''Ajout de la tournée dans la table''')\r\n    date_tournee = request.form.get('date_tournee')\r\n    id_centre_recyclage = request.form.get('id_centre_recyclage')\r\n    id_camion = request.form.get('id_camion')\r\n    temps = request.form.get('temps')\r\n\r\n    message = (\r\n        f'info: Tournée ajoutée -  date: {date_tournee}, '\r\n        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '\r\n        f'Temps : {temps}'\r\n    )\r\n\r\n\r\n\r\n    mycursor = get_db().cursor()\r\n    tuple_param = ( date_tournee, id_centre_recyclage, id_camion, temps)\r\n    sql = \"INSERT INTO Tournee( date_tournee, id_centre_recyclage, id_camion, temps) VALUES ( %s, %s, %s, %s);\"\r\n    mycursor.execute(sql, tuple_param)\r\n    get_db().commit()\r\n\r\n    flash(message, 'alert-success')\r\n    return redirect('/Tournee/show')\r\n\r\n\r\n@app.route('/Tournee/edit', methods=['POST'])\r\ndef valid_edit_Tournee():\r\n    print('''Modification de la Tournée dans le tableau''')\r\n    id_tournee = request.form.get('id_tournee')\r\n    date_tournee = request.form.get('date_tournee')\r\n    id_centre_recyclage = request.form.get('id_centre_recyclage')\r\n    id_camion = request.form.get('id_camion')\r\n    temps = request.form.get('temps')\r\n\r\n    message = (\r\n        f'info: Tournée modifiée - id_tournee : {id_tournee}, date : {date_tournee}, '\r\n        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '\r\n        f'Temps : {temps}'\r\n    )\r\n    flash(message, 'alert-success')\r\n\r\n    mycursor = get_db().cursor()\r\n    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)\r\n    sql_update = '''UPDATE Tournee\r\n                    SET date_tournee = %s, id_centre_recyclage = %s, id_camion = %s, temps = %s\r\n                    WHERE id_tournee = %s;'''\r\n    tuple_params = (date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)\r\n\r\n    mycursor.execute(sql_update, tuple_params)\r\n    get_db().commit()\r\n\r\n    return redirect('/Tournee/show')\r\n\r\n@app.route('/employe/show')\r\ndef show_employe():\r\n    mycursor = get_db().cursor()\r\n    sql = '''SELECT id_employe, numero_telephone_employe, nom_employe, prenom_employe, salaire_employe, adresse_employe,id_camion\r\n    FROM Employe'''\r\n    mycursor.execute(sql)\r\n    employes= mycursor.fetchall()\r\n    return render_template('employe/show_employe.html', employes=employes)\r\n\r\n@app.route('/employe/add', methods=['GET'])\r\ndef add_employe():\r\n    print('''affichage du formulaire pour ajouter un employe''')\r\n    mycursor = get_db().cursor()\r\n    sql = '''Select * From Camion;'''\r\n    mycursor.execute(sql)\r\n    camions = mycursor.fetchall()\r\n    get_db().commit()\r\n\r\n    return render_template('employe/add_employe.html',camions=camions)\r\n\r\n\r\n@app.route('/employe/add', methods=['POST'])\r\ndef valid_add_employe():\r\n    numero_telephone_employe=request.form.get('numero_telephone_employe','')\r\n    nom_employe = request.form.get('nom_employe', '')\r\n    prenom_employe = request.form.get('prenom_employe', '')\r\n    salaire_employe= request.form.get('salaire_employe', '')\r\n    adresse_employe = request.form.get('adresse_employe', '')\r\n    id_camion = request.form.get('id_camion', '')\r\n    message = u'employe ajouté , nom: '+nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - adresse_employe: '+ adresse_employe + ' - id_camion: ' + id_camion\r\n    print(message)\r\n    flash(message, 'alert-success')\r\n    mycursor = get_db().cursor()\r\n    tuple_param = (numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')\r\n    sql = \"INSERT INTO Employe ( id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion') VALUES (%s, %s, %s, %s, %s,%s,%s,%s);\"\r\n    mycursor.execute(sql, tuple_param)\r\n    get_db().commit()\r\n    return redirect('/employe/show')\r\n\r\n\r\n@app.route('/employe/delete', methods=['GET'])\r\ndef delete_employe():\r\n    print(''' suppression d'un employe''')\r\n    id_employe = request.args.get('id_employe', None)\r\n    print(id_employe)\r\n    mycursor=get_db().cursor()\r\n    tuple_param = (id_employe,)\r\n    sql=\"DELETE FROM Employe WHERE id_employe=%s;\"\r\n    mycursor.execute(sql,tuple_param)\r\n    get_db().commit()\r\n    message  = f'info: suppression d\\'un employe avec - id_employe =  {id_employe}'\r\n    print(message)\r\n    flash(message, 'alert-warning')\r\n    return redirect('/employe/show')\r\n\r\n\r\n@app.route('/employe/edit', methods=['GET'])\r\ndef edit_employe():\r\n    print('''affichage du formulaire pour modifier un employe''')\r\n    print(request.args)\r\n    print(request.args.get('id'))\r\n    employe_id = request.args.get('id')\r\n    mycursor = get_db().cursor()\r\n    sql = '''SELECT id_employe, `numero_telephone_employe`, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion'\r\n                FROM Employe\r\n                WHERE id_employe=%s;'''\r\n    tuple_param = (tournee_id,)\r\n    mycursor.execute(sql, tuple_param)\r\n    employe= mycursor.fetchone()\r\n\r\n    sql_camions = '''Select * From Camion;'''\r\n    mycursor.execute(sql_camions)\r\n    camions = mycursor.fetchall()\r\n\r\n    return render_template('employe/edit_employe.html', employe=employe,camions=camions)\r\n\r\n@app.route('/employe/edit', methods=['POST'])\r\ndef valid_edit_employe():\r\n    id_employe = request.args.get('id_employe', '')\r\n    numero_telephone_employe = request.args.get('numero_telephone_employe', '')\r\n    nom_employe = request.form.get('nom_employe', '')\r\n    prenom_employe = request.form.get('prenom_employe', '')\r\n    salaire_employe= request.form.get('salaire_employe', '')\r\n    adresse_employe = request.form.get('adresse_employe', '')\r\n    id_camion = request.form.get('id_camion', '')\r\n    message = u'employe ajouté , numero_telephone: ' + numero_telephone_employe + 'nom: ' + nom_employe + ' - prénom : ' + prenom_employe + ' - salaire_employe: ' + salaire_employe + ' - salaire_employe: ' + salaire_employe + ' - id_camion: ' + id_camion\r\n    print(message)\r\n    flash(message, 'alert-success')\r\n    mycursor = get_db().cursor()\r\n    tuple_param = (id_employe, numero_telephone_employe, 'nom_employe', 'prenom_employe', 'salaire_employe', 'adresse_employe','id_camion')\r\n    sql = \"UPDATE Employe SET id_employe = %s, numero_telephone_employe = %s, nom_employe= %s, prenom_employe = %s, salaire_employe = %s ,adresse_employe=%s,id_camion=%s WHERE id_employe = %s;\"\r\n    mycursor.execute(sql, tuple_param)\r\n    get_db().commit()\r\n    return redirect('/employe/show')\r\n\r\n\r\n# - - - - - - - C O N T E N E U R - - - - - - -\r\n@app.route('/conteneur/show')\r\ndef show_conteneur():\r\n    mycursor = get_db().cursor()\r\n    sql = '''\r\n        SELECT\r\n            c.id_conteneur AS id,\r\n            cc.lieu_collecte AS collecte,\r\n            cc.id_centre_collecte AS idc,\r\n            td.libelle_type_dechet AS type,\r\n            td.id_type_dechet AS idtd,\r\n            cr.id_centre_recyclage AS idr,\r\n            cr.lieu_recyclage AS recyclage\r\n        FROM\r\n            Conteneur c\r\n            INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage\r\n            INNER JOIN type_dechet td ON c.id_type_dechet = td.id_type_dechet\r\n            INNER JOIN Centre_collecte cc ON c.id_centre_collecte = cc.id_centre_collecte\r\n        ORDER BY c.id_conteneur;\r\n    '''\r\n    mycursor.execute(sql)\r\n    conteneur = mycursor.fetchall()\r\n\r\n    return render_template('conteneur/show_conteneur.html', conteneur=conteneur)\r\n\r\n@app.route('/conteneur/delete')\r\ndef delete_conteneur():\r\n    print('''Suppression d'un conteneur''')\r\n    id_tournee = request.args.get('id')\r\n\r\n    if id_tournee:\r\n        try:\r\n            id_tournee = int(id_tournee)\r\n            mycursor = get_db().cursor()\r\n            tuple_param = (id_tournee,)\r\n            sql = \"DELETE FROM Tournee WHERE id_tournee=%s;\"\r\n            mycursor.execute(sql, tuple_param)\r\n            get_db().commit()\r\n\r\n            message = f'info: suppression d\\'un conteneur avec - id_conteneur =  {id_conteneur}'\r\n            flash(message, 'alert-warning')\r\n        except ValueError:\r\n            print(\"L'ID du conteneur n'est pas un entier valide.\")\r\n\r\n    return redirect('/conteneur/show')\r\n\r\n@app.route('/conteneur/add', methods=['GET'])\r\ndef add_conteneur():\r\n    print('''affichage du formulaire pour saisir un conteneur''')\r\n    mycursor = get_db().cursor()\r\n    sql = '''SELECT * FROM Centre_recyclage;'''\r\n    mycursor.execute(sql)\r\n    recyclages = mycursor.fetchall()\r\n    sql2 = '''SELECT * FROM type_dechet;'''\r\n    mycursor.execute(sql2)\r\n    types_dechet = mycursor.fetchall()\r\n    sql3 = '''SELECT * FROM Centre_collecte;'''\r\n    mycursor.execute(sql3)\r\n    centres_collecte = mycursor.fetchall()\r\n    get_db().commit()\r\n\r\n    return render_template('conteneur/add_conteneur.html', recyclages=recyclages, types_dechet=types_dechet, centres_collecte=centres_collecte)\r\n\r\n@app.route('/conteneur/add', methods=['POST'])\r\ndef valid_add_conteneur():\r\n    print('''Ajout du conteneur dans la table''')\r\n    id_centre_collecte = request.form.get('id_centre_collecte')\r\n    id_type_dechet = request.form.get('id_type_dechet')\r\n    id_centre_recyclage = request.form.get('id_centre_recyclage')\r\n\r\n    message = (\r\n        f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '\r\n        f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'\r\n    )\r\n\r\n    mycursor = get_db().cursor()\r\n    tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage)\r\n    sql = \"INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage) VALUES (%s, %s, %s);\"\r\n    mycursor.execute(sql, tuple_param)\r\n    get_db().commit()\r\n\r\n    flash(message, 'alert-success')\r\n    return redirect('/conteneur/show')\r\n\r\n\r\n@app.route('/conteneur/edit', methods=['GET'])\r\ndef edit_conteneur():\r\n    print('''affichage du formulaire pour modifier un conteneur''')\r\n    print(request.args)\r\n    print(request.args.get('id'))\r\n    tournee_id = request.args.get('id')\r\n    mycursor = get_db().cursor()\r\n    sql = '''SELECT id_tournee, date_tournee, id_centre_recyclage, id_camion, temps\r\n             FROM Tournee\r\n             WHERE id_tournee=%s;'''\r\n    tuple_param = (tournee_id,)\r\n    mycursor.execute(sql, tuple_param)\r\n    conteneur = mycursor.fetchone()\r\n\r\n    sql_camions = '''Select * From Camion;'''\r\n    mycursor.execute(sql_camions)\r\n    camions = mycursor.fetchall()\r\n\r\n    sql_recyclages = '''Select * From Centre_recyclage;'''\r\n    mycursor.execute(sql_recyclages)\r\n    recyclages = mycursor.fetchall()\r\n\r\n    get_db().commit()\r\n\r\n    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, camions=camions, recyclages=recyclages)\r\n\r\n@app.route('/conteneur/edit', methods=['POST'])\r\ndef valid_edit_conteneur():\r\n    print('''Modification du conteneur dans le tableau''')\r\n    id_tournee = request.form.get('id_tournee')\r\n    date_tournee = request.form.get('date_tournee')\r\n    id_centre_recyclage = request.form.get('id_centre_recyclage')\r\n    id_camion = request.form.get('id_camion')\r\n    temps = request.form.get('temps')\r\n\r\n    message = (\r\n        f'info: Conteneur modifié - id_tournee : {id_tournee}, date : {date_tournee}, '\r\n        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '\r\n        f'Temps : {temps}'\r\n    )\r\n    flash(message, 'alert-success')\r\n\r\n    mycursor = get_db().cursor()\r\n    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)\r\n    sql_update = '''UPDATE Tournee\r\n                    SET date_tournee = %s, id_centre_recyclage = %s, id_camion = %s, temps = %s\r\n                    WHERE id_tournee = %s;'''\r\n    tuple_params = (date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)\r\n\r\n    mycursor.execute(sql_update, tuple_params)\r\n    get_db().commit()\r\n\r\n    return redirect('/conteneur/show')\r\n\r\n\r\nif __name__ == '__main__':\r\n    app.run()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.py b/app.py
+--- a/app.py	(revision 1f3ae67fe4f0bdf88123565ed79a915c1df9b316)
++++ b/app.py	(date 1701264329751)
+@@ -452,8 +452,7 @@
+             INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
+             INNER JOIN type_dechet td ON c.id_type_dechet = td.id_type_dechet
+             INNER JOIN Centre_collecte cc ON c.id_centre_collecte = cc.id_centre_collecte
+-        ORDER BY c.id_conteneur;
+-    '''
++        ORDER BY c.id_conteneur;'''
+     mycursor.execute(sql)
+     conteneur = mycursor.fetchall()
+ 
+@@ -462,44 +461,46 @@
+ @app.route('/conteneur/delete')
+ def delete_conteneur():
+     print('''Suppression d'un conteneur''')
+-    id_tournee = request.args.get('id')
++    id_conteneur = request.args.get('id')
+ 
+-    if id_tournee:
++    if id_conteneur:
+         try:
+-            id_tournee = int(id_tournee)
++            id_conteneur = int(id_conteneur)
+             mycursor = get_db().cursor()
+-            tuple_param = (id_tournee,)
+-            sql = "DELETE FROM Tournee WHERE id_tournee=%s;"
++            tuple_param = (id_conteneur,)
++            sql = "DELETE FROM Conteneur WHERE id_conteneur=%s;"
+             mycursor.execute(sql, tuple_param)
+             get_db().commit()
+ 
+-            message = f'info: suppression d\'un conteneur avec - id_conteneur =  {id_conteneur}'
++            message = f'info: suppression d\'un conteneur avec - id_conteneur = {id_conteneur}'
+             flash(message, 'alert-warning')
+         except ValueError:
+             print("L'ID du conteneur n'est pas un entier valide.")
+ 
+     return redirect('/conteneur/show')
+ 
++
+ @app.route('/conteneur/add', methods=['GET'])
+ def add_conteneur():
+-    print('''affichage du formulaire pour saisir un conteneur''')
+     mycursor = get_db().cursor()
+-    sql = '''SELECT * FROM Centre_recyclage;'''
+-    mycursor.execute(sql)
++
++    # Sélectionnez les informations nécessaires pour le formulaire d'ajout
++    sql_recyclages = '''SELECT * FROM Centre_recyclage;'''
++    mycursor.execute(sql_recyclages)
+     recyclages = mycursor.fetchall()
+-    sql2 = '''SELECT * FROM type_dechet;'''
+-    mycursor.execute(sql2)
++
++    sql_types_dechet = '''SELECT * FROM type_dechet;'''
++    mycursor.execute(sql_types_dechet)
+     types_dechet = mycursor.fetchall()
+-    sql3 = '''SELECT * FROM Centre_collecte;'''
+-    mycursor.execute(sql3)
++
++    sql_centres_collecte = '''SELECT * FROM Centre_collecte;'''
++    mycursor.execute(sql_centres_collecte)
+     centres_collecte = mycursor.fetchall()
+-    get_db().commit()
+ 
+     return render_template('conteneur/add_conteneur.html', recyclages=recyclages, types_dechet=types_dechet, centres_collecte=centres_collecte)
+ 
+ @app.route('/conteneur/add', methods=['POST'])
+ def valid_add_conteneur():
+-    print('''Ajout du conteneur dans la table''')
+     id_centre_collecte = request.form.get('id_centre_collecte')
+     id_type_dechet = request.form.get('id_type_dechet')
+     id_centre_recyclage = request.form.get('id_centre_recyclage')
+@@ -508,71 +509,78 @@
+         f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
+         f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
+     )
++    flash(message, 'alert-success')
+ 
+     mycursor = get_db().cursor()
+-    tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage)
+-    sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage) VALUES (%s, %s, %s);"
+-    mycursor.execute(sql, tuple_param)
++    tuple_params = (id_centre_collecte, id_type_dechet, id_centre_recyclage)
++    sql_insert = '''
++        INSERT INTO Conteneur (id_centre_collecte, id_type_dechet, id_centre_recyclage)
++        VALUES (%s, %s, %s);
++    '''
++    mycursor.execute(sql_insert, tuple_params)
+     get_db().commit()
+ 
+-    flash(message, 'alert-success')
+     return redirect('/conteneur/show')
+ 
+ 
++
+ @app.route('/conteneur/edit', methods=['GET'])
+ def edit_conteneur():
+-    print('''affichage du formulaire pour modifier un conteneur''')
+-    print(request.args)
+-    print(request.args.get('id'))
+-    tournee_id = request.args.get('id')
++    conteneur_id = request.args.get('id')
+     mycursor = get_db().cursor()
+-    sql = '''SELECT id_tournee, date_tournee, id_centre_recyclage, id_camion, temps
+-             FROM Tournee
+-             WHERE id_tournee=%s;'''
+-    tuple_param = (tournee_id,)
+-    mycursor.execute(sql, tuple_param)
++
++    # Sélectionnez les informations du conteneur à éditer
++    sql_conteneur = '''
++        SELECT c.id_conteneur, c.date_tournee, c.id_centre_collecte, c.id_type_dechet, c.id_centre_recyclage
++        FROM Conteneur c
++        WHERE c.id_conteneur = %s;
++    '''
++    mycursor.execute(sql_conteneur, (conteneur_id,))
+     conteneur = mycursor.fetchone()
+ 
+-    sql_camions = '''Select * From Camion;'''
+-    mycursor.execute(sql_camions)
+-    camions = mycursor.fetchall()
++    # Sélectionnez les autres informations nécessaires pour le formulaire
++    sql_collectes = '''SELECT * FROM Centre_collecte;'''
++    mycursor.execute(sql_collectes)
++    collectes = mycursor.fetchall()
+ 
+-    sql_recyclages = '''Select * From Centre_recyclage;'''
++    sql_types_dechet = '''SELECT * FROM type_dechet;'''
++    mycursor.execute(sql_types_dechet)
++    types_dechets = mycursor.fetchall()
++
++    sql_recyclages = '''SELECT * FROM Centre_recyclage;'''
+     mycursor.execute(sql_recyclages)
+     recyclages = mycursor.fetchall()
+ 
+-    get_db().commit()
+-
+-    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, camions=camions, recyclages=recyclages)
++    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, collectes=collectes, types_dechets=types_dechets, recyclages=recyclages)
+ 
+ @app.route('/conteneur/edit', methods=['POST'])
+ def valid_edit_conteneur():
+-    print('''Modification du conteneur dans le tableau''')
+-    id_tournee = request.form.get('id_tournee')
++    conteneur_id = request.form.get('id_conteneur')
+     date_tournee = request.form.get('date_tournee')
++    id_centre_collecte = request.form.get('id_centre_collecte')
++    id_type_dechet = request.form.get('id_type_dechet')
+     id_centre_recyclage = request.form.get('id_centre_recyclage')
+-    id_camion = request.form.get('id_camion')
+-    temps = request.form.get('temps')
+ 
+     message = (
+-        f'info: Conteneur modifié - id_tournee : {id_tournee}, date : {date_tournee}, '
+-        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
+-        f'Temps : {temps}'
++        f'info: Conteneur modifié - id_conteneur : {conteneur_id}, date : {date_tournee}, '
++        f'id_Centre_collecte : {id_centre_collecte}, id_Type_dechet : {id_type_dechet}, '
++        f'id_Centre_recyclage : {id_centre_recyclage}'
+     )
+     flash(message, 'alert-success')
+ 
+     mycursor = get_db().cursor()
+-    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)
+-    sql_update = '''UPDATE Tournee
+-                    SET date_tournee = %s, id_centre_recyclage = %s, id_camion = %s, temps = %s
+-                    WHERE id_tournee = %s;'''
+-    tuple_params = (date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)
+-
++    tuple_params = (date_tournee, id_centre_collecte, id_type_dechet, id_centre_recyclage, conteneur_id)
++    sql_update = '''
++        UPDATE Conteneur
++        SET date_tournee = %s, id_centre_collecte = %s, id_type_dechet = %s, id_centre_recyclage = %s
++        WHERE id_conteneur = %s;
++    '''
+     mycursor.execute(sql_update, tuple_params)
+     get_db().commit()
+ 
+     return redirect('/conteneur/show')
+ 
+ 
++
+ if __name__ == '__main__':
+     app.run()
+\ No newline at end of file
+Index: templates/conteneur/show_conteneur.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'layout.html' %}\r\n\r\n{% block title %}\r\n    <link rel=\"stylesheet\" href=\"../../static/Tourneestyles.css\">\r\n    <title>Tricycleco</title>\r\n{% endblock %}\r\n\r\n{% block body %}\r\n\r\n\r\n\r\n\r\n    {% with messages = get_flashed_messages(with_categories=true) %}\r\n        {% if messages %}\r\n            {% for categorie, message in messages %}\r\n            <div role=\"alert\" class=\"alert {% if 'alert-warning' in categorie %}alert-danger{% endif %}{% if 'alert-success' in categorie %}alert-success{% endif %}{% if 'alert-info' in categorie %}alert-info{% endif %}\">\r\n                . <strong>{{ message }}</strong>\r\n            </div>\r\n            {% endfor %}\r\n        {% endif %}\r\n    {% endwith %}\r\n\r\n    <div>\r\n        <a class=\"add\" href=\"/conteneur/add\">Ajout d'un conteneur</a>\r\n        <table class=\"tableto\" border=\"2\">\r\n            <thead>\r\n            <tr>\r\n                <th>id_conteneur</th>\r\n                <th>Centre de collecte</th>\r\n                <th>Centre de recyclage</th>\r\n                <th>Type de dechet</th>\r\n                <th> Modifier </th>\r\n            </tr>\r\n            </thead>\r\n            <tbody>\r\n            {% if conteneur | length >= 1 %}\r\n                {% for c in conteneur %}\r\n                    <tr>\r\n                        <td>{{ c.id }}</td>\r\n                        <td>{{ c.collecte }} ({{ c.idc }})</td>\r\n                        <td>{{ c.type }} ({{ c.idtd }})</td>\r\n                        <td>{{ c.recyclage }} ({{ c.idr }})</td>\r\n                        <td>\r\n                            <a class=\"edit\" href=\"/conteneur/edit?id={{ c.id_conteneur }}\">Editer</a>&nbsp;\r\n                            <a class=\"del\" href=\"/conteneur/delete?id={{ c.id_conteneur }}\">Supprimer</a>\r\n                        </td>\r\n                    </tr>\r\n                {% endfor %}\r\n            {% else %}\r\n                <tr>\r\n                    <td colspan=\"6\">Aucun conteneur</td>\r\n                </tr>\r\n            {% endif %}\r\n\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/conteneur/show_conteneur.html b/templates/conteneur/show_conteneur.html
+--- a/templates/conteneur/show_conteneur.html	(revision 1f3ae67fe4f0bdf88123565ed79a915c1df9b316)
++++ b/templates/conteneur/show_conteneur.html	(date 1701262789566)
+@@ -27,8 +27,8 @@
+             <tr>
+                 <th>id_conteneur</th>
+                 <th>Centre de collecte</th>
+-                <th>Centre de recyclage</th>
+                 <th>Type de dechet</th>
++                <th>Centre de recyclage</th>
+                 <th> Modifier </th>
+             </tr>
+             </thead>
+Index: tricycleco.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>-- Suppression des tables\r\nDROP TABLE IF EXISTS Collecte;\r\nDROP TABLE IF EXISTS Conteneur;\r\nDROP TABLE IF EXISTS Tournee;\r\nDROP TABLE IF EXISTS type_dechet;\r\nDROP TABLE IF EXISTS Employe;\r\nDROP TABLE IF EXISTS Camion;\r\nDROP TABLE IF EXISTS se_compose;\r\nDROP TABLE IF EXISTS se_termine;\r\nDROP TABLE IF EXISTS Centre_recyclage;\r\nDROP TABLE IF EXISTS Centre_collecte;\r\n\r\n-- Création des tables\r\nCREATE TABLE Camion(\r\n   id_camion INT AUTO_INCREMENT,\r\n   immatriculation_camion VARCHAR(50),\r\n   numero_camion INT,\r\n   PRIMARY KEY(id_camion)\r\n);\r\n\r\nCREATE TABLE Centre_collecte(\r\n   id_centre_collecte INT AUTO_INCREMENT,\r\n   lieu_collecte VARCHAR(50),\r\n   PRIMARY KEY(id_centre_collecte)\r\n);\r\n\r\nCREATE TABLE Centre_recyclage(\r\n   id_centre_recyclage INT AUTO_INCREMENT,\r\n   lieu_recyclage VARCHAR(50),\r\n   PRIMARY KEY(id_centre_recyclage)\r\n);\r\n\r\nCREATE TABLE Employe(\r\n   id_employe INT AUTO_INCREMENT,\r\n   numero_telephone_employe INT,\r\n   nom_employe VARCHAR(50),\r\n   prenom_employe VARCHAR(50),\r\n   salaire_employe INT,\r\n   adresse_employe VARCHAR(50),\r\n   id_camion INT,\r\n   PRIMARY KEY(id_employe),\r\n   FOREIGN KEY(id_camion) REFERENCES Camion(id_camion)\r\n);\r\n\r\nCREATE TABLE type_dechet(\r\n   id_type_dechet INT AUTO_INCREMENT,\r\n   libelle_type_dechet VARCHAR(50),\r\n   PRIMARY KEY(id_type_dechet)\r\n);\r\n\r\nCREATE TABLE Tournee(\r\n   id_tournee INT AUTO_INCREMENT,\r\n   date_tournee DATE,\r\n   id_centre_recyclage INT NOT NULL,\r\n   id_camion INT NOT NULL,\r\n   temps TIME,\r\n   PRIMARY KEY(id_tournee),\r\n   FOREIGN KEY(id_centre_recyclage) REFERENCES Centre_recyclage(id_centre_recyclage),\r\n   FOREIGN KEY(id_camion) REFERENCES Camion(id_camion)\r\n);\r\n\r\nCREATE TABLE Collecte(\r\n   id_collecte INT AUTO_INCREMENT,\r\n   quantite_dechet_collecte INT,\r\n   id_type_dechet INT NOT NULL,\r\n   id_centre_collecte INT NOT NULL,\r\n   id_tournee INT NOT NULL,\r\n   PRIMARY KEY(id_collecte),\r\n   FOREIGN KEY(id_type_dechet) REFERENCES type_dechet(id_type_dechet),\r\n   FOREIGN KEY(id_centre_collecte) REFERENCES Centre_collecte(id_centre_collecte),\r\n   FOREIGN KEY(id_tournee) REFERENCES Tournee(id_tournee)\r\n);\r\n\r\nCREATE TABLE Conteneur(\r\n   id_conteneur INT AUTO_INCREMENT,\r\n   id_centre_collecte INT NOT NULL,\r\n   id_type_dechet INT NOT NULL,\r\n   id_centre_recyclage INT NOT NULL,\r\n   PRIMARY KEY(id_conteneur),\r\n   FOREIGN KEY(id_centre_collecte) REFERENCES Centre_collecte(id_centre_collecte),\r\n   FOREIGN KEY(id_type_dechet) REFERENCES type_dechet(id_type_dechet),\r\n   FOREIGN KEY(id_centre_recyclage) REFERENCES Centre_recyclage(id_centre_recyclage)\r\n);\r\n\r\n-- Insertion de données\r\nINSERT INTO Camion VALUES (1, 'ABC123', 101);\r\nINSERT INTO Camion VALUES (2, 'XYZ789', 102);\r\nINSERT INTO Camion VALUES (3, 'DEF456', 103);\r\nINSERT INTO Camion VALUES (4, 'GHI157', 104);\r\nINSERT INTO Camion VALUES (5, 'JKL945', 105);\r\nINSERT INTO Camion VALUES (6, 'MNO849', 106);\r\n\r\nINSERT INTO Centre_collecte VALUES (1, 'Paris Nord');\r\nINSERT INTO Centre_collecte VALUES (2, 'Lyon Ouest');\r\nINSERT INTO Centre_collecte VALUES (3, 'Marseille Est');\r\nINSERT INTO Centre_collecte VALUES (4, 'Bordeaux Sud');\r\nINSERT INTO Centre_collecte VALUES (5, 'Lille Centre');\r\nINSERT INTO Centre_collecte VALUES (6, 'Toulouse Nord');\r\nINSERT INTO Centre_collecte VALUES (7, 'Nice Ouest');\r\nINSERT INTO Centre_collecte VALUES (8, 'Strasbourg Sud');\r\n\r\nINSERT INTO Centre_recyclage VALUES (1, '14 rue de Paris');\r\nINSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');\r\nINSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');\r\nINSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');\r\n\r\n\r\nINSERT INTO Employe VALUES (1, 123456789, 'Doe', 'John', 50000, '123 Main St', 1);\r\nINSERT INTO Employe VALUES (2, 987654321, 'Smith', 'Jane', 55000, '456 Oak St', 2);\r\nINSERT INTO Employe VALUES (3, 555555555, 'Johnson', 'Bob', 48000, '789 Pine St', 3);\r\nINSERT INTO Employe VALUES (4, 111222333, 'Williams', 'Emily', 60000, '101 Cedar St', 1);\r\nINSERT INTO Employe VALUES (5, 999888777, 'Davis', 'Mike', 52000, '202 Elm St', 2);\r\nINSERT INTO Employe VALUES (6, 444333222, 'Brown', 'Amy', 47000, '303 Maple St', 3);\r\nINSERT INTO Employe VALUES (7, 666666666, 'Miller', 'David', 58000, '404 Birch St', 1);\r\nINSERT INTO Employe VALUES (8, 777777777, 'Wilson', 'Jessica', 51000, '505 Spruce St', 2);\r\nINSERT INTO Employe VALUES (9, 222222222, 'Moore', 'Kevin', 49000, '606 Pine St', 3);\r\nINSERT INTO Employe VALUES (10, 888888888, 'Taylor', 'Sophie', 57000, '707 Cedar St', 1);\r\nINSERT INTO Employe VALUES (11, 333333333, 'Anderson', 'Ryan', 53000, '808 Oak St', 2);\r\nINSERT INTO Employe VALUES (12, 444444444, 'Martin', 'Lily', 46000, '909 Elm St', 3);\r\n\r\n\r\nINSERT INTO type_dechet VALUES (1, 'Bois');\r\nINSERT INTO type_dechet VALUES (2, 'Aluminium');\r\nINSERT INTO type_dechet VALUES (3, 'Plastique');\r\nINSERT INTO type_dechet VALUES (4, 'Carton');\r\nINSERT INTO type_dechet VALUES (5, 'Papier');\r\nINSERT INTO type_dechet VALUES (6, 'Verre');\r\nINSERT INTO type_dechet VALUES (7, 'Cuivre');\r\nINSERT INTO type_dechet VALUES (8, 'Textile');\r\n\r\nINSERT INTO Tournee VALUES (1, '2023-02-01', 2, 2, 40);\r\nINSERT INTO Tournee VALUES (2,'2023-03-01', 1, 1, 30);\r\nINSERT INTO Tournee VALUES (3,'2023-04-01', 2, 2, 45);\r\nINSERT INTO Tournee VALUES (4,'2023-01-01', 1, 1, 35);\r\nINSERT INTO Tournee VALUES (5,'2023-05-01', 1, 1, 35);\r\nINSERT INTO Tournee VALUES (6,'2023-06-01', 2, 2, 40);\r\nINSERT INTO Tournee VALUES (7,'2023-07-01', 1, 1, 30);\r\nINSERT INTO Tournee VALUES (8,'2023-08-01', 2, 2, 50);\r\n\r\n\r\nINSERT INTO Collecte VALUES (1, 273, 1, 1, 1);\r\nINSERT INTO Collecte VALUES (2, 089, 2, 2, 2);\r\nINSERT INTO Collecte Values (3, 358, 3, 3, 3);\r\nINSERT INTO Collecte Values (4, 424, 4, 4, 4);\r\nINSERT INTO Collecte Values (5, 289, 5, 5, 5);\r\nINSERT INTO Collecte Values (6, 681, 6, 6, 6);\r\nINSERT INTO Collecte Values (7, 602, 7, 7, 7);\r\nINSERT INTO Collecte Values (8, 456, 8, 8, 8);\r\n\r\nINSERT INTO Conteneur VALUES (1, 1, 1, 1);\r\nINSERT INTO Conteneur VALUES (2, 2, 2, 2);\r\n\r\n-- Afficher qté tot collectée par type déchet\r\nSELECT type_dechet.libelle_type_dechet, SUM(Collecte.quantite_dechet_collecte) AS total_quantite\r\nFROM type_dechet\r\nJOIN Collecte ON type_dechet.id_type_dechet = Collecte.id_type_dechet\r\nGROUP BY type_dechet.libelle_type_dechet;\r\n\r\n-- Afficher employés +  tournées\r\nSELECT Employe.nom_employe, Employe.prenom_employe, Tournee.date_tournee, Tournee.id_tournee\r\nFROM Employe\r\nJOIN Tournee ON Employe.id_camion = Tournee.id_camion;\r\n\r\n-- SELECT pour CONTENEUR\r\nSELECT Conteneur.id_conteneur AS id, Centre_collecte.lieu_collecte AS collecte, td.libelle_type_dechet AS type, Centre_recyclage.lieu_recyclage AS recyclage\r\nFROM Conteneur\r\n         INNER JOIN Centre_recyclage ON Conteneur.id_centre_recyclage = Centre_recyclage.id_centre_recyclage\r\n         INNER JOIN type_dechet td ON Conteneur.id_type_dechet = td.id_type_dechet  -- Utilisation de l'alias 'td'\r\n         INNER JOIN Centre_collecte ON Conteneur.id_centre_collecte = Centre_collecte.id_centre_collecte\r\nORDER BY Conteneur.id_conteneur;\r\n\r\n\r\n\r\n\r\n\r\nSELECT id_type_dechet AS id, libelle_type_dechet AS libelle\r\n             FROM type_dechet;\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tricycleco.sql b/tricycleco.sql
+--- a/tricycleco.sql	(revision 1f3ae67fe4f0bdf88123565ed79a915c1df9b316)
++++ b/tricycleco.sql	(date 1701262947790)
+@@ -147,8 +147,13 @@
+ INSERT INTO Collecte Values (7, 602, 7, 7, 7);
+ INSERT INTO Collecte Values (8, 456, 8, 8, 8);
+ 
+-INSERT INTO Conteneur VALUES (1, 1, 1, 1);
+-INSERT INTO Conteneur VALUES (2, 2, 2, 2);
++INSERT INTO Conteneur VALUES (1, 1, 4, 5);
++INSERT INTO Conteneur VALUES (2, 5, 2, 4);
++INSERT INTO Conteneur VALUES (3, 2, 1, 3);
++INSERT INTO Conteneur VALUES (4, 3, 5, 1);
++INSERT INTO Conteneur VALUES (5, 4, 3, 2);
++
++
+ 
+ -- Afficher qté tot collectée par type déchet
+ SELECT type_dechet.libelle_type_dechet, SUM(Collecte.quantite_dechet_collecte) AS total_quantite
+Index: templates/conteneur/edit_conteneur.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'layout.html' %}\r\n\r\n{% block title %}\r\n    <link rel=\"stylesheet\" href=\"../../static/Tourneestyles.css\">\r\n    <title>Tricycleco</title>\r\n{% endblock %}\r\n\r\n{% block body %}\r\n\r\n    <form class=\"formu\"  action=\"/conteneur/edit\" method=\"post\">\r\n        <fieldset class=\"formulaire\">\r\n\r\n            <label for=\"id_tournee\">id_tournee (ne mofiez pas l'id_tournee) :</label><br>\r\n            <input type=\"text\" id=\"id_tournee\" name=\"id_tournee\" style=\"width: 340px; height: 40px;\" value=\"{{ tournee.id_tournee }}\" required><br>\r\n\r\n            <label for=\"date_tournee\">date_tournee :</label><br>\r\n            <input type=\"date\" id=\"date_tournee\" name=\"date_tournee\" style=\"width: 340px; height: 40px;\" value=\"{{ tournee.date_tournee }}\"><br>\r\n\r\n            <label >lieu_recyclage :</label><br>\r\n            <select id=\"id_centre_recyclage\" name=\"id_centre_recyclage\" style=\"width: 340px; height: 40px;\" required>\r\n                <option value=\"\">sélectionne un lieu de recyclage</option>\r\n                {% for recyclage in recyclages %}\r\n                    <option value=\"{{recyclage.id_centre_recyclage}}\" {% if recyclage.id_centre_recyclage == tournee.id_centre_recyclage %}selected{% endif %}>\r\n                        {{recyclage.lieu_recyclage}}\r\n                    </option>\r\n                {% endfor %}\r\n            </select><br>\r\n\r\n            <label for=\"id_camion\">id_camion :</label><br>\r\n            <select id=\"id_camion\" name=\"id_camion\" style=\"width: 340px; height: 40px;\" required>\r\n                <option value=\"\">sélectionne un immatriculation camion</option>\r\n                {% for camion in camions %}\r\n                    <option value=\"{{camion.id_camion}}\" {% if camion.id_camion == tournee.id_camion %}selected{% endif %}>\r\n                        {{camion.immatriculation_camion}}\r\n                    </option>\r\n                {% endfor %}\r\n            </select><br>\r\n\r\n            <label for=\"temps\">Temps :</label><br>\r\n            <input type=\"time\" id=\"temps\" name=\"temps\" style=\"width: 300px; height: 40px;\" value=\"{{ tournee.temps }}\"><br>\r\n            <input class=\"sub\" type=\"submit\" value=\"Modifier\" style=\"width: 100px; height: 40px;\">\r\n\r\n            <a class=\"Annula\" href=\"/conteneur/show\">Annuler</a>\r\n        </fieldset>\r\n    </form>\r\n{% endblock %}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/conteneur/edit_conteneur.html b/templates/conteneur/edit_conteneur.html
+--- a/templates/conteneur/edit_conteneur.html	(revision 1f3ae67fe4f0bdf88123565ed79a915c1df9b316)
++++ b/templates/conteneur/edit_conteneur.html	(date 1701264205399)
+@@ -7,40 +7,37 @@
+ 
+ {% block body %}
+ 
+-    <form class="formu"  action="/conteneur/edit" method="post">
+-        <fieldset class="formulaire">
++<form class="formu" action="/conteneur/edit" method="post">
++    <fieldset class="formulaire">
+ 
+-            <label for="id_tournee">id_tournee (ne mofiez pas l'id_tournee) :</label><br>
+-            <input type="text" id="id_tournee" name="id_tournee" style="width: 340px; height: 40px;" value="{{ tournee.id_tournee }}" required><br>
++        <label for="id_conteneur">id_conteneur (ne modifiez pas l'id_conteneur) :</label><br>
++        <input type="text" id="id_conteneur" name="id_conteneur" style="width: 340px; height: 40px;" value="{{ conteneur.id_conteneur }}" required><br>
+ 
+-            <label for="date_tournee">date_tournee :</label><br>
+-            <input type="date" id="date_tournee" name="date_tournee" style="width: 340px; height: 40px;" value="{{ tournee.date_tournee }}"><br>
++        <label for="date_conteneur">date_conteneur :</label><br>
++        <input type="date" id="date_conteneur" name="date_conteneur" style="width: 340px; height: 40px;" value="{{ conteneur.date_conteneur }}"><br>
+ 
+-            <label >lieu_recyclage :</label><br>
+-            <select id="id_centre_recyclage" name="id_centre_recyclage" style="width: 340px; height: 40px;" required>
+-                <option value="">sélectionne un lieu de recyclage</option>
+-                {% for recyclage in recyclages %}
+-                    <option value="{{recyclage.id_centre_recyclage}}" {% if recyclage.id_centre_recyclage == tournee.id_centre_recyclage %}selected{% endif %}>
+-                        {{recyclage.lieu_recyclage}}
+-                    </option>
+-                {% endfor %}
+-            </select><br>
++        <label for="id_centre_recyclage">lieu_recyclage :</label><br>
++        <select id="id_centre_recyclage" name="id_centre_recyclage" style="width: 340px; height: 40px;" required>
++            <option value="">sélectionnez un lieu de recyclage</option>
++            {% for recyclage in recyclages %}
++                <option value="{{recyclage.id_centre_recyclage}}" {% if recyclage.id_centre_recyclage == conteneur.id_centre_recyclage %}selected{% endif %}>
++                    {{recyclage.lieu_recyclage}}
++                </option>
++            {% endfor %}
++        </select><br>
+ 
+-            <label for="id_camion">id_camion :</label><br>
+-            <select id="id_camion" name="id_camion" style="width: 340px; height: 40px;" required>
+-                <option value="">sélectionne un immatriculation camion</option>
+-                {% for camion in camions %}
+-                    <option value="{{camion.id_camion}}" {% if camion.id_camion == tournee.id_camion %}selected{% endif %}>
+-                        {{camion.immatriculation_camion}}
+-                    </option>
+-                {% endfor %}
+-            </select><br>
++        <label for="id_type_dechet">id_type_dechet :</label><br>
++        <select id="id_type_dechet" name="id_type_dechet" style="width: 340px; height: 40px;" required>
++            <option value="">sélectionnez un type de déchet</option>
++            {% for type_dechet in types_dechets %}
++                <option value="{{type_dechet.id_type_dechet}}" {% if type_dechet.id_type_dechet == conteneur.id_type_dechet %}selected{% endif %}>
++                    {{type_dechet.libelle_type_dechet}}
++                </option>
++            {% endfor %}
++        </select><br>
+ 
+-            <label for="temps">Temps :</label><br>
+-            <input type="time" id="temps" name="temps" style="width: 300px; height: 40px;" value="{{ tournee.temps }}"><br>
+-            <input class="sub" type="submit" value="Modifier" style="width: 100px; height: 40px;">
+-
+-            <a class="Annula" href="/conteneur/show">Annuler</a>
+-        </fieldset>
+-    </form>
++        <input class="sub" type="submit" value="Modifier" style="width: 100px; height: 40px;">
++        <a class="Annula" href="/conteneur/show">Annuler</a>
++    </fieldset>
++</form>
+ {% endblock %}
+Index: templates/conteneur/add_conteneur.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'layout.html' %}\r\n\r\n{% block title %}\r\n<link rel=\"stylesheet\" href=\"../../static/Tourneestyles.css\">\r\n<title>Tricycleco</title>\r\n{% endblock %}\r\n\r\n{% block body %}\r\n\r\n<form class=\"form\"  action=\"/conteneur/add\" method=\"post\">\r\n    <fieldset class=\"formulaire\">\r\n\r\n        <label for=\"id_centre_collecte\">Centre de collecte :</label><br>\r\n        <select id=\"id_centre_collecte\" name=\"id_centre_collecte\" style=\"width: 340px; height: 40px;\" required>\r\n            <option value=\"\"> Sélectionnez un centre de collecte</option>\r\n            {% for collecte in collectes %}\r\n            <option value=\" {{collecte.id_centre_collecte}}\"> {{collecte.lieu_collecte}}</option>\r\n            {% endfor %}\r\n        </select><br><br>\r\n\r\n        <label for=\"id_type_dechet\">Type de déchet :</label><br>\r\n        <select id=\"id_type_dechet\" name=\"id_type_dechet\" style=\"width: 340px; height: 40px;\" required>\r\n            <option value=\"\">Sélectionnez un type de déchet</option>\r\n            {% for type_dechet in types_dechets %}\r\n            <option value=\" {{type_dechet.id_type_dechet}}\"> {{type_dechet.libelle_type_dechet}}</option>\r\n            {% endfor %}\r\n        </select><br><br>\r\n\r\n        <label for=\"id_centre_recyclage\">Centre de recyclage :</label><br>\r\n        <select id=\"id_centre_recyclage\" name=\"id_centre_recyclage\" style=\"width: 340px; height: 40px;\" required>\r\n            <option value=\"\">Sélectionnez un centre de recyclage</option>\r\n            {% for recyclage in recyclages %}\r\n            <option value=\" {{recyclage.id_centre_recyclage}}\"> {{recyclage.lieu_recyclage}}</option>\r\n            {% endfor %}\r\n        </select><br><br>\r\n\r\n        <input class=\"sub\" type=\"submit\" value=\"Créer\" style=\"width: 100px; height: 40px;\">\r\n        <a class=\"Annula\"    href=\"/conteneur/show\">Annuler</a>\r\n\r\n    </fieldset>\r\n</form>\r\n\r\n{% endblock %}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/conteneur/add_conteneur.html b/templates/conteneur/add_conteneur.html
+--- a/templates/conteneur/add_conteneur.html	(revision 1f3ae67fe4f0bdf88123565ed79a915c1df9b316)
++++ b/templates/conteneur/add_conteneur.html	(date 1701263998229)
+@@ -1,20 +1,20 @@
+ {% extends 'layout.html' %}
+ 
+ {% block title %}
+-<link rel="stylesheet" href="../../static/Tourneestyles.css">
+-<title>Tricycleco</title>
++    <link rel="stylesheet" href="../../static/Tourneestyles.css">
++    <title>Tricycleco</title>
+ {% endblock %}
+ 
+ {% block body %}
+ 
+-<form class="form"  action="/conteneur/add" method="post">
++<form class="form" action="/conteneur/add" method="post">
+     <fieldset class="formulaire">
+ 
+         <label for="id_centre_collecte">Centre de collecte :</label><br>
+         <select id="id_centre_collecte" name="id_centre_collecte" style="width: 340px; height: 40px;" required>
+-            <option value=""> Sélectionnez un centre de collecte</option>
++            <option value="">Sélectionnez un centre de collecte</option>
+             {% for collecte in collectes %}
+-            <option value=" {{collecte.id_centre_collecte}}"> {{collecte.lieu_collecte}}</option>
++                <option value="{{ collecte.id_centre_collecte }}">{{ collecte.lieu_collecte }}</option>
+             {% endfor %}
+         </select><br><br>
+ 
+@@ -22,7 +22,7 @@
+         <select id="id_type_dechet" name="id_type_dechet" style="width: 340px; height: 40px;" required>
+             <option value="">Sélectionnez un type de déchet</option>
+             {% for type_dechet in types_dechets %}
+-            <option value=" {{type_dechet.id_type_dechet}}"> {{type_dechet.libelle_type_dechet}}</option>
++                <option value="{{ type_dechet.id_type_dechet }}">{{ type_dechet.libelle_type_dechet }}</option>
+             {% endfor %}
+         </select><br><br>
+ 
+@@ -30,12 +30,12 @@
+         <select id="id_centre_recyclage" name="id_centre_recyclage" style="width: 340px; height: 40px;" required>
+             <option value="">Sélectionnez un centre de recyclage</option>
+             {% for recyclage in recyclages %}
+-            <option value=" {{recyclage.id_centre_recyclage}}"> {{recyclage.lieu_recyclage}}</option>
++                <option value="{{ recyclage.id_centre_recyclage }}">{{ recyclage.lieu_recyclage }}</option>
+             {% endfor %}
+         </select><br><br>
+ 
+         <input class="sub" type="submit" value="Créer" style="width: 100px; height: 40px;">
+-        <a class="Annula"    href="/conteneur/show">Annuler</a>
++        <a class="Annula" href="/conteneur/show">Annuler</a>
+ 
+     </fieldset>
+ </form>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"07028513-1d31-4711-b067-621040824ac5\" name=\"Changes\" comment=\"Arthur - Conteneur\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"associatedIndex\": 3\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"2YqRl68OxhMPAxGztVt8rPAhobP\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"DefaultHtmlFileTemplate\": \"HTML File\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"last_opened_file_path\": \"D:/Arthur/Etude/Etude_sup/IUT/Cours/S1/SAE/SAE S1.04/Tricycleco/templates/conteneur\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\Arthur\\Etude\\Etude_sup\\IUT\\Cours\\S1\\SAE\\SAE S1.04\\Tricycleco\\templates\\conteneur\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"app\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"Tricycleco\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/app.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.app\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"07028513-1d31-4711-b067-621040824ac5\" name=\"Changes\" comment=\"\" />\r\n      <created>1701251271095</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1701251271095</updated>\r\n      <workItem from=\"1701251272230\" duration=\"6246000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Arthur\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1701259934214</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1701259934214</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Arthur - Conteneur\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1701259979839</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1701259979839</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Arthur - Conteneur\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1701260018954</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1701260018954</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Arthur\" />\r\n    <MESSAGE value=\"Arthur - Conteneur\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Arthur - Conteneur\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Tricycleco$app.coverage\" NAME=\"app Coverage Results\" MODIFIED=\"1701259742781\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 1f3ae67fe4f0bdf88123565ed79a915c1df9b316)
++++ b/.idea/workspace.xml	(date 1701571563661)
+@@ -4,7 +4,14 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="Arthur - Conteneur" />
++    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="Arthur - Conteneur">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/templates/conteneur/add_conteneur.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/conteneur/add_conteneur.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/templates/conteneur/edit_conteneur.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/conteneur/edit_conteneur.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/templates/conteneur/show_conteneur.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/conteneur/show_conteneur.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tricycleco.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tricycleco.sql" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -23,35 +30,40 @@
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 3
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 3
++}</component>
+   <component name="ProjectId" id="2YqRl68OxhMPAxGztVt8rPAhobP" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "DefaultHtmlFileTemplate": "HTML File",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "git-widget-placeholder": "main",
+-    "last_opened_file_path": "D:/Arthur/Etude/Etude_sup/IUT/Cours/S1/SAE/SAE S1.04/Tricycleco/templates/conteneur",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;last_opened_file_path&quot;: &quot;D:/Arthur/Etude/Etude_sup/IUT/Cours/S1/SAE/SAE S1.04/Tricycleco/templates/conteneur&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="D:\Arthur\Etude\Etude_sup\IUT\Cours\S1\SAE\SAE S1.04\Tricycleco\templates\conteneur" />
+     </key>
+   </component>
+-  <component name="RunManager">
++  <component name="RunManager" selected="Python.app">
++    <configuration name="tricycleco.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
++      <script-file value="$PROJECT_DIR$/tricycleco.sql" />
++      <script-mode>FILE</script-mode>
++      <method v="2" />
++    </configuration>
+     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="Tricycleco" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+@@ -60,8 +72,9 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
++      <option name="SDK_NAME" value="Python 3.10" />
+       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+-      <option name="IS_MODULE_SDK" value="true" />
++      <option name="IS_MODULE_SDK" value="false" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+@@ -77,6 +90,7 @@
+     <recent_temporary>
+       <list>
+         <item itemvalue="Python.app" />
++        <item itemvalue="Database Script.tricycleco.sql" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -89,6 +103,7 @@
+       <option name="presentableId" value="Default" />
+       <updated>1701251271095</updated>
+       <workItem from="1701251272230" duration="6246000" />
++      <workItem from="1701553150169" duration="1317000" />
+     </task>
+     <task id="LOCAL-00001" summary="Arthur">
+       <option name="closed" value="true" />
+@@ -126,6 +141,6 @@
+     <option name="LAST_COMMIT_MESSAGE" value="Arthur - Conteneur" />
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701259742781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
++    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701264339809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+   </component>
+ </project>
+\ No newline at end of file
