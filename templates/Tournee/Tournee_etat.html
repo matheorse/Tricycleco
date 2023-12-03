@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <link rel="stylesheet" href="../../static/Tourneestyles.css">
+    <title>Tricycleco</title>
+{% endblock %}
+
+{% block body %}
+<body class="scrollable">
+    <div class="etat">
+        <div class="zare">
+            <h3><u>Tournee N°1</u></h3>
+            <ul>
+                <li>Date de Début : 2023-02-01</li>
+                <li>Durée : 40 minutes</li>
+                <li>immatriculation_camion: XYZ789</li>
+                <li>Employé : John</li>
+            </ul>
+            <h3><u>Tournee N°2</u></h3>
+            <ul>
+                <li>Date de Début : 2023-03-01</li>
+                <li>Durée : 45 minutes</li>
+                <li>immatriculation_camion: XYZ789</li>
+                <li>Employé :Jane </li>
+            </ul>
+
+        </div>
+        <div>
+            <legend><b>Tournee ayant le temps le plus élevé</b></legend>
+            <table class="tabetat" border="1">
+            <tbody>
+            <tr>
+            <td>id_tournee</td>
+            <td>8</td>
+            </tr>
+            <tr>
+            <td>date_tournee</td>
+            <td>2023-08-01</td>
+            </tr>
+            <tr>
+            <td>lieu_recyclage</td>
+            <td>2 rue Belfort</td>
+            </tr>
+            <tr>
+            <td>immatriculation_camion</td>
+            <td>XYZ789</td>
+            </tr>
+            <tr>
+            <td>temps(minutes)</td>
+            <td>50:42</td>
+            </tr>
+            </tbody>
+            </table>
+        </div>
+
+        <p class="zoro">Vous pouvez sélectionner les différentes tournées en fonction du lieu de recyclage ICI  :</p>
+
+<form method="POST" action="/Tournee/etat" class="etatformu">
+<input type="checkbox" name="rue" id="rueParis" value="14 rue de Paris"><span>14 rue de Paris</span><br>
+<input type="checkbox" name="rue" id="rueBelfort" value="2 rue de Belfort"><span> 2 rue de Belfort</span><br>
+<input type="checkbox" name="rue" id="rueMarconi" value="7 rue Marconi"><span>7 rue Marconi</span><br>
+<input type="checkbox" name="rue" id="rueBranly" value="28 rue Branly"><span>28 rue Branly</span><br>
+
+<input class="filt" type="submit" value="Filtrer">
+<input class="resfilt" type="reset" value="Annuler">
+</form>
+<table class="filtra " border="2">
+<thead>
+<tr>
+<th>id_tournee</th>
+<th>date_tournee</th>
+<th class="lieu">lieu_recyclage</th>
+<th>immatriculation_camion</th>
+<th>temps(minutes)</th>
+</tr>
+</thead>
+<tbody>
+{% if filtered_data %}
+{% for tournee in filtered_data %}
+<tr>
+<td>{{ tournee.id_tournee }}</td>
+<td>{{ tournee.date_tournee }}</td>
+<td class="lieu">{{ tournee.lieu_recyclage }}</td>
+<td>{{ tournee.immatriculation_camion }} ({{ tournee.id_camion }})</td>
+<td>{{ tournee.temps }}</td>
+</tr>
+{% endfor %}
+{% else %}
+<tr>
+<td colspan="6">Aucune tournée pour ce lieu , sélectionnez un autre lieu de recyclage</td>
+</tr>
+{% endif %}
+
+</tbody>
+</table>
+
+
+    </div>
+     </body>
+{% endblock %}

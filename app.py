@@ -264,6 +264,32 @@ def add_Tournee():
     return render_template('Tournee/add_Tournee.html',camions=camions, recyclages=recyclages)
 
 
+
+@app.route('/Tournee/etat', methods=['GET', 'POST'])
+def etat_Tournee():
+   if request.method == 'POST':
+    selected_locations = request.form.getlist('rue')
+
+    # Utilise les lieux sélectionnés pour filtrer les données
+    mycursor = get_db().cursor()
+    sql = '''
+    SELECT t.id_tournee, t.date_tournee, t.id_centre_recyclage, c.lieu_recyclage, t.id_camion, t.temps, camion.immatriculation_camion
+    FROM Tournee t
+    INNER JOIN Centre_recyclage c ON t.id_centre_recyclage = c.id_centre_recyclage
+    INNER JOIN Camion camion ON t.id_camion = camion.id_camion
+    WHERE c.lieu_recyclage IN (%s)
+    '''
+    placeholders = ','.join(['%s'] * len(selected_locations))
+    sql = sql % placeholders
+
+    mycursor.execute(sql, selected_locations)
+    filtered_tournees = mycursor.fetchall()
+
+    return render_template('Tournee/Tournee_etat.html', filtered_data=filtered_tournees)
+
+    return render_template('Tournee/Tournee_etat.html')
+
+
 @app.route('/Tournee/delete')
 def delete_Tournee():
     print('''Suppression d'une Tournée''')
@@ -278,10 +304,20 @@ def delete_Tournee():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message = f'info: suppression d\'une tournee avec - id_tournee =  {id_tournee}'
-            flash(message, 'alert-warning')
+            if mycursor.rowcount > 0:  # Vérification si la suppression a affecté des lignes
+                message = f'Info: suppression d\'une tournée avec - id_tournee = {id_tournee}'
+                flash(message, 'alert-warning')
+            else:
+                message = f'Erreur: La tournée avec - id_tournee = {id_tournee} n\'a pas été trouvée ou ne peut pas être supprimée.'
+                flash(message, 'alert-danger')
+
         except ValueError:
             print("L'ID de la tournée n'est pas un entier valide.")
+            flash("L'ID de la tournée n'est pas un entier valide.", 'alert-danger')
+
+        except pymysql.err.IntegrityError as e:
+            print("Erreur d'intégrité de la base de données:", str(e))
+            flash("Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
 
     return redirect('/Tournee/show')
 
@@ -311,6 +347,10 @@ def edit_Tournee():
     get_db().commit()
 
     return render_template('Tournee/edit_Tournee.html', tournee=Tournee, camions=camions, recyclages=recyclages)
+
+
+
+
 
 
 @app.route('/Tournee/add', methods=['POST'])
@@ -366,6 +406,9 @@ def valid_edit_Tournee():
     get_db().commit()
 
     return redirect('/Tournee/show')
+
+
+########employe########
 
 @app.route('/employe/show')
 def show_employe():
@@ -566,7 +609,7 @@ def edit_conteneur():
     sql = '''SELECT id_tournee, date_tournee, id_centre_recyclage, id_camion, temps
              FROM Tournee
              WHERE id_tournee=%s;'''
-    tuple_param = (tournee_id,)
+    tuple_param = (employe_id,)
     mycursor.execute(sql, tuple_param)
     conteneur = mycursor.fetchone()
 
@@ -609,6 +652,10 @@ def valid_edit_conteneur():
     get_db().commit()
 
     return redirect('/conteneur/show')
+
+
+
+
 
 
 if __name__ == '__main__':
