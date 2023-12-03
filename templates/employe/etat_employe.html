@@ -11,79 +11,85 @@
 
 
 
-            {% if error %}
-                <p class=error><strong>Error:</strong> {{ error }}
-            {% endif %}
+                {% if error %}
+                    <p class=error><strong>Error:</strong> {{ error }}
+                {% endif %}
 
-            <h1>Etats</h1>
+                <h1>Etats</h1>
 
-            <form method="get" action="/employe/etat">
-
-            <h2>Id Camion</h2><br>
-            <label for="idCamion1">
-                <input type="checkbox" value="1" name="filter_items" id="idCamion1">1
-            </label><br>
-
-            <label for="idCamion2">
-                <input type="checkbox" value="2" name="filter_items" id="idCamion2">2
-            </label><br>
-
-            <label for="idCamion3">
-                <input type="checkbox" value="3" name="filter_items" id="idCamion3">3
-            </label><br>
-
-                                     <br>
-                                     <div>
-                                        <a class="annule" href="/employe/show">Annuler</a>
-                                        <button class="Filtrer" type="submit">Filtrer</button>
-                                    </div>
-             </form>
-
-    <h2>Employés ayant le même id_camion </h2>
-             <table class="tabl">
-            <thead class="thead-dark">
-                <tr>
-                    <th>id</th>
-                    <th>numero de telephone</th>
-                    <th>nom</th>
-                    <th>prenom</th>
-                    <th>Salaire</th>
-                    <th>Adresse</th>
-                    <th>id_camion</th>
-                </tr>
-            </thead>
-            <tbody>
-                    {% for Employe in employes %}
-                        <tr>
-                            <td>{{ Employe.id_employe }}</td>
-                            <td>{{ Employe.numero_telephone_employe }}</td>
-                            <td>{{ Employe.nom_employe }}</td>
-                            <td>{{ Employe.prenom_employe }}</td>
-                            <td>{{ Employe.salaire_employe }}</td>
-                            <td>{{ Employe.adresse_employe }}</td>
-                            <td>{{ Employe.id_camion }}</td>
-                        </tr>
-                    {% endfor %}
+                <form method="get" action="/employe/etat">
 
 
-            </tbody>
-        </table>
-
-                <h2>Salaire moyen</h2>
-                <table class="tabl">
+        <h2>Nombre employes par id_camion</h2>
+                 <table class="tabl">
                 <thead class="thead-dark">
                     <tr>
-                        <th>salaire_moyen</th>
+                        <th>id_camion</th>
+                        <th>nombre d'employe</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    {% for ligne in salaire_moyen %}
-                       <tr>
-                              <td>{{ ligne.salaire_moyen }}</td>
-                       </tr>
-                    {% endfor %}
+                        {% for Employe in nombre_employe %}
+                            <tr>
+                                <td>{{ Employe.id_camion }}</td>
+                                <td>{{ Employe.nombre_employe }}</td>
+
+                            </tr>
+                        {% endfor %}
+
 
                 </tbody>
-                </table>
+            </table>
+                        <h2>Salaire total</h2>
+                     <table class="tabl">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Montant total des salaires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ligne in montant_total_salaires %}
+                           <tr>
+                                  <td>{{ ligne.montant_total_salaires}}€</td>
+                           </tr>
+                        {% endfor %}
+
+                    </tbody>
+                     </table>
+                     <h2>Salaire Max</h2>
+                    <table class="tabl">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>salaire Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ligne in salaire_max %}
+                           <tr>
+                                  <td>{{ ligne.salaire_max }}€</td>
+                           </tr>
+                        {% endfor %}
+
+                    </tbody>
+                    </table>
+
+                    <h2>Moyenne des salaires</h2>
+                    <table class="tabl">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>salaire_moyen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ligne in salaire_moyen %}
+                           <tr>
+                                  <td>{{ ligne.salaire_moyen }}€</td>
+                           </tr>
+                        {% endfor %}
+
+                    </tbody>
+                    </table>
+                </form>
       </body>
 {% endblock %}

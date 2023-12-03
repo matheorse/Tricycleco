@@ -574,17 +574,25 @@ def etat_employe():
     '''
     mycursor.execute(sql)
     nombre_employe = mycursor.fetchall()
-    mycursor = get_db().cursor()
 
+    sql1="SELECT SUM(salaire_employe) AS montant_total_salaires FROM Employe;"
+    mycursor.execute(sql1)
+    montant_total_salaires=mycursor.fetchall()
+
+    sql2 = "SELECT MAX(salaire_employe) AS salaire_max FROM Employe ;"
+    mycursor.execute(sql2)
+    salaire_max=mycursor.fetchall()
 
 
     sql_salaire = "SELECT AVG(salaire_employe) AS salaire_moyen FROM Employe"
     mycursor.execute(sql_salaire)
     salaire_moyen = mycursor.fetchall()
-    mycursor = get_db().cursor()
 
 
-    return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, salaire_moyen=salaire_moyen)
+
+
+
+    return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, montant_total_salaires=montant_total_salaires ,salaire_max=salaire_max,salaire_moyen=salaire_moyen)
 
 
 

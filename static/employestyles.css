@@ -30,7 +30,7 @@ html{
     left: 80px;
     width: 70%;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 10px;
 
     background-color: rgb(231, 225, 225);
      border-radius: 4px;
@@ -56,25 +56,19 @@ html{
 
 h2 {
  font-size: 1rem;
- background-color: cadetblue;
- display: inline-block;
- margin-top: 50px;
- margin-left: 30px;
- border: 1px solid black;
+
+ margin-top: 15px;
+ text-align: center;
  padding: 10px;
- border-radius: 8px;
- color: black;
+
+ color: white;
 }
 h1{
-    font-size: 1rem;
- background-color: cadetblue;
- display: inline-block;
+    font-size: 1.5rem;
  margin-top: 50px;
  margin-left: 30px;
- border: 1px solid black;
  padding: 10px;
- border-radius: 8px;
- color: black;
+ color: white;
 
 }
 
@@ -213,19 +207,13 @@ button .valider{
 .editer{
     border-radius: 5px;
     border: black;
-    background-color: limegreen;
+
     color: white;
-    margin-top: 20px;
     padding: 5px;
+    text-decoration: none;
 }
 
-.supprimer{
-    border-radius: 5px;
-    border: black;
-    background-color: red;
-    color: white;
-    padding: 5px;
-}
+
 
 
 
