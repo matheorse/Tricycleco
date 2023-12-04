@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="matheo changement">
+      <change afterPath="$PROJECT_DIR$/templates/collecte/delete_collecte.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/collecte/delete_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/confirm_delete_collecte.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/collecte/confirm_delete_collecte.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/collecte/show_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/show_collecte.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +175,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701708697830</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="matheo changement">
+      <option name="closed" value="true" />
+      <created>1701709821979</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701709821979</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,6 +198,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="matheo changement" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701436763385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701711521938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

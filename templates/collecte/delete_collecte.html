@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Confirmation de suppression</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Confirmation de suppression</h1>
+    <p>Voulez-vous vraiment supprimer la collecte avec l'ID {{ collecte.id_collecte }} ?</p>
+    <form method="POST" action="{{ url_for('confirm_delete_collecte', id=collecte.id_collecte) }}">
+        <button type="submit">Confirmer</button>
+        <a href="{{ url_for('show_collecte') }}">Annuler</a>
+    </form>
+{% endblock %}
