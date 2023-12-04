@@ -150,10 +150,19 @@ a[href]{
     opacity: 1;
   }
 
-.bas-de-page{
+#bas-de-page{
     display: flex;
     flex-direction: row;
-    margin-top: 170px;
+    margin-top: 200px;
+    margin-left: 40px;
+
+}
+
+#bas-de-page-2{
+    display: flex;
+    flex-direction: row;
+    margin-top: 150px;
+    margin-bottom: 30px;
     margin-left: 40px;
 
 }
@@ -168,6 +177,10 @@ a[href]{
     display: block;
     margin-right: auto;
     margin-left: auto;
+}
+
+.reset{
+
 }
 
 #carré-blanc{
@@ -213,7 +226,7 @@ a[href]{
         display: block;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 210px;
+        margin-bottom: 110px;
     }
 
 .page-2{
@@ -225,6 +238,20 @@ a[href]{
 
 #page-2{
     margin-top: 10%;
+}
+
+.reset{
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: red;
+    padding: 10px 30px 10px 30px;
+    color: white;
+    opacity: 0.6;
+    transition: opacity 0.4s;
+}
+
+.reset:hover{
+    opacity: 1;
 }
 
 .tableau{

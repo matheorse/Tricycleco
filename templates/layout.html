@@ -34,7 +34,7 @@
                     <button class="button">Découvrez nos employés</button>
                 </a>
                 <a href="#page-2">
-                    <div class="bas-de-page">
+                    <div id="bas-de-page">
                         <div id="carré-blanc" class="carré"></div>
                         <div class="carré"></div>
                         <svg class="clignotant" width="120px" height="80px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -64,15 +64,20 @@
                         Localisez facilement nos conteneurs dans la ville, triez vos déchets avec facilité, et participez à notre mission commune : transformer les déchets en opportunités durables.
                         Rejoignez-nous dans cette aventure verte pour créer ensemble un avenir plus respectueux de notre planète. Explorez Tricycleco dès maintenant !
                     </p>
+                    <br>
+                    <p>
+                        Réinitialisez la base de donnée en cliquant ici (attention, cela réinitialisera tous les tableaux) :
+                    </p>
+                    <div><a class="reset" href="/reset">RESET</a></div>
                 </div>
 
-                <div class="bas-de-page">
+                <div id="bas-de-page-2">
                         <div class="carré"></div>
                         <div id="carré-blanc2" class="carré"></div>
                     </div>
             </div>
 
-            <div><a href="/reset">RESET</a></div>
+
         {% endblock %}
         {% block javascripts %}
             <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
