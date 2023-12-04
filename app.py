@@ -36,7 +36,7 @@ def show_accueil():
     return render_template('layout.html')
 
 
-########COLLECTE#########
+# - - - - - - C O L L E C T E  - - - - - -
 
 @app.route('/collecte/show')
 def show_collecte():
@@ -297,7 +297,7 @@ def reset():
     return redirect('/')
 
 
-########TOURNEE########
+# - - - - - - - T O U R N E E - - - - -  -
 
 @app.route('/Tournee/show')
 def show_Tournee():
@@ -470,7 +470,7 @@ def valid_edit_Tournee():
     return redirect('/Tournee/show')
 
 
-# - - - - EMPLOYE - - - -
+# - - - - - - -E M P L O Y E - - - - - -
 @app.route('/employe/show')
 def show_employe():
     mycursor = get_db().cursor()
@@ -639,7 +639,6 @@ def show_conteneur():
 
     return render_template('conteneur/show_conteneur.html', conteneur=conteneur, types_dechets=types_dechet)
 
-
 @app.route('/conteneur/delete')
 def delete_conteneur():
     print('''Suppression d'un conteneur''')
@@ -661,46 +660,62 @@ def delete_conteneur():
 
     return redirect('/conteneur/show')
 
-@app.route('/conteneur/add', methods=['GET'])
+@app.route('/conteneur/add', methods=['GET', 'POST'])
 def add_conteneur():
     print('''affichage du formulaire pour ajouter un conteneur''')
     mycursor = get_db().cursor()
-    sql = '''SELECT * FROM Centre_recyclage;'''
-    mycursor.execute(sql)
+
+    sql1 = '''SELECT * FROM Centre_recyclage;'''
+    mycursor.execute(sql1)
     recyclages = mycursor.fetchall()
+
     sql2 = '''SELECT * FROM type_dechet;'''
     mycursor.execute(sql2)
-    types_dechet = mycursor.fetchall()
+    types_dechets = mycursor.fetchall()
+
     sql3 = '''SELECT * FROM Centre_collecte;'''
     mycursor.execute(sql3)
-    collecte = mycursor.fetchall()
+    collectes = mycursor.fetchall()
+
+    sql4 = '''SELECT * FROM Conteneur;'''
+    mycursor.execute(sql4)
+    conteneurs = mycursor.fetchall()
+
     get_db().commit()
 
-    return render_template('conteneur/add_conteneur.html', recyclages=recyclages, types_dechet=types_dechet, collecte=collecte)
+    return render_template('conteneur/add_conteneur.html', conteneurs=conteneurs, recyclages=recyclages,
+                           types_dechets=types_dechets, collectes=collectes)
+
 
 @app.route('/conteneur/add', methods=['POST'])
 def valid_add_conteneur():
-    print('''Ajout du conteneur dans la table''')
-    id_centre_collecte = request.form.get('id_centre_collecte')
-    id_type_dechet = request.form.get('id_type_dechet')
-    id_centre_recyclage = request.form.get('id_centre_recyclage')
-    volume_conteneur = request.form.get('volume_conteneur')
-    reference_conteneur = request.form.get('reference_conteneur')
+    try:
+        print('''Ajout du conteneur dans la table''')
+        id_centre_collecte = request.form.get('id_centre_collecte')
+        id_type_dechet = request.form.get('id_type_dechet')
+        id_centre_recyclage = request.form.get('id_centre_recyclage')
+        volume_conteneur = request.form.get('volume_conteneur')
+        reference_conteneur = request.form.get('reference_conteneur')
 
-    message = (
-        f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
-        f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
-        f' volume_conteneur : {volume_conteneur}, reference_conteneur {reference_conteneur}'
-    )
+        message = (
+            f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
+            f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
+            f' volume_conteneur : {volume_conteneur}, reference_conteneur {reference_conteneur}'
+        )
 
-    mycursor = get_db().cursor()
-    tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage)
-    sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur) VALUES (%s, %s, %s);"
-    mycursor.execute(sql, tuple_param)
-    get_db().commit()
+        mycursor = get_db().cursor()
+        tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur)
+        sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur) VALUES (%s, %s, %s, %s, %s);"
+        mycursor.execute(sql, tuple_param)
+        get_db().commit()
 
-    flash(message, 'alert-success')
-    return redirect('/conteneur/show')
+        flash(message, 'alert-success')
+        return redirect('/conteneur/show')
+
+    except Exception as e:
+        # Gestion des erreurs de base de données
+        flash(f'Erreur lors de l\'ajout du conteneur : {str(e)}', 'alert-danger')
+        return redirect('/conteneur/add')  # Rediriger vers la page d'ajout en cas d'erreur
 
 
 @app.route('/conteneur/edit', methods=['GET', 'POST'])

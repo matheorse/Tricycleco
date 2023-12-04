@@ -13,33 +13,33 @@
 
     <div>
         <div>
-            <form class="formulaire" action="/conteneur/add" method="post">
-                <div class="label">
+            <form method="post" action="/conteneur/add" class="formulaire">
+                <fieldset class="formulaire">
                     <label class="sous-titre" for="id_centre_collecte">Centre de collecte</label>
                     <select class="input" id="id_centre_collecte" name="id_centre_collecte" style="width: 340px; height: 40px;" required>
                         <option value="" selected disabled>Sélectionnez un centre de collecte</option>
-                        {% for centre_collecte in centres_collecte %}
-                        <option value="{{ centre_collecte.id_centre_collecte }}">{{ centre_collecte.lieu_collecte }}</option>
+                        {% for collecte in collectes %}
+                        <option value="{{ collecte.id_centre_collecte }}">{{ collecte.lieu_collecte }}</option>
                         {% endfor %}
                     </select>
-                </div>
+                </fieldset>
 
                 <div class="label">
-                    <label class="sous-titre" for="volume_conteneur">Volume centre de collecte</label>
-                    <input type="number" id="volume_conteneur" name="volume_conteneur" value="" required><br>
+                    <label class="sous-titre" for="volume_conteneur">Volume centre de collecte (m^3)</label>
+                    <input type="number" id="volume_conteneur" name="volume_conteneur" value="" required>
                 </div>
 
                 <div class="label">
                     <label class="sous-titre" for="reference_conteneur">Référence centre de collecte</label>
-                    <input type="text" id="reference_conteneur" name="reference_conteneur" value="" required><br>
+                    <input type="text" id="reference_conteneur" name="reference_conteneur" value="" required>
                 </div>
 
                 <div class="label">
                     <label class="sous-titre" for="id_type_dechet">Type de déchet</label>
                     <select class="input" id="id_type_dechet" name="id_type_dechet" style="width: 340px; height: 40px;" required>
                         <option value="" selected disabled>Sélectionnez un type de déchet</option>
-                        {% for type_dechet_item in types_dechets %}
-                        <option value="{{ type_dechet_item.id_type_dechet }}">{{ type_dechet_item.libelle_type_dechet }}</option>
+                        {% for type_dechet in types_dechets %}
+                        <option value="{{ type_dechet.id_type_dechet }}">{{ type_dechet.libelle_type_dechet }}</option>
                         {% endfor %}
                     </select>
                 </div>
