@@ -203,8 +203,6 @@ def etat_collecte():
     if request.method == 'POST':
         min_quantite = request.form.get('min_quantite')
         max_quantite = request.form.get('max_quantite')
-        id_type_dechet = request.form.get('id_type_dechet')
-        id_centre_collecte = request.form.get('id_centre_collecte')
         min_quantite = min_quantite or 0
 
         # Requête SQL pour les types de déchets
@@ -212,8 +210,7 @@ def etat_collecte():
                                          SUM(Collecte.quantite_dechet_collecte) AS quantite_total_type
                                      FROM Collecte
                                      JOIN type_dechet ON Collecte.id_type_dechet = type_dechet.id_type_dechet
-                                     WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
-                                         AND (type_dechet.id_type_dechet = {id_type_dechet} OR {id_type_dechet} IS NULL OR type_dechet.id_type_dechet IS NULL)
+                                     WHERE Collecte.quantite_dechet_collecte BETWEEN %s AND %s
                                      GROUP BY type_dechet.libelle_type_dechet
                                      ORDER BY quantite_total_type DESC;
                                  """
@@ -223,16 +220,17 @@ def etat_collecte():
                                            SUM(Collecte.quantite_dechet_collecte) AS quantite_total_centre
                                        FROM Collecte
                                        JOIN Centre_collecte ON Collecte.id_centre_collecte = Centre_collecte.id_centre_collecte
-                                       WHERE Collecte.quantite_dechet_collecte BETWEEN {min_quantite} AND {max_quantite}
-                                           AND (Centre_collecte.id_centre_collecte = {id_centre_collecte} OR {id_centre_collecte} IS NULL OR Centre_collecte.id_centre_collecte IS NULL)
+                                       WHERE Collecte.quantite_dechet_collecte BETWEEN %s AND %s
                                        GROUP BY Centre_collecte.lieu_collecte
                                        ORDER BY quantite_total_centre DESC;
                                    """
 
-        mycursor.execute(sql_types_dechets)
+        tuple_param = (min_quantite, max_quantite)
+        mycursor.execute(sql_types_dechets, tuple_param)
         quantite_total_type = mycursor.fetchall()
 
-        mycursor.execute(sql_centres_collecte)
+        tuple_param = (min_quantite, max_quantite)
+        mycursor.execute(sql_centres_collecte, tuple_param)
         quantite_total_centre = mycursor.fetchall()
     else:
         # Requête SQL sans filtre
@@ -565,17 +563,25 @@ def etat_employe():
     '''
     mycursor.execute(sql)
     nombre_employe = mycursor.fetchall()
-    mycursor = get_db().cursor()
 
+    sql1="SELECT SUM(salaire_employe) AS montant_total_salaires FROM Employe;"
+    mycursor.execute(sql1)
+    montant_total_salaires=mycursor.fetchall()
+
+    sql2 = "SELECT MAX(salaire_employe) AS salaire_max FROM Employe ;"
+    mycursor.execute(sql2)
+    salaire_max=mycursor.fetchall()
 
 
     sql_salaire = "SELECT AVG(salaire_employe) AS salaire_moyen FROM Employe"
     mycursor.execute(sql_salaire)
     salaire_moyen = mycursor.fetchall()
-    mycursor = get_db().cursor()
 
 
-    return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, salaire_moyen=salaire_moyen)
+
+
+
+    return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, montant_total_salaires=montant_total_salaires ,salaire_max=salaire_max,salaire_moyen=salaire_moyen)
 
 
 
