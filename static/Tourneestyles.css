@@ -86,13 +86,14 @@ form.formu{
     border-radius: 7px;
     padding: 5px;
 }
-.formu .formulaire .sub{
+ .formulaire .sub{
     margin-top: 50px;
      background-color: deepskyblue;
     padding-top: 7px;
     padding-bottom: 7px;
     font-size: 1.1rem;
     color: rgb(12, 10, 10);
+    border-radius: 5px;
 }
 .formu .formulaire .Annul{
     margin-top: 5px;

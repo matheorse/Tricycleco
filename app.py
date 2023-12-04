@@ -334,7 +334,7 @@ def delete_Tournee():
 
         except pymysql.err.IntegrityError as e:
             print("Erreur d'intégrité de la base de données:", str(e))
-            flash("Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
+            flash("Delete Controle :Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
 
     return redirect('/Tournee/show')
 

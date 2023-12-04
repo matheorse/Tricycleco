@@ -7,7 +7,7 @@
 
 {% block body %}
 
-    <form class="formu"  action="/Tournee/edit" method="post">
+    <form  action="/Tournee/edit" method="post">
         <fieldset class="formulaire">
             <label for="id_tournee">id_tournee (ne mofiez pas l'id_tournee) :</label><br>
             <input type="text" id="id_tournee" name="id_tournee" style="width: 340px; height: 40px;" value="{{ tournee.id_tournee }}" required><br>
@@ -22,7 +22,7 @@
                     </option>
                 {% endfor %}
             </select><br>
-            <label for="id_camion">id_camion :</label><br>
+            <label for="id_camion">immatriculation_camion :</label><br>
             <select id="id_camion" name="id_camion" style="width: 340px; height: 40px;" required>
                 <option value="">sélectionne un immatriculation camion</option>
                 {% for camion in camions %}
