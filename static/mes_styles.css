@@ -412,3 +412,10 @@ tbody tr:nth-child(odd){
     border: 1px solid black;
     border-radius: 5px;
     }
+
+.filtre{
+    width: 50%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
