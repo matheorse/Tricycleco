@@ -145,7 +145,7 @@ table.filtra{
     position: absolute;
     top: 760px;
     left:50px;
-    width: 1200px;
+    width: 55%;
     background-color: white;
 
 }
@@ -203,7 +203,21 @@ td.lieu{
         top: 520px;
     
         font-size: 1.4rem;
-        margin-left: 1150px;
+        margin-left: 950px;
+        width: 50%;
+    }
+    @media (max-width:1421px) {
+        p.zoro{
+
+            position: absolute;
+            top: 520px;
+        
+            font-size: 1.4rem;
+            margin-left: 720px;
+            width: 50%; 
+        }
+
+        
     }
 
 
