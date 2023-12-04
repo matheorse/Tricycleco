@@ -30,6 +30,8 @@
             <tr>
                 <th scope="col">id_conteneur</th>
                 <th scope="col">Centre de collecte</th>
+                <th scope="col">Volume centre de collecte</th>
+                <th scope="col">Référence centre de collecte</th>
                 <th scope="col">Type de dechet</th>
                 <th scope="col">Centre de recyclage</th>
                 <th scope="col"> Modifier </th>
@@ -41,6 +43,8 @@
                     <tr class="ligne">
                         <td class="colonne">{{ c.id }}</td>
                         <td class="colonne">{{ c.collecte }} ({{ c.idc }})</td>
+                        <td class="colonne">{{ c.volume }}</td>
+                        <td class="colonne">{{ c.reference }}</td>
                         <td class="colonne">{{ c.type_item }} ({{ c.idtd }})</td>
                         <td class="colonne">{{ c.recyclage }} ({{ c.idr }})</td>
                         <td class="colonne">

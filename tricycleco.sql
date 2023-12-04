@@ -75,11 +75,14 @@ CREATE TABLE Conteneur(
    id_centre_collecte INT NOT NULL,
    id_type_dechet INT NOT NULL,
    id_centre_recyclage INT NOT NULL,
+   volume_conteneur INT NOT NULL,
+   reference_conteneur VARCHAR(50) NOT NULL,
    PRIMARY KEY(id_conteneur),
    FOREIGN KEY(id_centre_collecte) REFERENCES Centre_collecte(id_centre_collecte),
    FOREIGN KEY(id_type_dechet) REFERENCES type_dechet(id_type_dechet),
    FOREIGN KEY(id_centre_recyclage) REFERENCES Centre_recyclage(id_centre_recyclage)
 );
+
 
 INSERT INTO Camion VALUES (1, 'ABC123', 101);
 INSERT INTO Camion VALUES (2, 'XYZ789', 102);
@@ -99,8 +102,8 @@ INSERT INTO Centre_collecte VALUES (8, 'Strasbourg Sud');
 
 INSERT INTO Centre_recyclage VALUES (1, '14 rue de Paris');
 INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');
-INSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');
-INSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');
+INSERT INTO Centre_recyclage VALUES (3, '7 rue Marconi');
+INSERT INTO Centre_recyclage VALUES (4, '28 rue Branly');
 
 
 INSERT INTO Employe VALUES (1, 123456789, 'Doe', 'John', 50000, '123 Main St', 1);
@@ -148,8 +151,11 @@ INSERT INTO Collecte Values (6, 681, 6, 6, 6);
 INSERT INTO Collecte Values (7, 602, 7, 7, 7);
 INSERT INTO Collecte Values (8, 456, 8, 8, 8);
 
-INSERT INTO Conteneur VALUES (1, 1, 1, 1);
-INSERT INTO Conteneur VALUES (2, 2, 2, 2);
+INSERT INTO Conteneur VALUES (1, 2, 3, 4, '100', 'AIPF');
+INSERT INTO Conteneur VALUES (2, 3, 4, 3, '200', 'EOMI');
+INSERT INTO Conteneur VALUES (3, 8, 5, 1, '150', 'OVND');
+INSERT INTO Conteneur VALUES (4, 5, 1, 2, '50', 'OEIU');
+INSERT INTO Conteneur VALUES (5, 7, 2, 3, '250', 'LAKF');
 
 SELECT type_dechet.libelle_type_dechet, SUM(Collecte.quantite_dechet_collecte) AS total_quantite
 FROM type_dechet
@@ -160,12 +166,12 @@ SELECT Employe.nom_employe, Employe.prenom_employe, Tournee.date_tournee, Tourne
 FROM Employe
 JOIN Tournee ON Employe.id_camion = Tournee.id_camion;
 
-SELECT Conteneur.id_conteneur AS id, Centre_collecte.lieu_collecte AS collecte, td.libelle_type_dechet AS type, Centre_recyclage.lieu_recyclage AS recyclage
+SELECT Conteneur.id_conteneur AS id, Centre_collecte.lieu_collecte AS collecte, td.libelle_type_dechet AS type, Centre_recyclage.lieu_recyclage AS recyclage, Conteneur.volume_conteneur AS volume, Conteneur.reference_conteneur AS reference
 FROM Conteneur
 INNER JOIN Centre_recyclage ON Conteneur.id_centre_recyclage = Centre_recyclage.id_centre_recyclage
 INNER JOIN type_dechet td ON Conteneur.id_type_dechet = td.id_type_dechet
 INNER JOIN Centre_collecte ON Conteneur.id_centre_collecte = Centre_collecte.id_centre_collecte
-ORDER BY Conteneur.id_conteneur;
+ORDER BY Conteneur.id_conteneur, Conteneur.volume_conteneur;
 
 SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
              FROM type_dechet;

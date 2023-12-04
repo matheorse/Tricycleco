@@ -598,13 +598,15 @@ def show_conteneur():
             td.libelle_type_dechet AS type_item,
             td.id_type_dechet AS idtd,
             cr.id_centre_recyclage AS idr,
-            cr.lieu_recyclage AS recyclage
+            cr.lieu_recyclage AS recyclage,
+            c.volume_conteneur AS volume,
+            c.reference_conteneur AS reference
         FROM
             Conteneur c
             INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
             INNER JOIN type_dechet td ON c.id_type_dechet = td.id_type_dechet
             INNER JOIN Centre_collecte cc ON c.id_centre_collecte = cc.id_centre_collecte
-        ORDER BY c.id_conteneur;
+        ORDER BY c.id_conteneur, c.volume_conteneur;
     '''
     mycursor.execute(sql)
     conteneur = mycursor.fetchall()
