@@ -5,6 +5,7 @@ body{
     background-color: black;
     color: white;
     text-decoration: none;
+    margin: 0;
 }
 
 body.scrollable {
@@ -24,6 +25,7 @@ a[href]{
 
 .navbar {
     overflow: hidden;
+    padding-top: 20px;
 }
 
 
@@ -41,7 +43,8 @@ a[href]{
 
     display: block;
     color: white;
-    margin-left: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -64,13 +67,8 @@ a[href]{
     display: none;
     position: absolute;
     background-color: #2e3333;
-
-
     min-width: 160px;
     z-index: 1;
-
-
-
 }
 
 .dropdown-content a {
@@ -85,6 +83,15 @@ a[href]{
     display: block;
 }
 
+.dropbtn{
+    transition: color 0.5s ;
+    transition: background-color 0.5s;
+}
+
+.dropbtn:hover{
+    background-color: white;
+    color: black;
+}
 
 /*     BODY     */
 
@@ -92,9 +99,10 @@ a[href]{
     height: 100vh;
     width: 100vw;
     object-fit: cover;
-    position: absolute;
+    position: fixed;
     z-index: -1;
     }
+
 
 .page-2 #background-video {
     display: none; /* Ajoutez cette ligne pour masquer la vidéo dans la page-2 */
@@ -153,6 +161,13 @@ a[href]{
 .haut-de-page{
     margin-left: 80px;
     margin-right: 0;
+}
+
+.texte{
+    width: 80%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 #carré-blanc{
