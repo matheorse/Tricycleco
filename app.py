@@ -94,7 +94,7 @@ def delete_collecte():
             if not collecte:
                 abort(404)
 
-            return render_template('collecte/delete_collecte.html', collecte=collecte)
+            return render_template('collecte/confirm_delete_collecte.html', collecte=collecte)
 
         except ValueError:
             print("L'ID de la collecte n'est pas un entier valide.")
@@ -103,9 +103,8 @@ def delete_collecte():
 
 @app.route('/collecte/confirm_delete/<int:id>', methods=['POST'])
 def confirm_delete_collecte(id):
-    mycursor = get_db().cursor()
-
     if request.method == 'POST':
+        mycursor = get_db().cursor()
         try:
             tuple_param = (id,)
             sql = "DELETE FROM Collecte WHERE id_collecte=%s;"
@@ -116,6 +115,8 @@ def confirm_delete_collecte(id):
             flash(message, 'alert-warning')
         except Exception as e:
             print(f"Erreur lors de la suppression de la collecte : {str(e)}")
+
+        return redirect('/collecte/show')
 
     return redirect('/collecte/show')
 
