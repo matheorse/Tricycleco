@@ -669,7 +669,7 @@ def valid_add_conteneur():
     message = (
         f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
         f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
-        f'volume_conteneur : {volume_conteneur}, reference_conteneur {reference_conteneur}'
+        f' volume_conteneur : {volume_conteneur}, reference_conteneur {reference_conteneur}'
     )
 
     mycursor = get_db().cursor()
