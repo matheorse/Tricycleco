@@ -295,9 +295,6 @@ def show_Tournee():
 
     return render_template('Tournee/show_Tournee.html', Tournee=Tournee)
 
-
-
-
 @app.route('/Tournee/add', methods=['GET'])
 def add_Tournee():
     print('''affichage du formulaire pour saisir une Tournee''')
@@ -311,7 +308,6 @@ def add_Tournee():
     get_db().commit()
 
     return render_template('Tournee/add_Tournee.html',camions=camions, recyclages=recyclages)
-
 
 @app.route('/Tournee/delete')
 def delete_Tournee():
@@ -343,8 +339,6 @@ def delete_Tournee():
             flash("Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
 
     return redirect('/Tournee/show')
-
-
 
 @app.route('/Tournee/edit', methods=['GET'])
 def edit_Tournee():
@@ -428,7 +422,6 @@ def valid_add_Tournee():
     flash(message, 'alert-success')
     return redirect('/Tournee/show')
 
-
 @app.route('/Tournee/edit', methods=['POST'])
 def valid_edit_Tournee():
     print('''Modification de la Tournée dans le tableau''')
@@ -480,7 +473,6 @@ def add_employe():
 
     return render_template('employe/add_employe.html',camions=camions)
 
-
 @app.route('/employe/add', methods=['POST'])
 def valid_add_employe():
     numero_telephone_employe=request.form.get('numero_tel_employe','')
@@ -498,7 +490,6 @@ def valid_add_employe():
     get_db().commit()
     flash(message, 'alert-success')
     return redirect('/employe/show')
-
 
 @app.route('/employe/delete', methods=['GET'])
 def delete_employe():
@@ -518,7 +509,6 @@ def delete_employe():
         except ValueError:
          print("L'ID de l'employe n'est pas un entier valide.")
     return redirect('/employe/show')
-
 
 @app.route('/employe/edit', methods=['GET'])
 def edit_employe():
@@ -540,7 +530,6 @@ def edit_employe():
 
     get_db().commit()
     return render_template('employe/edit_employe.html', employe=employe,camions=camions)
-
 
 @app.route('/employe/edit', methods=['POST'])
 def valid_edit_employe():
@@ -600,7 +589,7 @@ def show_conteneur():
             c.id_conteneur AS id,
             cc.lieu_collecte AS collecte,
             cc.id_centre_collecte AS idc,
-            td.libelle_type_dechet AS type,
+            td.libelle_type_dechet AS type_item,
             td.id_type_dechet AS idtd,
             cr.id_centre_recyclage AS idr,
             cr.lieu_recyclage AS recyclage
@@ -614,19 +603,25 @@ def show_conteneur():
     mycursor.execute(sql)
     conteneur = mycursor.fetchall()
 
-    return render_template('conteneur/show_conteneur.html', conteneur=conteneur)
+    # Ajoutez la requête pour récupérer les types de déchets
+    sql_types_dechet = "SELECT id_type_dechet, libelle_type_dechet FROM type_dechet;"
+    mycursor.execute(sql_types_dechet)
+    types_dechet = mycursor.fetchall()
+
+    return render_template('conteneur/show_conteneur.html', conteneur=conteneur, types_dechets=types_dechet)
+
 
 @app.route('/conteneur/delete')
 def delete_conteneur():
     print('''Suppression d'un conteneur''')
-    id_tournee = request.args.get('id')
+    id_conteneur = request.args.get('id')
 
-    if id_tournee:
+    if id_conteneur is not None:
         try:
-            id_tournee = int(id_tournee)
+            id_conteneur = int(id_conteneur)
             mycursor = get_db().cursor()
-            tuple_param = (id_tournee,)
-            sql = "DELETE FROM Tournee WHERE id_tournee=%s;"
+            tuple_param = (id_conteneur,)
+            sql = "DELETE FROM Conteneur WHERE id_conteneur=%s;"
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
@@ -639,7 +634,7 @@ def delete_conteneur():
 
 @app.route('/conteneur/add', methods=['GET'])
 def add_conteneur():
-    print('''affichage du formulaire pour saisir un conteneur''')
+    print('''affichage du formulaire pour ajouter un conteneur''')
     mycursor = get_db().cursor()
     sql = '''SELECT * FROM Centre_recyclage;'''
     mycursor.execute(sql)
@@ -649,10 +644,10 @@ def add_conteneur():
     types_dechet = mycursor.fetchall()
     sql3 = '''SELECT * FROM Centre_collecte;'''
     mycursor.execute(sql3)
-    centres_collecte = mycursor.fetchall()
+    collecte = mycursor.fetchall()
     get_db().commit()
 
-    return render_template('conteneur/add_conteneur.html', recyclages=recyclages, types_dechet=types_dechet, centres_collecte=centres_collecte)
+    return render_template('conteneur/add_conteneur.html', recyclages=recyclages, types_dechet=types_dechet, collecte=collecte)
 
 @app.route('/conteneur/add', methods=['POST'])
 def valid_add_conteneur():
@@ -681,52 +676,80 @@ def edit_conteneur():
     print('''affichage du formulaire pour modifier un conteneur''')
     print(request.args)
     print(request.args.get('id'))
-    tournee_id = request.args.get('id')
+    id_conteneur = request.args.get('id_conteneur')
+    id_conteneur = int(id_conteneur)
     mycursor = get_db().cursor()
-    sql = '''SELECT id_tournee, date_tournee, id_centre_recyclage, id_camion, temps
-             FROM Tournee
-             WHERE id_tournee=%s;'''
-    tuple_param = (tournee_id,)
+    sql = '''
+        SELECT
+            c.id_conteneur AS id,
+            cc.lieu_collecte AS collecte,
+            cc.id_centre_collecte AS idc,
+            td.libelle_type_dechet AS type_item,
+            td.id_type_dechet AS idtd,
+            cr.id_centre_recyclage AS idr,
+            cr.lieu_recyclage AS recyclage
+        FROM
+            Conteneur c
+            INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
+            INNER JOIN type_dechet td ON c.id_type_dechet = td.id_type_dechet
+            INNER JOIN Centre_collecte cc ON c.id_centre_collecte = cc.id_centre_collecte
+        WHERE c.id_conteneur = %s;
+    '''
+    tuple_param = (int(id_conteneur),)
     mycursor.execute(sql, tuple_param)
     conteneur = mycursor.fetchone()
 
-    sql_camions = '''Select * From Camion;'''
-    mycursor.execute(sql_camions)
-    camions = mycursor.fetchall()
+    sql_collecte = '''Select * From Centre_collecte;'''
+    mycursor.execute(sql_collecte)
+    collecte = mycursor.fetchall()
 
     sql_recyclages = '''Select * From Centre_recyclage;'''
     mycursor.execute(sql_recyclages)
     recyclages = mycursor.fetchall()
 
+    sql_type_dechet = '''SELECT * FROM type_dechet;'''
+    mycursor.execute(sql_type_dechet)
+    types_dechet = mycursor.fetchall()
+
     get_db().commit()
 
-    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, camions=camions, recyclages=recyclages)
+    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, recyclages=recyclages, types_dechets=types_dechet, collectes=collecte)
+
+def get_name_by_id(mycursor, table, field, id):
+    sql = f"SELECT {field} FROM {table} WHERE id_{table}=%s;"
+    mycursor.execute(sql, (id,))
+    result = mycursor.fetchone()
+    return result[field] if result else ''
+
 
 @app.route('/conteneur/edit', methods=['POST'])
 def valid_edit_conteneur():
     print('''Modification du conteneur dans le tableau''')
-    id_tournee = request.form.get('id_tournee')
-    date_tournee = request.form.get('date_tournee')
-    id_centre_recyclage = request.form.get('id_centre_recyclage')
-    id_camion = request.form.get('id_camion')
-    temps = request.form.get('temps')
 
-    message = (
-        f'info: Conteneur modifié - id_tournee : {id_tournee}, date : {date_tournee}, '
-        f'id_Centre_recyclage : {id_centre_recyclage}, id_Camion : {id_camion}, '
-        f'Temps : {temps}'
-    )
+    mydb = get_db()
+    mycursor = mydb.cursor()
+
+    id_conteneur = request.form.get('id_conteneur')
+    id_type_dechet = request.form.get('id_type_dechet')
+    id_centre_recyclage = request.form.get('id_centre_recyclage')
+    id_centre_collecte = request.form.get('id_centre_collecte')
+
+    #collecte_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', id_centre_collecte)
+    #type_item_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', id_type_dechet)
+    #recyclage_name = get_name_by_id(mycursor, 'Centre_recyclage', 'lieu_recyclage', id_centre_recyclage)
+
+    message = f'Id conteneur : {id_conteneur} - centre de collecte : {collecte_name} - Type de dechet : {type_item_name} - centre de recyclage : {recyclage_name}'
+    print(message)
     flash(message, 'alert-success')
 
-    mycursor = get_db().cursor()
-    tuple_param = (id_tournee, date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)
-    sql_update = '''UPDATE Tournee
-                    SET date_tournee = %s, id_centre_recyclage = %s, id_camion = %s, temps = %s
-                    WHERE id_tournee = %s;'''
-    tuple_params = (date_tournee, id_centre_recyclage, id_camion, temps, id_tournee)
-
+    tuple_params = (id_type_dechet, id_centre_recyclage, id_centre_collecte, id_conteneur)
+    sql_update = '''
+            UPDATE Conteneur
+            SET id_type_dechet = %s, id_centre_recyclage = %s, id_centre_collecte = %s
+            WHERE id_conteneur = %s;
+        '''
     mycursor.execute(sql_update, tuple_params)
-    get_db().commit()
+    mydb.commit()
 
     return redirect('/conteneur/show')
 

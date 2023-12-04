@@ -8,7 +8,7 @@
     <h1 class="titre">MODIFIER UN CONTENEUR</h1>
     <hr class="barre">
     {% if error %}
-        <p><strong>Error:</strong> {{ error }}
+        <p><strong>Error:</strong> {{ error }}</p>
     {% endif %}
 
     <div>
@@ -19,10 +19,10 @@
                     <input type="number" id="id_conteneur" name="id_conteneur" value="{{ conteneur.id_conteneur }}" hidden>
 
                     <div class="label">
-                        <label class="sous-titre" for="type_item">Type de déchet</label>
+                        <label class="sous-titre" for="id_type_dechet">Type de déchet</label>
                         <select id="id_type_dechet" name="id_type_dechet" class="input" required>
                             <option value="">Sélectionner un type de déchet</option>
-                            {% for type_item in types %}
+                            {% for type_item in types_dechets %}
                             <option value="{{ type_item.id_type_dechet }}" {% if type_item.id_type_dechet == conteneur.id_type_dechet %}selected{% endif %}>
                                 {{ type_item.libelle_type_dechet }}
                             </option>
@@ -30,32 +30,31 @@
                         </select>
                     </div>
 
+
                     <div class="label">
-                        <label class="sous-titre" for="centre">Centre de collecte</label>
-                        <select id="centre" name="centre" class="input" required>
-                            <option value="{{ centre.id_centre_collecte }}"></option>
-                            {% for centre in centres %}
-                            <option value="{{ centre.id_centre_collecte }}" {% if centre.id_centre_collecte == conteneur.id_centre_collecte %}selected{% endif %}>
-                                {{ centre.lieu_collecte }}
+                        <label class="sous-titre" for="collecte">Centre de collecte</label>
+                        <select id="collecte" name="collecte" class="input" required>
+                            <option value=""> Sélectionner un centre de collecte </option>
+                            {% for collecte in collectes %}
+                            <option value="{{ collecte.id_centre_collecte }}" {% if collecte.id_centre_collecte == conteneur.id_centre_collecte %}selected{% endif %}>
+                                {{ collecte.lieu_collecte }}
                             </option>
                             {% endfor %}
                         </select>
                     </div>
+
 
                     <div class="label">
                         <label class="sous-titre" for="recyclage">Centre de recyclage</label>
                         <select id="recyclage" name="recyclage" class="input" required>
-                            {% if recyclages %}
-                            <option value=""></option>
+                            <option value=""> Sélectionner un centre de recyclage </option>
                             {% for recyclage in recyclages %}
-                            <option value="{{ recyclage.id_centre_recyclage }}" {% if recyclage.id_centre_recyclage == conteneur.id_centre_recyclage %}selected{% endif %}>
-                                {{ recyclage.lieu_recyclage }}
-                            </option>
+                                <option value="{{ recyclage.id_centre_recyclage }}" {% if recyclage.id_centre_recyclage == conteneur.id_centre_recyclage %}selected{% endif %}>
+                                    {{ recyclage.lieu_recyclage }}
+                                </option>
                             {% endfor %}
-                            {% endif %}
                         </select>
                     </div>
-
 
                     <div class="label">
                         <a class="annuler" href="/conteneur/show">Annuler</a>
@@ -65,5 +64,5 @@
                 </fieldset>
             </form>
         </div>
-</div>
+    </div>
 {% endblock %}
