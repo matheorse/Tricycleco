@@ -697,7 +697,10 @@ def edit_conteneur():
                 td.libelle_type_dechet AS type_item,
                 td.id_type_dechet AS id_type_dechet,
                 cr.id_centre_recyclage AS id_centre_recyclage,
-                cr.lieu_recyclage AS recyclage
+                cr.lieu_recyclage AS recyclage,
+                c.volume_conteneur AS volume,
+                c.reference_conteneur AS reference
+                
             FROM
                 Conteneur c
                 INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
@@ -745,11 +748,11 @@ def valid_edit_conteneur():
     mydb = get_db()
     mycursor = mydb.cursor()
 
-    id_conteneur = request.form.get('id_conteneur')
-    id_type_dechet = request.form.get('id_type_dechet')
-    id_centre_recyclage = request.form.get('id_centre_recyclage')
-    id_centre_collecte = request.form.get('id_centre_collecte')
-    volume_conteneur = request.form.get('volume_conteneur')
+    id_conteneur = int(request.form.get('id_conteneur'))
+    id_type_dechet = int(request.form.get('id_type_dechet'))
+    id_centre_recyclage = int(request.form.get('id_centre_recyclage'))
+    id_centre_collecte = int(request.form.get('id_centre_collecte'))
+    volume_conteneur = int(request.form.get('volume_conteneur'))
     reference_conteneur = request.form.get('reference_conteneur')
 
     collecte_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', id_centre_collecte)
@@ -761,7 +764,7 @@ def valid_edit_conteneur():
     print(message)
     flash(message, 'alert-success')
 
-    tuple_params = (id_type_dechet, id_centre_recyclage, id_centre_collecte, id_conteneur, volume_conteneur, reference_conteneur)
+    tuple_params = (id_type_dechet, id_centre_recyclage, id_centre_collecte, volume_conteneur, reference_conteneur, id_conteneur)
     sql_update = '''
             UPDATE Conteneur
             SET id_type_dechet = %s, id_centre_recyclage = %s, id_centre_collecte = %s, volume_conteneur = %s, reference_conteneur = %s
