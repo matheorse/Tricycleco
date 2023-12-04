@@ -69,13 +69,16 @@ form.formu{
     
 }
 .formu .formulaire{
-    border-radius: 10px;
-    background-color: rgb(243, 239, 234);
-font-size: 1.2rem;
-  font-weight: 300;
 
-  position: absolute;
-  left: 550px;
+    position: absolute;
+    left: 800px;
+    margin-top: 40px;
+    background-color: darkgray;
+    color: white;
+    width: 20%;
+    height: 500px;
+    border-radius: 10px;
+    padding: 40px;
 }
 
 .formu .formulaire input{
@@ -83,8 +86,8 @@ font-size: 1.2rem;
     padding: 5px;
 }
 .formu .formulaire .sub{
-    margin-top: 5px;
-    background-color:rgb(48, 212, 48) ;
+    margin-top: 50px;
+     background-color: deepskyblue;
     padding-top: 7px;
     padding-bottom: 7px;
     font-size: 1.1rem;

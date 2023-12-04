@@ -99,22 +99,22 @@ INSERT INTO Centre_collecte VALUES (8, 'Strasbourg Sud');
 
 INSERT INTO Centre_recyclage VALUES (1, '14 rue de Paris');
 INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');
-INSERT INTO Centre_recyclage VALUES (3, '7 rue Marconi');
-INSERT INTO Centre_recyclage VALUES (4, '28 rue Branly');
+INSERT INTO Centre_recyclage VALUES (4, '7 rue Marconi');
+INSERT INTO Centre_recyclage VALUES (5, '28 rue Branly');
 
 
 INSERT INTO Employe VALUES (1, 123456789, 'Doe', 'John', 50000, '123 Main St', 1);
 INSERT INTO Employe VALUES (2, 987654321, 'Smith', 'Jane', 55000, '456 Oak St', 2);
 INSERT INTO Employe VALUES (3, 555555555, 'Johnson', 'Bob', 48000, '789 Pine St', 3);
-INSERT INTO Employe VALUES (4, 111222333, 'Williams', 'Emily', 60000, '101 Cedar St', 5);
+INSERT INTO Employe VALUES (4, 111222333, 'Williams', 'Emily', 60000, '101 Cedar St', 1);
 INSERT INTO Employe VALUES (5, 999888777, 'Davis', 'Mike', 52000, '202 Elm St', 2);
 INSERT INTO Employe VALUES (6, 444333222, 'Brown', 'Amy', 47000, '303 Maple St', 3);
-INSERT INTO Employe VALUES (7, 666666666, 'Miller', 'David', 58000, '404 Birch St', 4);
-INSERT INTO Employe VALUES (8, 777777777, 'Wilson', 'Jessica', 51000, '505 Spruce St', 6);
-INSERT INTO Employe VALUES (9, 222222222, 'Moore', 'Kevin', 49000, '606 Pine St', 4);
+INSERT INTO Employe VALUES (7, 666666666, 'Miller', 'David', 58000, '404 Birch St', 1);
+INSERT INTO Employe VALUES (8, 777777777, 'Wilson', 'Jessica', 51000, '505 Spruce St', 2);
+INSERT INTO Employe VALUES (9, 222222222, 'Moore', 'Kevin', 49000, '606 Pine St', 3);
 INSERT INTO Employe VALUES (10, 888888888, 'Taylor', 'Sophie', 57000, '707 Cedar St', 1);
 INSERT INTO Employe VALUES (11, 333333333, 'Anderson', 'Ryan', 53000, '808 Oak St', 2);
-INSERT INTO Employe VALUES (12, 444444444, 'Martin', 'Lily', 46000, '909 Elm St', 6);
+INSERT INTO Employe VALUES (12, 444444444, 'Martin', 'Lily', 46000, '909 Elm St', 3);
 
 
 INSERT INTO type_dechet VALUES (1, 'Bois');
@@ -134,9 +134,9 @@ INSERT INTO Tournee VALUES (5,'2023-05-01', 1, 1, 35);
 INSERT INTO Tournee VALUES (6,'2023-06-01', 2, 2, 40);
 INSERT INTO Tournee VALUES (7,'2023-07-01', 1, 1, 30);
 INSERT INTO Tournee VALUES (8,'2023-08-01', 2, 2, 50);
-INSERT INTO Tournee VALUES (9,'2023-10-01', 2, 2, 30);
+INSERT INTO Tournee VALUES (9,'2023-10-01', 2, 2, 29);
 INSERT INTO Tournee VALUES (10,'2023-09-01', 2, 2, 25);
-INSERT INTO Tournee VALUES (11,'2023-08-01', 2, 2, 35);
+INSERT INTO Tournee VALUES (11,'2023-10-01', 2, 2, 35);
 
 
 INSERT INTO Collecte VALUES (1, 273, 1, 1, 1);
@@ -148,11 +148,8 @@ INSERT INTO Collecte Values (6, 681, 6, 6, 6);
 INSERT INTO Collecte Values (7, 602, 7, 7, 7);
 INSERT INTO Collecte Values (8, 456, 8, 8, 8);
 
-INSERT INTO Conteneur VALUES (1, 2, 3, 4);
-INSERT INTO Conteneur VALUES (2, 3, 4, 3);
-INSERT INTO Conteneur VALUES (3, 8, 5, 1);
-INSERT INTO Conteneur VALUES (4, 5, 1, 2);
-INSERT INTO Conteneur VALUES (5, 7, 2, 3);
+INSERT INTO Conteneur VALUES (1, 1, 1, 1);
+INSERT INTO Conteneur VALUES (2, 2, 2, 2);
 
 SELECT type_dechet.libelle_type_dechet, SUM(Collecte.quantite_dechet_collecte) AS total_quantite
 FROM type_dechet
@@ -171,6 +168,6 @@ INNER JOIN Centre_collecte ON Conteneur.id_centre_collecte = Centre_collecte.id_
 ORDER BY Conteneur.id_conteneur;
 
 SELECT id_type_dechet AS id, libelle_type_dechet AS libelle
-FROM type_dechet;
+             FROM type_dechet;
 
 
