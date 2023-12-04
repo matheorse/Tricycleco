@@ -91,14 +91,14 @@ INSERT INTO Camion VALUES (4, 'GHI157', 104);
 INSERT INTO Camion VALUES (5, 'JKL945', 105);
 INSERT INTO Camion VALUES (6, 'MNO849', 106);
 
-INSERT INTO Centre_collecte VALUES (1, 'Paris Nord');
-INSERT INTO Centre_collecte VALUES (2, 'Lyon Ouest');
-INSERT INTO Centre_collecte VALUES (3, 'Marseille Est');
-INSERT INTO Centre_collecte VALUES (4, 'Bordeaux Sud');
-INSERT INTO Centre_collecte VALUES (5, 'Lille Centre');
-INSERT INTO Centre_collecte VALUES (6, 'Toulouse Nord');
-INSERT INTO Centre_collecte VALUES (7, 'Nice Ouest');
-INSERT INTO Centre_collecte VALUES (8, 'Strasbourg Sud');
+INSERT INTO Centre_collecte VALUES (1, 'Centre-Ville');
+INSERT INTO Centre_collecte VALUES (2, 'Vieux Quartier');
+INSERT INTO Centre_collecte VALUES (3, 'Quartier Residentiel');
+INSERT INTO Centre_collecte VALUES (4, 'Quartier des affaires');
+INSERT INTO Centre_collecte VALUES (5, 'Grand Port');
+INSERT INTO Centre_collecte VALUES (6, 'Gare du Nord');
+INSERT INTO Centre_collecte VALUES (7, 'Quartier de la sante');
+INSERT INTO Centre_collecte VALUES (8, 'Place du Marche');
 
 INSERT INTO Centre_recyclage VALUES (1, '14 rue de Paris');
 INSERT INTO Centre_recyclage VALUES (2, '2 rue de Belfort');

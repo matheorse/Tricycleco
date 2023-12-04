@@ -81,24 +81,44 @@ def add_collecte():
 
 @app.route('/collecte/delete')
 def delete_collecte():
-    print('''suppression d'une collecte''')
     id_collecte = request.args.get('id')
 
     if id_collecte:
         try:
             id_collecte = int(id_collecte)
             mycursor = get_db().cursor()
-            tuple_param = (id_collecte,)
-            sql = "DELETE FROM Collecte WHERE id_collecte=%s;"
-            mycursor.execute(sql, tuple_param)
-            get_db().commit()
+            sql = "SELECT * FROM Collecte WHERE id_collecte=%s;"
+            mycursor.execute(sql, (id_collecte,))
+            collecte = mycursor.fetchone()
 
-            message = f'suppression d\'une collecte avec - id_collecte =  {id_collecte}'
-            flash(message, 'alert-warning')
+            if not collecte:
+                abort(404)
+
+            return render_template('collecte/delete_collecte.html', collecte=collecte)
+
         except ValueError:
             print("L'ID de la collecte n'est pas un entier valide.")
 
     return redirect('/collecte/show')
+
+@app.route('/collecte/confirm_delete/<int:id>', methods=['POST'])
+def confirm_delete_collecte(id):
+    mycursor = get_db().cursor()
+
+    if request.method == 'POST':
+        try:
+            tuple_param = (id,)
+            sql = "DELETE FROM Collecte WHERE id_collecte=%s;"
+            mycursor.execute(sql, tuple_param)
+            get_db().commit()
+
+            message = f'Suppression de la collecte avec ID {id} réussie.'
+            flash(message, 'alert-warning')
+        except Exception as e:
+            print(f"Erreur lors de la suppression de la collecte : {str(e)}")
+
+    return redirect('/collecte/show')
+
 
 @app.route('/collecte/edit', methods=['GET'])
 def edit_collecte():

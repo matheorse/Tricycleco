@@ -276,16 +276,22 @@ th{
 }
 
 .add{
-    border: 1px solid black;
+    border: 3px solid deepskyblue;
     border-radius: 5px;
-    background-color: deepskyblue;
-    color: white;
+    background-color: white;
+    color: deepskyblue;
     margin-left: auto;
     margin-right: auto;
     display: block;
     margin-bottom: 40px;
     padding: 10px 30px 10px 30px;
     text-decoration: none;
+    transition: background-color 0.5s;
+}
+
+.add:hover{
+    background-color: deepskyblue;
+    color: white;
 }
 
 .colonne{

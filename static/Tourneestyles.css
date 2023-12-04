@@ -105,13 +105,14 @@ form.formu{
 }
 
 a.add{
-    position: absolute;
-    top: 150px;
-    left: 30px;
     border: 1px solid;
     padding: 9px;
     border-radius: 10px;
-    
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 167px;
+
     color: rgb(12, 10, 10);
 }
 
