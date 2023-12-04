@@ -70,15 +70,16 @@ form.formu{
 }
 .formu .formulaire{
 
-    position: absolute;
-    left: 800px;
+      margin-left: auto;
+    margin-right: auto;
     margin-top: 40px;
     background-color: darkgray;
     color: white;
     width: 20%;
     height: 500px;
     border-radius: 10px;
-    padding: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .formu .formulaire input{
@@ -206,7 +207,7 @@ td.lieu{
         margin-left: 950px;
         width: 50%;
     }
-    @media (max-width:1421px) {
+    @media (max-width:1437px) {
         p.zoro{
 
             position: absolute;
