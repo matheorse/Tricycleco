@@ -663,15 +663,18 @@ def valid_add_conteneur():
     id_centre_collecte = request.form.get('id_centre_collecte')
     id_type_dechet = request.form.get('id_type_dechet')
     id_centre_recyclage = request.form.get('id_centre_recyclage')
+    volume_conteneur = request.form.get('volume_conteneur')
+    reference_conteneur = request.form.get('reference_conteneur')
 
     message = (
         f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
         f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
+        f' volume_conteneur : {volume_conteneur}, reference_conteneur {reference_conteneur}'
     )
 
     mycursor = get_db().cursor()
     tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage)
-    sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage) VALUES (%s, %s, %s);"
+    sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur) VALUES (%s, %s, %s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
 
@@ -694,7 +697,10 @@ def edit_conteneur():
                 td.libelle_type_dechet AS type_item,
                 td.id_type_dechet AS id_type_dechet,
                 cr.id_centre_recyclage AS id_centre_recyclage,
-                cr.lieu_recyclage AS recyclage
+                cr.lieu_recyclage AS recyclage,
+                c.volume_conteneur AS volume,
+                c.reference_conteneur AS reference
+                
             FROM
                 Conteneur c
                 INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
@@ -742,23 +748,26 @@ def valid_edit_conteneur():
     mydb = get_db()
     mycursor = mydb.cursor()
 
-    id_conteneur = request.form.get('id_conteneur')
-    id_type_dechet = request.form.get('id_type_dechet')
-    id_centre_recyclage = request.form.get('id_centre_recyclage')
-    id_centre_collecte = request.form.get('id_centre_collecte')
+    id_conteneur = int(request.form.get('id_conteneur'))
+    id_type_dechet = int(request.form.get('id_type_dechet'))
+    id_centre_recyclage = int(request.form.get('id_centre_recyclage'))
+    id_centre_collecte = int(request.form.get('id_centre_collecte'))
+    volume_conteneur = int(request.form.get('volume_conteneur'))
+    reference_conteneur = request.form.get('reference_conteneur')
 
-    #collecte_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', id_centre_collecte)
-    #type_item_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', id_type_dechet)
-    #recyclage_name = get_name_by_id(mycursor, 'Centre_recyclage', 'lieu_recyclage', id_centre_recyclage)
+    collecte_name = get_name_by_id(mycursor, 'Centre_collecte', 'lieu_collecte', id_centre_collecte)
+    type_item_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', id_type_dechet)
+    recyclage_name = get_name_by_id(mycursor, 'Centre_recyclage', 'lieu_recyclage', id_centre_recyclage)
+    reference_name = get_name_by_id(mycursor, 'Conteneur', 'reference_conteneur', reference_conteneur)
 
-    message = f'Id conteneur : {id_conteneur} - centre de collecte :{id_centre_collecte } - Type de dechet : {id_type_dechet} - centre de recyclage : { id_centre_recyclage}'
+    message = f'Id conteneur : {id_conteneur} - centre de collecte :{id_centre_collecte } - Type de dechet : {id_type_dechet} - centre de recyclage : { id_centre_recyclage} - volume : {volume_conteneur} - reference : {reference_conteneur}'
     print(message)
     flash(message, 'alert-success')
 
-    tuple_params = (id_type_dechet, id_centre_recyclage, id_centre_collecte, id_conteneur)
+    tuple_params = (id_type_dechet, id_centre_recyclage, id_centre_collecte, volume_conteneur, reference_conteneur, id_conteneur)
     sql_update = '''
             UPDATE Conteneur
-            SET id_type_dechet = %s, id_centre_recyclage = %s, id_centre_collecte = %s
+            SET id_type_dechet = %s, id_centre_recyclage = %s, id_centre_collecte = %s, volume_conteneur = %s, reference_conteneur = %s
             WHERE id_conteneur = %s;
         '''
     mycursor.execute(sql_update, tuple_params)

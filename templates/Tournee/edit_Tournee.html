@@ -32,7 +32,10 @@
                 {% endfor %}
             </select><br>
             <label for="temps">Temps :</label><br>
-            <input type="time" id="temps" name="temps" style="width: 300px; height: 40px;" value="{{ tournee.temps }}"><br>
+
+<input type="number" id="temps" name="temps" style="width: 300px; height: 40px;" value="{{ tournee.temps }}"><br>
+
+
             <input class="sub" type="submit" value="Modifier" style="width: 100px; height: 40px;">
             <a class="Annula" href="/Tournee/show">Annuler</a>
         </fieldset>
