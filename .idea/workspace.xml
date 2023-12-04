@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="Arthur - Conteneur">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Tournee/edit_Tournee.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Tournee/edit_Tournee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tricycleco.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tricycleco.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Tournee/add_Tournee.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Tournee/add_Tournee.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,5 +158,8 @@
     <MESSAGE value="ibrahima changes" />
     <MESSAGE value="Arthur - Conteneur" />
     <option name="LAST_COMMIT_MESSAGE" value="Arthur - Conteneur" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701436763385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
