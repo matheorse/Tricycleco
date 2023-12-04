@@ -33,7 +33,7 @@
 
                     <div class="label">
                         <label class="sous-titre" for="collecte">Centre de collecte</label>
-                        <select id="collecte" name="collecte" class="input" required>
+                        <select id="id_centre_collecte" name="id_centre_collecte" class="input" required>
                             <option value=""> Sélectionner un centre de collecte </option>
                             {% for collecte in collectes %}
                             <option value="{{ collecte.id_centre_collecte }}" {% if collecte.id_centre_collecte == conteneur.id_centre_collecte %}selected{% endif %}>
