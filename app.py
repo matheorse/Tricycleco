@@ -677,49 +677,54 @@ def valid_add_conteneur():
     return redirect('/conteneur/show')
 
 
-@app.route('/conteneur/edit', methods=['GET'])
+@app.route('/conteneur/edit', methods=['GET', 'POST'])
 def edit_conteneur():
-    print('''affichage du formulaire pour modifier un conteneur''')
-    print(request.args)
-    print(request.args.get('id'))
-    id_conteneur = request.args.get('id_conteneur')
-    id_conteneur = int(id_conteneur)
-    mycursor = get_db().cursor()
-    sql = '''
-        SELECT
-            c.id_conteneur AS id,
-            cc.lieu_collecte AS collecte,
-            cc.id_centre_collecte AS idc,
-            td.libelle_type_dechet AS type_item,
-            td.id_type_dechet AS idtd,
-            cr.id_centre_recyclage AS idr,
-            cr.lieu_recyclage AS recyclage
-        FROM
-            Conteneur c
-            INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
-            INNER JOIN type_dechet td ON c.id_type_dechet = td.id_type_dechet
-            INNER JOIN Centre_collecte cc ON c.id_centre_collecte = cc.id_centre_collecte
-        WHERE c.id_conteneur = %s;
-    '''
-    tuple_param = (int(id_conteneur),)
-    mycursor.execute(sql, tuple_param)
-    conteneur = mycursor.fetchone()
+    if request.method == 'GET':
+        id_conteneur = request.args.get('id')
+        id_conteneur = int(id_conteneur)  if id_conteneur is not None else None
+        mycursor = get_db().cursor()
 
-    sql_collecte = '''Select * From Centre_collecte;'''
-    mycursor.execute(sql_collecte)
-    collecte = mycursor.fetchall()
+        sql = '''
+            SELECT
+                c.id_conteneur AS id_conteneur,
+                cc.lieu_collecte AS collecte,
+                cc.id_centre_collecte AS id_centre_collecte,
+                td.libelle_type_dechet AS type_item,
+                td.id_type_dechet AS id_type_dechet,
+                cr.id_centre_recyclage AS id_centre_recyclage,
+                cr.lieu_recyclage AS recyclage
+            FROM
+                Conteneur c
+                INNER JOIN Centre_recyclage cr ON c.id_centre_recyclage = cr.id_centre_recyclage
+                INNER JOIN type_dechet td ON c.id_type_dechet = td.id_type_dechet
+                INNER JOIN Centre_collecte cc ON c.id_centre_collecte = cc.id_centre_collecte
+            WHERE c.id_conteneur = %s;
+        '''
+        tuple_param = (id_conteneur,)
+        mycursor.execute(sql, tuple_param)
+        conteneur = mycursor.fetchone()
 
-    sql_recyclages = '''Select * From Centre_recyclage;'''
-    mycursor.execute(sql_recyclages)
-    recyclages = mycursor.fetchall()
+        sql_collecte = '''SELECT * FROM Centre_collecte;'''
+        mycursor.execute(sql_collecte)
+        collecte = mycursor.fetchall()
 
-    sql_type_dechet = '''SELECT * FROM type_dechet;'''
-    mycursor.execute(sql_type_dechet)
-    types_dechet = mycursor.fetchall()
+        sql_recyclages = '''SELECT * FROM Centre_recyclage;'''
+        mycursor.execute(sql_recyclages)
+        recyclages = mycursor.fetchall()
 
-    get_db().commit()
+        sql_type_dechet = '''SELECT * FROM type_dechet;'''
+        mycursor.execute(sql_type_dechet)
+        types_dechet = mycursor.fetchall()
 
-    return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, recyclages=recyclages, types_dechets=types_dechet, collectes=collecte)
+        get_db().commit()
+
+        return render_template('conteneur/edit_conteneur.html', conteneur=conteneur, recyclages=recyclages,
+                               types_dechets=types_dechet, collectes=collecte)
+
+    elif request.method == 'POST':
+
+        return redirect('/conteneur/show')
+
 
 def get_name_by_id(mycursor, table, field, id):
     sql = f"SELECT {field} FROM {table} WHERE id_{table}=%s;"
@@ -744,7 +749,7 @@ def valid_edit_conteneur():
     #type_item_name = get_name_by_id(mycursor, 'type_dechet', 'libelle_type_dechet', id_type_dechet)
     #recyclage_name = get_name_by_id(mycursor, 'Centre_recyclage', 'lieu_recyclage', id_centre_recyclage)
 
-    message = f'Id conteneur : {id_conteneur} - centre de collecte : {collecte_name} - Type de dechet : {type_item_name} - centre de recyclage : {recyclage_name}'
+    message = f'Id conteneur : {id_conteneur} - centre de collecte :{id_centre_collecte } - Type de dechet : {id_type_dechet} - centre de recyclage : { id_centre_recyclage}'
     print(message)
     flash(message, 'alert-success')
 
