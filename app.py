@@ -663,15 +663,18 @@ def valid_add_conteneur():
     id_centre_collecte = request.form.get('id_centre_collecte')
     id_type_dechet = request.form.get('id_type_dechet')
     id_centre_recyclage = request.form.get('id_centre_recyclage')
+    volume_conteneur = request.form.get('volume_conteneur')
+    reference_conteneur = request.form.get('reference_conteneur')
 
     message = (
         f'info: Conteneur ajouté - id_centre_collecte : {id_centre_collecte}, '
         f'id_type_dechet : {id_type_dechet}, id_centre_recyclage : {id_centre_recyclage}'
+        f'volume_conteneur : {volume_conteneur}, reference_conteneur {reference_conteneur}'
     )
 
     mycursor = get_db().cursor()
     tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage)
-    sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage) VALUES (%s, %s, %s);"
+    sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur) VALUES (%s, %s, %s);"
     mycursor.execute(sql, tuple_param)
     get_db().commit()
 
