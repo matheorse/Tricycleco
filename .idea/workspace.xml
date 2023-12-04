@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="Arthur - Conteneur">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/conteneur/edit_conteneur.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/conteneur/edit_conteneur.html" afterDir="false" />
-    </list>
+    <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="Arthur - Conteneur" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" show_ignored="true" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -99,9 +93,6 @@
       <option name="presentableId" value="Default" />
       <updated>1701251271095</updated>
       <workItem from="1701251272230" duration="6246000" />
-      <workItem from="1701374893200" duration="7915000" />
-      <workItem from="1701624506216" duration="4966000" />
-      <workItem from="1701681138412" duration="2451000" />
     </task>
     <task id="LOCAL-00001" summary="Arthur">
       <option name="closed" value="true" />
@@ -145,60 +136,25 @@
     </task>
     <task id="LOCAL-00006" summary="Arthur - Conteneur">
       <option name="closed" value="true" />
-      <created>1701684112398</created>
+      <created>1701683519856</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1701684112398</updated>
+      <updated>1701683519856</updated>
     </task>
     <task id="LOCAL-00007" summary="Arthur - Conteneur">
       <option name="closed" value="true" />
-      <created>1701684610979</created>
+      <created>1701687848115</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1701684610979</updated>
+      <updated>1701687848115</updated>
     </task>
-    <task id="LOCAL-00008" summary="Arthur - Conteneur">
-      <option name="closed" value="true" />
-      <created>1701686094185</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1701686094185</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Arthur - Conteneur">
-      <option name="closed" value="true" />
-      <created>1701686142997</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1701686142997</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Arthur - Conteneur">
-      <option name="closed" value="true" />
-      <created>1701687032436</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1701687032436</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Arthur" />
@@ -206,8 +162,5 @@
     <MESSAGE value="ibrahima changes" />
     <MESSAGE value="Arthur - Conteneur" />
     <option name="LAST_COMMIT_MESSAGE" value="Arthur - Conteneur" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Tricycleco$app.coverage" NAME="app Coverage Results" MODIFIED="1701687175110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
