@@ -659,7 +659,7 @@ def delete_conteneur():
 
     return redirect('/conteneur/show')
 
-@app.route('/conteneur/add', methods=['GET', 'POST'])
+@app.route('/conteneur/add', methods=['GET'])
 def add_conteneur():
     print('''affichage du formulaire pour ajouter un conteneur''')
     mycursor = get_db().cursor()
@@ -688,7 +688,6 @@ def add_conteneur():
 
 @app.route('/conteneur/add', methods=['POST'])
 def valid_add_conteneur():
-    try:
         print('''Ajout du conteneur dans la table''')
         id_centre_collecte = request.form.get('id_centre_collecte')
         id_type_dechet = request.form.get('id_type_dechet')
@@ -704,17 +703,13 @@ def valid_add_conteneur():
 
         mycursor = get_db().cursor()
         tuple_param = (id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur)
-        sql = "INSERT INTO Conteneur(id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur) VALUES (%s, %s, %s, %s, %s);"
+        sql = "INSERT INTO Conteneur( id_centre_collecte, id_type_dechet, id_centre_recyclage, volume_conteneur, reference_conteneur) VALUES (%s, %s, %s, %s, %s);"
         mycursor.execute(sql, tuple_param)
         get_db().commit()
 
         flash(message, 'alert-success')
-        return redirect('/conteneur/show')
+        return redirect('/conteneur/show', )
 
-    except Exception as e:
-        # Gestion des erreurs de base de données
-        flash(f'Erreur lors de l\'ajout du conteneur : {str(e)}', 'alert-danger')
-        return redirect('/conteneur/add')  # Rediriger vers la page d'ajout en cas d'erreur
 
 
 @app.route('/conteneur/edit', methods=['GET', 'POST'])

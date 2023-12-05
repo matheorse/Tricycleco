@@ -152,7 +152,7 @@ INSERT INTO Collecte Values (7, 602, 7, 7, 7);
 INSERT INTO Collecte Values (8, 456, 8, 8, 8);
 
 INSERT INTO Conteneur VALUES (1, 2, 3, 4, '100', 'AIPF');
-INSERT INTO Conteneur VALUES (2, 6, 4, 3, '200', 'EOMI');
+INSERT INTO Conteneur VALUES (2, 3, 4, 3, '200', 'EOMI');
 INSERT INTO Conteneur VALUES (3, 8, 5, 1, '150', 'OVND');
 INSERT INTO Conteneur VALUES (4, 5, 1, 2, '50', 'OEIU');
 INSERT INTO Conteneur VALUES (5, 7, 2, 3, '250', 'LAKF');
