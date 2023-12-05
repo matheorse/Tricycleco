@@ -1,61 +1,45 @@
 {% extends 'layout.html' %}
 
-        {% block title %}
-    <link rel="stylesheet" href="../../static/employestyles.css">
-            <title>Afficher les employes</title>
-        {% endblock %}
+{% block title %}
+    <link rel="stylesheet" href="../../static/Tourneestyles.css">
+    <title>Tricycleco</title>
+{% endblock %}
 
-   {% block body %}
+{% block body %}
 <body class="scrollable">
 
 
-       {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for categorie, message in messages %}
-            <div role="alert" class="alert {% if 'alert-warning' in categorie %}alert-danger{% endif %}{% if 'alert-success' in categorie %}alert-success{% endif %}{% if 'alert-info' in categorie %}alert-info{% endif %}">
-                . <strong>{{ message }}</strong>
-            </div>
-        {% endfor %}
-     {% endif %}
-    {% endwith %}
 
-        <h1 class="titre">LES EMPLOYES</h1>
-        <hr class="barre">
-        <br><br>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% endwith %}
 
-        <a class="add" href="/employe/add">ajouter un employe</a>
-        <br>
-        <br>
-
-
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>id</th>
-                    <th>numero de telephone</th>
-                    <th>nom</th>
-                    <th>prenom</th>
-                    <th>Salaire</th>
-                    <th>Adresse</th>
-                    <th>id_camion</th>
-                    <th>operations</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <tr>
-                            {% if employes | length >= 1 %}
-                            {% for Employe in employes %}
-                              <td>{{ Employe.id_employe }}</td>
-                              <td>{{ Employe.numero_telephone_employe }}</td>
-                              <td>{{ Employe.nom_employe }}</td>
-                              <td>{{ Employe.prenom_employe}}</td>
-                              <td>{{ Employe.salaire_employe }}</td>
-                              <td>{{ Employe.adresse_employe }}</td>
-                              <td>{{ Employe.id_camion }}</td>
-
-                            <td class="colonne">
-                          <a id="btn1" href="/employe/edit?id={{ Employe.id_employe }}">
-                              <svg fill="#000000" height="30px" width="30px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 348.882 348.882" xml:space="preserve">
+<h1 class="titre">LES TOURNÉES</h1>
+<hr class="barre">
+<br><br>
+<div>
+    <a class="add" href="/Tournee/add">Ajouter pour le Tournee</a>
+    <table class="tableto" border="2">
+        <thead>
+            <tr>
+                <th>id_tournee</th>
+                <th>date_tournee</th>
+                <th>lieu_recyclage</th>
+                <th>immatriculation_camion</th>
+                <th>temps(minutes)</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if Tournee | length >= 1 %}
+                {% for tournee in Tournee %}
+                    <tr>
+                        <td>{{ tournee.id_tournee }}</td>
+                        <td>{{ tournee.date_tournee }}</td>
+                        <td> {{ tournee.lieu_recyclage }}   ({{ tournee.id_centre_recyclage }}) </td>
+                        <td>  {{ tournee.immatriculation_camion }} ({{ tournee.id_camion }})</td>
+                        <td>{{ tournee.temps }}</td>
+                        <td>
+                            <a  href="/Tournee/edit?id={{ tournee.id_tournee }}"> <svg fill="#000000" height="30px" width="30px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 348.882 348.882" xml:space="preserve">
                                     <g>
                                         <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231
                                             c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685
@@ -68,24 +52,20 @@
                                             s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798
                                             c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z" fill="deepskyblue"/>
                                     </g>
-                              </svg>
-                          </a>&nbsp;
-                          <a id="btn2" href="/employe/delete?id={{ Employe.id_employe }}">
-                              <svg width="30px" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 96 96" xmlns:xlink="http://www.w3.org/1999/xlink">
+                              </svg></a>&nbsp;
+                            <a href="/Tournee/delete?id={{ tournee.id_tournee }}"> <svg width="30px" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 96 96" xmlns:xlink="http://www.w3.org/1999/xlink">
                                   <path d="m24,78c0,4.968 4.029,9 9,9h30c4.968,0 9-4.032 9-9l6-48h-60l6,48zm33-39h6v39h-6v-39zm-12,0h6v39h-6v-39zm-12,0h6v39h-6v-39zm43.5-21h-19.5c0,0-1.344-6-3-6h-12c-1.659,0-3,6-3,6h-19.5c-2.487,0-4.5,2.013-4.5,4.5s0,4.5 0,4.5h66c0,0 0-2.013 0-4.5s-2.016-4.5-4.5-4.5z" fill="red"/>
-                              </svg>
-                          </a>
-                       </td>
-                       </tr>
-                    {% endfor %}
-                {% else %}
-                        <tr>
-                              <td>
-                                  pas d'employe
-                              </td>
-                       </tr>
-                {% endif %}
-            </tbody>
-        </table>
-</body>
+                              </svg></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucune tournée</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+ </body>
 {% endblock %}
