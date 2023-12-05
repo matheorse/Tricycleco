@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    <title>État des collectes</title>
+    <title>Tricycleco - État des conteneurs</title>
 {% endblock %}
 
 {% block body %}
     <body class="scrollable">
-        <h1 class="titre">État des collectes</h1>
+        <h1 class="titre">ETAT DES CONTENEURS</h1>
         <hr class="barre">
         <br> <br>
 
@@ -16,9 +16,9 @@
             <input type="number" name="min_nombre_conteneurs" id="min_nombre_conteneurs" min="0">
 
             <label for="max_nombre_conteneurs">Nombre de conteneurs max :</label>
-            <input type="number" name="max_nombre_conteneurs" id="max_nombre_conteneurs" min="0">
+            <input type="number" name="max_nombre_conteneurs" id="max_nombre_conteneurs" min="0"><br><br><br>
 
-            <button class="add" id="btn-filtre-nombre" type="submit">Filtrer par nombre de conteneurs</button>
+            <button class="add" id="btn-filtre-nombre" type="submit">Paramétrer par nombre de conteneurs</button>
         </form>
 
         <!-- Filtre par volume total -->
@@ -27,7 +27,7 @@
             <input type="number" name="min_volume_total" id="min_volume_total" min="0">
 
             <label for="max_volume_total">Volume total max :</label>
-            <input type="number" name="max_volume_total" id="max_volume_total" min="0">
+            <input type="number" name="max_volume_total" id="max_volume_total" min="0"><br><br><br>
 
             <button class="add" id="btn-filtre-volume" type="submit">Paramétrer par volume total</button>
         </form>
