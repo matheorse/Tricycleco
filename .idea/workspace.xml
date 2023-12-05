@@ -7,8 +7,6 @@
     <list default="true" id="07028513-1d31-4711-b067-621040824ac5" name="Changes" comment="matheo changement">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/mes_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/mes_styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/collecte/delete_collecte.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/collecte/delete_collecte.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/conteneur/delete_conteneur.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/conteneur/delete_conteneur.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

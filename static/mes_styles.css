@@ -68,9 +68,15 @@ a[href]{
     position: absolute;
     background-color: white;
     color: black;
+    opacity: 0.5;
     min-width: 160px;
     z-index: 1;
     margin-left: 20px;
+    transition: opacity 0.5s;
+}
+
+.dropdown-content:hover{
+    opacity: 1;
 }
 
 .noir[href]{
