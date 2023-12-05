@@ -36,7 +36,7 @@
 
 
                     <div class="label">
-                        <label class="sous-titre" for="collecte">Centre de collecte</label>
+                        <label class="sous-titre" for=id_centre_collecte>Centre de collecte</label>
                         <select id="id_centre_collecte" name="id_centre_collecte" class="input" required>
                             <option value=""> Sélectionner un centre de collecte </option>
                             {% for collecte in collectes %}
@@ -49,8 +49,8 @@
 
 
                     <div class="label">
-                        <label class="sous-titre" for="recyclage">Centre de recyclage</label>
-                        <select id="recyclage" name="recyclage" class="input" required>
+                        <label class="sous-titre" for="id_centre_recyclage">Centre de recyclage</label>
+                        <select id="id_centre_recyclage" name="id_centre_recyclage" class="input" required>
                             <option value=""> Sélectionner un centre de recyclage </option>
                             {% for recyclage in recyclages %}
                                 <option value="{{ recyclage.id_centre_recyclage }}" {% if recyclage.id_centre_recyclage == conteneur.id_centre_recyclage %}selected{% endif %}>
