@@ -363,7 +363,7 @@ def confirm_delete_Tournee():
             flash("L'ID de la tournée n'est pas un entier valide.", 'alert-danger')
 
         except pymysql.err.IntegrityError as e:
-            flash("Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
+            flash(" Delete Controle : Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
 
         except Exception as e:
             flash(f'Une erreur est survenue : {str(e)}', 'alert-danger')

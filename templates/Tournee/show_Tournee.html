@@ -11,13 +11,6 @@
 
 
 {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for categorie, message in messages %}
-            <div role="alert" class="alert {% if 'alert-warning' in categorie %}alert-danger{% endif %}{% if 'alert-success' in categorie %}alert-success{% endif %}{% if 'alert-info' in categorie %}alert-info{% endif %}">
-                . <strong>{{ message }}</strong>
-            </div>
-        {% endfor %}
-    {% endif %}
 {% endwith %}
 
 <h1 class="titre">LES TOURNÉES</h1>

@@ -132,13 +132,7 @@ div strong{
 
 .alert-success{
 
-
-margin-top: 40px;
-padding: 10px;
-border-radius: 5px;
-font-weight: bold;
-    border-radius: 7px;
-    font-size: 1.4rem;
+color: white;
 }
 
 /*  etat */
