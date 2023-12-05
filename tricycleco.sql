@@ -107,14 +107,14 @@ INSERT INTO Centre_recyclage VALUES (4, '28 rue Branly');
 
 
 INSERT INTO Employe VALUES (1, 123456789, 'Doe', 'John', 50000, '123 Main St', 1);
-INSERT INTO Employe VALUES (2, 987654321, 'Smith', 'Jane', 55000, '456 Oak St', 2);
+INSERT INTO Employe VALUES (2, 987654321, 'Smith', 'Jane', 55000, '456 Oak St', 5);
 INSERT INTO Employe VALUES (3, 555555555, 'Johnson', 'Bob', 48000, '789 Pine St', 3);
 INSERT INTO Employe VALUES (4, 111222333, 'Williams', 'Emily', 60000, '101 Cedar St', 1);
 INSERT INTO Employe VALUES (5, 999888777, 'Davis', 'Mike', 52000, '202 Elm St', 2);
-INSERT INTO Employe VALUES (6, 444333222, 'Brown', 'Amy', 47000, '303 Maple St', 3);
+INSERT INTO Employe VALUES (6, 444333222, 'Brown', 'Amy', 47000, '303 Maple St', 6);
 INSERT INTO Employe VALUES (7, 666666666, 'Miller', 'David', 58000, '404 Birch St', 1);
-INSERT INTO Employe VALUES (8, 777777777, 'Wilson', 'Jessica', 51000, '505 Spruce St', 2);
-INSERT INTO Employe VALUES (9, 222222222, 'Moore', 'Kevin', 49000, '606 Pine St', 3);
+INSERT INTO Employe VALUES (8, 777777777, 'Wilson', 'Jessica', 51000, '505 Spruce St', 4);
+INSERT INTO Employe VALUES (9, 222222222, 'Moore', 'Kevin', 49000, '606 Pine St', 6);
 INSERT INTO Employe VALUES (10, 888888888, 'Taylor', 'Sophie', 57000, '707 Cedar St', 1);
 INSERT INTO Employe VALUES (11, 333333333, 'Anderson', 'Ryan', 53000, '808 Oak St', 2);
 INSERT INTO Employe VALUES (12, 444444444, 'Martin', 'Lily', 46000, '909 Elm St', 3);
