@@ -741,7 +741,7 @@ def valid_add_conteneur():
         flash(message, 'alert-success')
         return redirect('/conteneur/show', )
 
-@app.route('/conteneur/edit', methods=['GET', 'POST'])
+@app.route('/conteneur/edit', methods=['GET'])
 def edit_conteneur():
     if request.method == 'GET':
         id_conteneur = request.args.get('id')
@@ -815,7 +815,7 @@ def valid_edit_conteneur():
     flash(message, 'alert-success')
     mycursor = get_db().cursor()
 
-    tuple_params = ( id_conteneur, id_type_dechet, id_centre_recyclage, id_centre_collecte, volume_conteneur, reference_conteneur, )
+    tuple_params = ( id_type_dechet, id_centre_recyclage, id_centre_collecte, volume_conteneur, reference_conteneur, id_conteneur)
     sql_update = '''
             UPDATE Conteneur
             SET id_type_dechet = %s, id_centre_recyclage = %s, id_centre_collecte = %s, volume_conteneur = %s, reference_conteneur = %s

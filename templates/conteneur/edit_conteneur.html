@@ -16,6 +16,8 @@
             <form method="post" action="/conteneur/edit">
                 <fieldset class="formulaire">
 
+                    <input type="number" id="id_conteneur" name="id_conteneur" style="width: 300px; height: 40px;" value="{{ conteneur.id_conteneur }}" hidden=""><br>
+
                     <label for="volume_conteneur">Volume conteneur  :</label><br>
                     <input type="number" id="volume_conteneur" name="volume_conteneur" style="width: 300px; height: 40px;" value="{{ conteneur.volume }}"><br>
 
