@@ -795,7 +795,7 @@ def valid_edit_conteneur():
 
 
 
-    message = f'Id conteneur : {id_conteneur} - centre de collecte :{id_centre_collecte } - Type de dechet : {id_type_dechet} - centre de recyclage : { id_centre_recyclage} - volume : {volume_conteneur} - reference : {reference_conteneur}'
+    message = f'Id conteneur : {id_conteneur} - centre  collecte :{id_centre_collecte } - Type de dechet : {id_type_dechet} - centre de recyclage : { id_centre_recyclage} - volume : {volume_conteneur} - reference : {reference_conteneur}'
     print(message)
     flash(message, 'alert-success')
     mycursor = get_db().cursor()
