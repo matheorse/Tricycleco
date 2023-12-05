@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Confirmation de suppression</title>
+{% endblock %}
+
+{% block body %}
+ <div class="confirm-supp">
+
+    <h1 class="contenu">Confirmation de Suppression</h1>
+    <p class="contenu">Êtes-vous sûr de vouloir supprimer l'employe avec l'ID : {{ id_employe }} ?</p>
+    <form class="contenu" action="/employe/delete/confirmed" method="post">
+        <input type="hidden" name="id" value="{{ id_employe }}">
+        <button class="valider" type="submit">Confirmer</button>
+        <a id="espace" class="annuler" href="/employe/show">Annuler</a>
+    </form>
+
+
+ </div>
+{% endblock %}
