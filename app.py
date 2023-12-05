@@ -101,6 +101,7 @@ def delete_collecte():
 
     return redirect('/collecte/show')
 
+
 @app.route('/collecte/confirm_delete/<int:id>', methods=['POST'])
 def confirm_delete_collecte(id):
     mycursor = get_db().cursor()
@@ -329,8 +330,19 @@ def add_Tournee():
 
 @app.route('/Tournee/delete')
 def delete_Tournee():
-    print('''Suppression d'une Tournée''')
     id_tournee = request.args.get('id')
+
+    if id_tournee:
+        return render_template('Tournee/delete_Tournee.html', id_tournee=id_tournee)
+    else:
+        # Gérer le cas où aucun ID n'est fourni
+        flash("Aucun ID de tournée fourni pour la suppression.", 'alert-danger')
+        return redirect('/Tournee/show')
+
+
+@app.route('/Tournee/delete/confirmed', methods=['POST'])
+def confirm_delete_Tournee():
+    id_tournee = request.form.get('id')
 
     if id_tournee:
         try:
@@ -341,20 +353,20 @@ def delete_Tournee():
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            if mycursor.rowcount > 0:  # Vérification si la suppression a affecté des lignes
-                message = f'Info: suppression d\'une tournée avec - id_tournee = {id_tournee}'
-                flash(message, 'alert-warning')
+            if mycursor.rowcount > 0:
+                flash(f'Suppression de la tournée avec l\'ID {id_tournee} confirmée.', 'alert-success')
             else:
-                message = f'Erreur: La tournée avec - id_tournee = {id_tournee} n\'a pas été trouvée ou ne peut pas être supprimée.'
-                flash(message, 'alert-danger')
+                flash(f'Erreur: La tournée avec l\'ID {id_tournee} n\'a pas été trouvée ou ne peut pas être supprimée.',
+                      'alert-danger')
 
         except ValueError:
-            print("L'ID de la tournée n'est pas un entier valide.")
             flash("L'ID de la tournée n'est pas un entier valide.", 'alert-danger')
 
         except pymysql.err.IntegrityError as e:
-            print("Erreur d'intégrité de la base de données:", str(e))
-            flash("Delete Controle :Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
+            flash("Impossible de supprimer cette tournée car elle est liée à d'autres données.", 'alert-danger')
+
+        except Exception as e:
+            flash(f'Une erreur est survenue : {str(e)}', 'alert-danger')
 
     return redirect('/Tournee/show')
 

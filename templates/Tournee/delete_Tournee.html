@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Confirmation de suppression</title>
+{% endblock %}
+
+{% block body %}
+ <div class="confirm-supp">
+
+    <h1 class="contenu">Confirmation de Suppression</h1>
+    <p class="contenu">Êtes-vous sûr de vouloir supprimer la tournée avec l'ID : {{ id_tournee }} ?</p>
+    <form class="contenu" action="/Tournee/delete/confirmed" method="post">
+        <input type="hidden" name="id" value="{{ id_tournee }}">
+        <button class="valider" type="submit">Confirmer</button>
+    </form>
+    <form action="/Tournee/show">
+         <a id="espace" class="annuler" href="/Tournee/show">
+        <button>Annuler</button>
+    </a>
+    </form>
+
+
+ </div>
+{% endblock %}
