@@ -66,9 +66,15 @@ a[href]{
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #2e3333;
+    background-color: white;
+    color: black;
     min-width: 160px;
     z-index: 1;
+    margin-left: 20px;
+}
+
+.noir[href]{
+    color: black;
 }
 
 .dropdown-content a {
