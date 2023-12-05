@@ -521,23 +521,46 @@ def valid_add_employe():
     flash(message, 'alert-success')
     return redirect('/employe/show')
 
-@app.route('/employe/delete', methods=['GET'])
+@app.route('/employe/delete')
 def delete_employe():
-    print(''' suppression d'un employe''')
     id_employe = request.args.get('id')
+
+    if id_employe:
+        return render_template('employe/delete_employe.html', id_employe=id_employe)
+    else:
+        # Gérer le cas où aucun ID n'est fourni
+        flash("Aucun ID de employe fourni pour la suppression.", 'alert-danger')
+        return redirect('/employe/show')
+
+
+@app.route('/employe/delete/confirmed', methods=['POST'])
+def confirm_delete_employe():
+    id_employe = request.form.get('id')
+
     if id_employe:
         try:
-            id_employe= int(id_employe)
+            id_employe = int(id_employe)
             mycursor = get_db().cursor()
-            tuple_param = (id_employe)
+            tuple_param = (id_employe,)
             sql = "DELETE FROM Employe WHERE id_employe=%s;"
             mycursor.execute(sql, tuple_param)
             get_db().commit()
 
-            message  = f'info: suppression d\'un employe avec - id_employe =  {id_employe}'
-            flash(message, 'alert-warning')
+            if mycursor.rowcount > 0:
+                flash(f'Suppression de l\'employe  avec l\'ID {id_employe} confirmée.', 'alert-success')
+            else:
+                flash(f'Erreur: La tournée avec l\'ID {id_employe} n\'a pas été trouvée ou ne peut pas être supprimée.',
+                      'alert-danger')
+
         except ValueError:
-         print("L'ID de l'employe n'est pas un entier valide.")
+            flash("L'ID de l'employe n'est pas un entier valide.", 'alert-danger')
+
+        except pymysql.err.IntegrityError as e:
+            flash(" Delete Controle : Impossible de supprimer cet employe car il est lié à d'autres données.", 'alert-danger')
+
+        except Exception as e:
+            flash(f'Une erreur est survenue : {str(e)}', 'alert-danger')
+
     return redirect('/employe/show')
 
 @app.route('/employe/edit', methods=['GET'])
