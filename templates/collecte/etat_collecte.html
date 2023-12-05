@@ -4,6 +4,17 @@
     <title>afficher les collectes</title>
 {% endblock %}
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
 {% block body %}
     <body class="scrollable">
         <h1 class="titre">État de la collecte</h1>

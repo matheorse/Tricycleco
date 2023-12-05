@@ -250,6 +250,9 @@ def etat_collecte():
         tuple_param = (min_quantite, max_quantite)
         mycursor.execute(sql_centres_collecte, tuple_param)
         quantite_total_centre = mycursor.fetchall()
+
+        # Message flash avec les informations de filtre
+        flash(f"Paramétrage avec quantité minimale : {min_quantite} et quantité maximale : {max_quantite}", 'success')
     else:
         # Requête SQL sans filtre
         sql_types_dechets = """SELECT type_dechet.libelle_type_dechet as type,
@@ -419,6 +422,9 @@ def etat_Tournee():
         mycursor = db.cursor()
         mycursor.execute(sql, selected_locations)
         filtered_tournees = mycursor.fetchall()
+
+        # Message flash avec les informations de filtre
+        flash(f"Tournees pour les rues sélectionnées : {', '.join(selected_locations)}", 'success')
 
         return render_template('Tournee/Tournee_etat.html', filtered_data=filtered_tournees)
 
@@ -837,38 +843,39 @@ def confirm_delete_conteneur(id):
 
     return redirect('/conteneur/show')
 
+# Route
 @app.route('/conteneur/etat', methods=['GET', 'POST'])
 def etat_conteneur():
     mycursor = get_db().cursor()
 
     if request.method == 'POST':
-        min_nombre_conteneurs = request.form.get('min_nombre_conteneurs') or 0
-        max_nombre_conteneurs = request.form.get('max_nombre_conteneurs') or float('inf')
-
         min_volume_total = request.form.get('min_volume_total') or 0
         max_volume_total = request.form.get('max_volume_total') or float('inf')
 
         # Requête SQL pour les centres de collecte après le filtre
-        sql_centres = f"""SELECT Centre_collecte.lieu_collecte AS lieu,
-                                  COUNT(Conteneur.id_conteneur) AS nombre_conteneurs,
+        sql_centres = """SELECT Centre_collecte.lieu_collecte AS lieu,
                                   SUM(Conteneur.volume_conteneur) AS volume_total
                            FROM Centre_collecte
                            LEFT JOIN Conteneur ON Centre_collecte.id_centre_collecte = Conteneur.id_centre_collecte
                            GROUP BY Centre_collecte.lieu_collecte
-                           HAVING COUNT(Conteneur.id_conteneur) BETWEEN %s AND %s
-                              AND SUM(Conteneur.volume_conteneur) BETWEEN %s AND %s
+                           HAVING volume_total BETWEEN %s AND %s
                            ORDER BY lieu;
                        """
 
-        tuple_param = (min_nombre_conteneurs, max_nombre_conteneurs, min_volume_total, max_volume_total)
+        tuple_param = (min_volume_total, max_volume_total)
         mycursor.execute(sql_centres, tuple_param)
         centres = mycursor.fetchall()
 
+        # Message flash avec les informations de filtre
+        flash(
+            f"Paramétrage avec volume total minimum : {min_volume_total} et volume total maximum : {max_volume_total}",
+            'success')
+
         return render_template('/conteneur/etat_conteneur.html', centres=centres)
+
 
     # Requête SQL pour les centres de collecte avant le filtre
     sql_centres = """SELECT Centre_collecte.lieu_collecte AS lieu,
-                            COUNT(Conteneur.id_conteneur) AS nombre_conteneurs,
                             SUM(Conteneur.volume_conteneur) AS volume_total
                      FROM Centre_collecte
                      LEFT JOIN Conteneur ON Centre_collecte.id_centre_collecte = Conteneur.id_centre_collecte

@@ -5,6 +5,16 @@
     <title>Tricycleco</title>
 {% endblock %}
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 {% block body %}
 <body class="scrollable">
     <div class="etat">
@@ -61,7 +71,7 @@
 <input type="checkbox" name="rue" id="rueMarconi" value="7 rue Marconi"><span>7 rue Marconi</span><br>
 <input type="checkbox" name="rue" id="rueBranly" value="28 rue Branly"><span>28 rue Branly</span><br>
 
-<input class="filt" type="submit" value="Filtrer">
+<input class="filt" type="submit" value="Parametrer">
 <input class="resfilt" type="reset" value="Annuler">
 </form>
 <table class="filtra " border="2">
