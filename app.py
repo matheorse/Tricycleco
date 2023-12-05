@@ -609,13 +609,7 @@ def etat_employe():
     mycursor.execute(sql_salaire)
     salaire_moyen = mycursor.fetchall()
 
-
-
-
-
     return render_template('employe/etat_employe.html', nombre_employe=nombre_employe, montant_total_salaires=montant_total_salaires ,salaire_max=salaire_max,salaire_moyen=salaire_moyen)
-
-
 
 
 # - - - - - - - C O N T E N E U R - - - - - - -
