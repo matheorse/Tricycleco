@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Confirmation de suppression</h1>
-    <p>Voulez-vous vraiment supprimer le conteneur avec l'ID {{ conteneur.id_conteneur }} ?</p>
-    <form method="POST" action="{{ url_for('confirm_delete_conteneur', id=conteneur.id_conteneur) }}">
-        <button type="submit">Confirmer</button>
-        <a href="{{ url_for('show_conteneur') }}">Annuler</a>
-    </form>
+    <div class="confirm-supp">
+        <h1 class="contenu">Confirmation de suppression</h1>
+        <p class="contenu">Voulez-vous vraiment supprimer le conteneur avec l'ID {{ conteneur.id_conteneur }} ?</p>
+        <form class="contenu" method="POST" action="{{ url_for('confirm_delete_conteneur', id=conteneur.id_conteneur) }}">
+            <button class="valider" type="submit">Confirmer</button>
+            <a id="espace" class="annuler" href="{{ url_for('show_conteneur') }}">Annuler</a>
+        </form>
+    </div>
 {% endblock %}

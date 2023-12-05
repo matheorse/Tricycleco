@@ -475,3 +475,24 @@ tbody tr:nth-child(odd){
 #btn-filtre{
 margin-top: 70px;
 }
+
+.confirm-supp{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    margin-top: 10%;
+    padding-bottom: 30px;
+}
+
+.contenu {
+    text-align: center;
+}
+
+#espace{
+    margin-left: 20px;
+}
