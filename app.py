@@ -849,7 +849,7 @@ def etat_conteneur():
         centres = mycursor.fetchall()
 
         # Message flash avec les informations de filtre
-        flash(f"Paramétrage avec volume total minimum : {min_volume_total} et volume total maximum : {max_volume_total}", 'success')
+        flash(f"Paramétrage avec un volume total minimum : {min_volume_total} et un volume total maximum : {max_volume_total}", 'success')
 
         return render_template('/conteneur/etat_conteneur.html', centres=centres)
 
